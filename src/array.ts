@@ -1,86 +1,5 @@
 import * as R from 'rambda';
-import { traverseTree, TreeNode } from './tree';
-
-export const RootNodeId = 10000;
-
-export interface ArrayNode {
-  id: any;
-  level: number;
-
-  [key: string]: any;
-}
-
-type TempNode = ArrayNode & TreeNode & { pNode?: TempNode };
-
-// 这是一个中间过程, 具体请查看test
-export function findParentNode(
-  arr: TempNode[],
-  level: number
-): TempNode | undefined {
-  const rra = R.reverse(arr);
-  for (let i = 0; i < rra.length; i++) {
-    if (level === rra[i].level) {
-      return rra[i].pNode;
-    } else if (level === rra[i].level + 1) {
-      return rra[i];
-    }
-  }
-}
-
-// 高效地将array转化为idTree
-// 处理过程: 除traverseTree外, 没有用到递归, 而是遍历一个数组, 遍历完成后, 取出level===1的节点即可
-// 注意level不一定是从0开始, 比如document的level就是从1开始, 所以要保留lastLevel
-export function array2idTree_byLevel<A extends ArrayNode>(arr: A[]): TreeNode {
-  const nodes = arr.reduce(
-    (acc: TempNode[], node: A, idx: number) => {
-      const pNode = findParentNode(acc, node.level);
-      const newNode = {
-        id: node.id,
-        el: node,
-        level: node.level,
-        pid: pNode ? pNode.id : undefined,
-        paths: [
-          ...(pNode ? pNode.paths! : []),
-          pNode ? (pNode.children || []).length : 0
-        ],
-        pNode,
-        children: []
-      };
-      if (!!pNode) pNode.children!.push(newNode);
-      return [...acc, newNode];
-    },
-    [
-      {
-        id: RootNodeId,
-        el: arr.length > 0 ? arr[0] : null,
-        level: arr.length > 0 ? arr[0].level - 1 : 0,
-        pid: undefined,
-        paths: [],
-        children: []
-      }
-    ]
-  );
-
-  return traverseTree(nodes[0], t => ({
-    id: t.id,
-    el: t.el,
-    pid: t.pid,
-    children: t.children,
-    paths: t.paths
-  }));
-}
-
-export function idTree2Array(tree: TreeNode): ArrayNode[] {
-  function _f(children: TreeNode[], level: number): ArrayNode[] {
-    return children.reduce((acc: ArrayNode[], node: TreeNode) => {
-      const newEl = { ...node.el, level };
-      return node.children && node.children.length > 0
-        ? [...acc, newEl, ..._f(node.children, level + 1)]
-        : [...acc, newEl];
-    }, []);
-  }
-  return _f(tree.children!, 1);
-}
+import { objSubtract } from './object';
 
 // 从fromIndex查找符合condition的index
 export function findIndexFrom<T>(
@@ -119,4 +38,66 @@ export function swapByProp<T>(
     xs[minIndex],
     ...xs.slice(maxIndex + 1)
   ];
+}
+
+export function dropIndex<T>(arr: T[], i: number) {
+  return [...arr.slice(0, i), ...arr.slice(i + 1)];
+}
+
+export function insertIndex<T>(arr: T[], i: number, v: T) {
+  return [...arr.slice(0, i), v, ...arr.slice(i)];
+}
+
+interface ArrayDiffs<T> {
+  added: T[];
+  removed: T[];
+  updated: Partial<T>[];
+  reserved: T[];
+}
+export function arrayCompare<T extends { id: any }>(
+  arr1: T[],
+  arr2: T[]
+): ArrayDiffs<T> {
+  const arr1Ids = arr1.map(it => it.id);
+  const arr2Ids = arr2.map(it => it.id);
+
+  const added = arr2.reduce(
+    (acc: T[], el2: T) => (arr1Ids.includes(el2.id) ? acc : [...acc, el2]),
+    []
+  );
+  const removed = arr1.reduce(
+    (acc: T[], el1: T) => (arr2Ids.includes(el1.id) ? acc : [...acc, el1]),
+    []
+  );
+  const reserved = arr1.reduce(
+    (acc: T[], it1: T) =>
+      arr2.find(it2 => R.equals(it1, it2)) ? [...acc, it1] : acc,
+    [] as T[]
+  );
+
+  // 因为diff操作耗性能, 所以这里先将范围缩小
+  const restArr1 = R.without([...removed, ...reserved], arr1);
+  const restArr2 = R.without([...added, ...reserved], arr2);
+  const updated = restArr2.reduce(
+    (acc, arr2El) => {
+      const arr2Id = arr2El.id;
+      const arr1El = restArr1.find(_el => _el.id === arr2Id);
+      if (!arr1El)
+        throw new Error(
+          '数组比较出错' +
+            JSON.stringify(restArr1) +
+            '    ' +
+            JSON.stringify(restArr2)
+        );
+      return [...acc, objSubtract(arr2El, arr1El)];
+    },
+    [] as any[]
+  );
+
+  return {
+    added,
+    removed,
+    updated,
+    reserved
+  };
 }

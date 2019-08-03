@@ -1,130 +1,14 @@
 import {
-  array2idTree_byLevel,
-  findParentNode,
-  RootNodeId,
+  // array2idTree_byLevel,
+  // findParentNode,
   findIndexFrom,
   reAppend,
   swapByProp,
-  idTree2Array
+  dropIndex,
+  insertIndex,
+  arrayCompare
 } from './array';
 import * as R from 'rambda';
-
-describe('array2idTree_byLevel', () => {
-  const arr1 = [{ id: 1, level: 1 }, { id: 2, level: 2 }, { id: 3, level: 3 }];
-  const tree1 = [
-    {
-      id: 1,
-      pid: RootNodeId,
-      el: { id: 1, level: 1 },
-      paths: [0],
-      children: [
-        {
-          id: 2,
-          pid: 1,
-          el: { id: 2, level: 2 },
-          paths: [0, 0],
-          children: [
-            {
-              id: 3,
-              pid: 2,
-              el: { id: 3, level: 3 },
-              paths: [0, 0, 0],
-              children: []
-            }
-          ]
-        }
-      ]
-    }
-  ];
-  it('simple', () =>
-    expect(array2idTree_byLevel(arr1).children).toEqual(tree1));
-
-  const arr2 = [
-    { id: 1, level: 1 },
-    { id: 2, level: 2 },
-    { id: 3, level: 3 },
-    { id: 4, level: 3 },
-    { id: 5, level: 1 }
-  ];
-  const tree2 = [
-    {
-      id: 1,
-      pid: RootNodeId,
-      el: { id: 1, level: 1 },
-      paths: [0],
-      children: [
-        {
-          id: 2,
-          pid: 1,
-          el: { id: 2, level: 2 },
-          paths: [0, 0],
-          children: [
-            {
-              id: 3,
-              pid: 2,
-              el: { id: 3, level: 3 },
-              paths: [0, 0, 0],
-              children: []
-            },
-            {
-              id: 4,
-              pid: 2,
-              el: { id: 4, level: 3 },
-              paths: [0, 0, 1],
-              children: []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 5,
-      pid: RootNodeId,
-      el: { id: 5, level: 1 },
-      paths: [1],
-      children: []
-    }
-  ];
-  it('complex', () =>
-    expect(array2idTree_byLevel(arr2).children).toEqual(tree2));
-});
-
-describe('idTree2Array', () => {
-  it('空', () => expect(idTree2Array(array2idTree_byLevel([]))).toEqual([]));
-  const arr0 = [
-    { id: 1, level: 1, content: '1' },
-    { id: 2, level: 2, content: '2' }
-  ];
-  const tree0 = array2idTree_byLevel(arr0);
-  it('2个节点', () => expect(idTree2Array(tree0)).toEqual(arr0));
-
-  const arr1 = [{ id: 1, level: 1 }, { id: 2, level: 2 }, { id: 3, level: 3 }];
-  const tree1 = array2idTree_byLevel(arr1);
-  it('3个节点', () => expect(idTree2Array(tree1)).toEqual(arr1));
-
-  const arr2 = [
-    { id: 1, level: 1, content: '1' },
-    { id: 3, level: 2, content: '2' },
-    { id: 4, level: 3, content: '2' },
-    { id: 2, level: 2, content: '2' }
-  ];
-  const tree2 = array2idTree_byLevel(arr2);
-  it('4个节点', () => expect(idTree2Array(tree2)).toEqual(arr2));
-});
-
-describe('findParentNode', () => {
-  const node1 = { id: 1, level: 1, paths: [], children: [] };
-  const node2 = { id: 2, level: 2, paths: [], children: [], pNode: node1 };
-  const arr1 = [node1, node2];
-  it('case1', () => expect(findParentNode(arr1, 2)).toBe(node1));
-
-  const node3 = { id: 3, level: 3, paths: [], children: [], pNode: node2 };
-  const arr2 = [...arr1, node3];
-  it('case2', () => expect(findParentNode(arr2, 3)).toBe(node2));
-
-  it('case3', () => expect(findParentNode(arr2, 2)).toBe(node1));
-  it('case4', () => expect(findParentNode(arr2, 1)).toBeFalsy());
-});
 
 describe('findIndexUntil', () => {
   const arr = [5, 6, 3, 4, 5];
@@ -162,4 +46,47 @@ describe('swapByProp', () => {
       { id: 3 },
       { id: 2 }
     ]));
+});
+
+describe('dropIndex', () => {
+  const arr = [1, 2, 3];
+  it('drop 0', () => expect(dropIndex(arr, 0)).toEqual([2, 3]));
+
+  it('drop 1', () => expect(dropIndex(arr, 1)).toEqual([1, 3]));
+
+  const arr1 = [] as any;
+  it('drop from empty', () => expect(dropIndex(arr1, 0)).toEqual([]));
+});
+
+describe('insertIndex', () => {
+  const arr = [1, 2, 3];
+  it('insert 0', () => expect(insertIndex(arr, 0, 4)).toEqual([4, 1, 2, 3]));
+
+  it('insert 1', () => expect(insertIndex(arr, 1, 4)).toEqual([1, 4, 2, 3]));
+
+  const arr1 = [] as any;
+  it('insert from empty', () => expect(insertIndex(arr1, 0, 4)).toEqual([4]));
+});
+
+describe('array-compare', () => {
+  const b1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  const b2 = [{ id: 3, k: 3 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
+  it('数组成员是obj', () =>
+    expect(arrayCompare(b1, b2)).toEqual({
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
+      updated: [],
+      reserved: [{ id: 3, k: 3 }]
+    }));
+
+  const c1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  const c2 = [{ id: 3, k: 1 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
+  console.log('...', arrayCompare(c1, c2));
+  it('数组成员是obj, 并且某个obj有变化', () =>
+    expect(arrayCompare(c1, c2)).toEqual({
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
+      updated: [{ id: 3, k: 1 }],
+      reserved: []
+    }));
 });
