@@ -1,5 +1,6 @@
-import { RootNodeId, TreeNode } from './interface';
+import { RootNodeId, TreeNode, Identity } from './interface';
 import * as R from 'rambda';
+import { traverseTree } from './traverse';
 
 // 高效地将array转化为idTree, 在调用前, 按level + index 对数组排好序
 // 处理过程: 除traverseTree外, 没有用到递归, 而是遍历一个数组, 遍历完成后, 取出level===1的节点即可
@@ -7,7 +8,7 @@ import * as R from 'rambda';
 export function array2tree_byLevel<A extends { id: any; level: number }>(
   arr: A[],
   options?: { rootId: any }
-): A & { children: A[] } {
+): TreeNode<A> {
   const { rootId = RootNodeId } = options || ({} as any);
   if (arr.length === 0) return { id: rootId, level: 0, children: [] } as any;
 
@@ -43,7 +44,7 @@ export function array2tree_byLevel<A extends { id: any; level: number }>(
 export function array2tree_byPid<A extends { id: any; pid: any }>(
   arr: A[],
   options?: { pidField?: string }
-): A & { children: A[] } {
+): TreeNode<A> {
   const pidField = (options && options.pidField) || 'pid';
   const rootId = (arr[0] as any)[pidField];
   if (arr.length === 0) return { id: rootId, level: 0, children: [] } as any;
@@ -75,16 +76,10 @@ export function array2tree_byPid<A extends { id: any; pid: any }>(
   return nodes[0];
 }
 
-export function tree2Array<A extends TreeNode, B extends Omit<A, 'children'>>(
-  tree: A
-): B[] {
-  function _f(children: TreeNode[], level: number): B[] {
-    return children.reduce((acc: B[], node: TreeNode) => {
-      const newEl = R.dissoc('children', node) as B;
-      return node.children && node.children.length > 0
-        ? [...acc, newEl, ..._f(node.children, level + 1)]
-        : [...acc, newEl];
-    }, []);
-  }
-  return _f(tree.children!, 1);
+export function tree2Array<A extends Identity>(
+  tree: TreeNode<A>
+): Omit<TreeNode<A>, 'children'>[] {
+  const result = [] as any;
+  traverseTree(tree, node => result.push(R.dissoc('children', node)));
+  return result.slice(1) as any;
 }

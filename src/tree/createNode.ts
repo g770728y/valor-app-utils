@@ -5,7 +5,7 @@ import { getTreeContexts } from './context';
 import * as R from 'rambda';
 
 export function createTreeNode<T extends { id: any }>(
-  _tree: T & TreeNode,
+  _tree: TreeNode<T>,
   data: T,
   id: any,
   options?: { clone?: boolean }
@@ -35,7 +35,7 @@ export function createTreeNode<T extends { id: any }>(
 }
 
 export function deleteTreeNode<T extends { id: any }>(
-  _tree: T & TreeNode,
+  _tree: TreeNode<T>,
   id: any,
   options?: { clone?: boolean }
 ) {

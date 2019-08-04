@@ -1,12 +1,12 @@
-import { TreeNode } from './interface';
+import { TreeNode, Identity } from './interface';
 import { getTreeContexts } from './context';
 import { findTreeNode } from './findNode';
 import { swapByProp, dropIndex } from '../array';
 import * as R from 'rambda';
 
 // 为何有clone选项? 对于mobx管理的对象, 最好直接改原对象, 克隆代价太高
-export function pushTreeNodeLeft(
-  _tree: TreeNode,
+export function pushTreeNodeLeft<T extends Identity>(
+  _tree: TreeNode<T>,
   id: any,
   options?: { clone?: boolean }
 ) {
@@ -61,8 +61,8 @@ export function pushTreeNodeLeft(
 }
 
 // 为何有clone选项? 对于mobx管理的对象, 最好直接改原对象, 克隆代价太高
-export function pushTreeNodeRight(
-  _tree: TreeNode,
+export function pushTreeNodeRight<T extends Identity>(
+  _tree: TreeNode<T>,
   id: any,
   options?: { clone?: boolean }
 ) {

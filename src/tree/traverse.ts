@@ -1,10 +1,10 @@
-import { NodeContext, TreeNode } from './interface';
+import { NodeContext, TreeNode, Identity } from './interface';
 
 // 直接在树节点上修改, 是可变方法
-export function traverseTree<T extends TreeNode>(
-  node: T,
-  f: (node: T, context: NodeContext) => void,
-  context?: NodeContext
+export function traverseTree<T extends Identity>(
+  node: TreeNode<T>,
+  f: (node: TreeNode<T>, context: NodeContext<T>) => void,
+  context?: NodeContext<T>
 ): void {
   const _context = context || {
     parent: undefined,
@@ -15,7 +15,7 @@ export function traverseTree<T extends TreeNode>(
   };
   f(node, _context);
   (node.children || []).forEach((it, i) =>
-    traverseTree(it as T, f, {
+    traverseTree(it, f, {
       parent: node,
       children: it.children || [],
       level: _context.level + 1,

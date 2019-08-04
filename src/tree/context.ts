@@ -1,5 +1,5 @@
 import { traverseTree } from './traverse';
-import { TreeNode } from './interface';
+import { TreeNode, Identity } from './interface';
 
 export interface SimpleNodeContext {
   parentId: any;
@@ -9,7 +9,7 @@ export interface SimpleNodeContext {
   path: number[];
 }
 
-export function getTreeContexts<A extends TreeNode>(tree: A) {
+export function getTreeContexts<A extends Identity>(tree: TreeNode<A>) {
   const context: Record<string, SimpleNodeContext> = {};
   traverseTree(tree, (t, c) => {
     const parentId = c.parent && c.parent.id;

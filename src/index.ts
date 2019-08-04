@@ -2,24 +2,8 @@
 import { string2domNode, serializeCSSStyle } from './html';
 export { string2domNode, serializeCSSStyle };
 
-import {
-  ArrayNode,
-  findParentNode,
-  array2idTree_byLevel,
-  idTree2Array,
-  findIndexFrom,
-  reAppend,
-  swapByProp
-} from './array';
-export {
-  ArrayNode,
-  findParentNode,
-  idTree2Array,
-  array2idTree_byLevel,
-  findIndexFrom,
-  reAppend,
-  swapByProp
-};
+import { findIndexFrom, reAppend, swapByProp } from './array';
+export { findIndexFrom, reAppend, swapByProp };
 
 import { min, max } from './math';
 export { min, max };
@@ -27,8 +11,42 @@ export { min, max };
 import { reverseKV, removeNils } from './object';
 export { reverseKV, removeNils };
 
-import { TreeNode, traverseTree, findTreeNode, mapTreeNode } from './tree';
-export { TreeNode, traverseTree, findTreeNode, mapTreeNode };
+import {
+  TreeNode,
+  NodeContext,
+  NamingStrategy,
+  getTreeContexts,
+  createTreeNode,
+  deleteTreeNode,
+  findTreeNode,
+  mapTreeNode,
+  moveTreeNodeDown,
+  moveTreeNodeUp,
+  pushTreeNodeLeft,
+  pushTreeNodeRight,
+  array2tree_byLevel,
+  array2tree_byPid,
+  tree2Array,
+  traverseTree
+} from './tree';
+export {
+  TreeNode,
+  NodeContext,
+  NamingStrategy,
+  getTreeContexts,
+  createTreeNode,
+  deleteTreeNode,
+  findTreeNode,
+  mapTreeNode,
+  moveTreeNodeDown,
+  moveTreeNodeUp,
+  pushTreeNodeLeft,
+  pushTreeNodeRight,
+  array2tree_byLevel,
+  array2tree_byPid,
+  tree2Array,
+  traverseTree
+};
 
 import { nextId, nextArrayId, nextStringId } from './id';
 export { nextId, nextArrayId, nextStringId };

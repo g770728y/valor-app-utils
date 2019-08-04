@@ -1,13 +1,17 @@
 export const RootNodeId = 10000;
 
-export interface TreeNode {
+export interface Identity {
   id: any;
-  children?: TreeNode[];
 }
 
-export interface NodeContext {
-  parent?: TreeNode;
-  children: TreeNode[];
+export type TreeNode<T extends Identity> = T & {
+  id: any;
+  children?: TreeNode<T>[];
+};
+
+export interface NodeContext<T extends Identity> {
+  parent?: TreeNode<T>;
+  children: TreeNode<T>[];
   level: number;
   index: number;
   path: number[];

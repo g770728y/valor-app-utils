@@ -1,10 +1,10 @@
-import { TreeNode, NodeContext } from './interface';
+import { TreeNode, NodeContext, Identity } from './interface';
 
 // 改内容, 返回新树
-export function mapTreeNode<T extends TreeNode>(
-  tree: TreeNode,
-  f: (node: TreeNode, context: NodeContext) => T,
-  context?: NodeContext
+export function mapTreeNode<T extends Identity, S extends Identity>(
+  tree: TreeNode<T>,
+  f: (node: TreeNode<T>, context: NodeContext<T>) => TreeNode<S>,
+  context?: NodeContext<T>
 ) {
   const _context = context || {
     parent: undefined,
@@ -15,7 +15,7 @@ export function mapTreeNode<T extends TreeNode>(
   };
   const target = f(tree, _context);
   if (tree.children && tree.children.length > 0) {
-    target.children = tree.children.map((t, i) =>
+    target.children = ((tree.children || []) as TreeNode<T>[]).map((t, i) =>
       mapTreeNode(t, f, {
         parent: tree,
         children: t.children || [],

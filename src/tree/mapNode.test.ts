@@ -1,4 +1,5 @@
 import { mapTreeNode } from './mapNode';
+import { TreeNode } from './interface';
 
 describe('map-tree-node', () => {
   const tree1 = {
@@ -23,7 +24,7 @@ describe('map-tree-node', () => {
       children: [{ id: 2, x: 3 }]
     }));
 
-  const tree3 = {
+  const tree3: TreeNode<{ id: any }> = {
     id: 1,
     children: [{ id: 2, children: [{ id: 3 }] }]
   };

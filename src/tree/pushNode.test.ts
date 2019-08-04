@@ -1,7 +1,8 @@
 import { pushTreeNodeLeft, pushTreeNodeRight } from './pushNode';
+import { TreeNode } from './interface';
 
 describe('push-node-left', () => {
-  const tree1 = {
+  const tree1: TreeNode<{ id: any }> = {
     id: 1,
     children: []
   };
@@ -14,7 +15,7 @@ describe('push-node-left', () => {
   it('第1级子节点不可左移, 因为不允许多根', () =>
     expect(pushTreeNodeLeft(tree2, 2)).toEqual(tree2));
 
-  const tree3 = {
+  const tree3: TreeNode<{ id: any }> = {
     id: 1,
     children: [
       {
@@ -48,7 +49,7 @@ describe('push-node-left', () => {
       ]
     }));
 
-  const tree4 = {
+  const tree4: TreeNode<{ id: any }> = {
     id: 1,
     children: [
       {
@@ -134,7 +135,7 @@ describe('push-node-right', () => {
   it('同级第1个子节点不可右移', () =>
     expect(pushTreeNodeRight(tree2, 2)).toEqual(tree2));
 
-  const tree4 = {
+  const tree4: TreeNode<{ id: any }> = {
     id: 1,
     children: [
       {
