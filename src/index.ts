@@ -5,11 +5,14 @@ export { string2domNode, serializeCSSStyle };
 import { findIndexFrom, reAppend, swapByProp } from './array';
 export { findIndexFrom, reAppend, swapByProp };
 
-import { min, max } from './math';
-export { min, max };
+import { min, max, sum, safeDivide } from './math';
+export { min, max, sum, safeDivide };
 
 import { reverseKV, removeNils } from './object';
 export { reverseKV, removeNils };
+
+import { formatNumber, formatPercent, formatPermillage } from './format';
+export { formatNumber, formatPercent, formatPermillage };
 
 import {
   TreeNode,
