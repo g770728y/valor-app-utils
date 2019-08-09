@@ -89,4 +89,15 @@ describe('array-compare', () => {
       updated: [{ id: 3, k: 1 }],
       reserved: []
     }));
+
+  const d1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  const d2 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  console.log('...', arrayCompare(d1, d2));
+  it('数组成员是obj, reserve', () =>
+    expect(arrayCompare(d1, d2)).toEqual({
+      added: [],
+      removed: [],
+      updated: [],
+      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
+    }));
 });

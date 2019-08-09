@@ -37,7 +37,7 @@ describe('get-context-context', () => {
     2: { level: 2, parentId: 1, childrenIds: [3], path: [0, 0], index: 0 },
     3: { level: 3, parentId: 2, childrenIds: [], path: [0, 0, 0], index: 0 }
   };
-  it('simple', () => expect(getTreeContexts(tree1)).toEqual(_context1_));
+  it('simple', () => expect(getTreeContexts(tree1 as any)).toEqual(_context1_));
 
   const tree2 = {
     id: RootNodeId,
@@ -116,5 +116,5 @@ describe('get-context-context', () => {
       index: 1
     }
   };
-  it('simple', () => expect(getTreeContexts(tree2)).toEqual(_context2_));
+  it('simple', () => expect(getTreeContexts(tree2 as any)).toEqual(_context2_));
 });
