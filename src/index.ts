@@ -1,6 +1,6 @@
 // rollup 0.67 不支持 export * from './html'的方式
-import { string2domNode, serializeCSSStyle } from './html';
-export { string2domNode, serializeCSSStyle };
+import { string2domNode, serializeCSSStyle, getTextSize } from './html';
+export { string2domNode, serializeCSSStyle, getTextSize };
 
 import { findIndexFrom, reAppend, swapByProp } from './array';
 export { findIndexFrom, reAppend, swapByProp };

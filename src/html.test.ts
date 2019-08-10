@@ -22,10 +22,16 @@ describe('string2domNode', () => {
 
 describe('serializeCSSStyle', () => {
   it('with tail ;', () => {
-    expect(serializeCSSStyle('color:red;width:3px;')).toEqual({ color: 'red', width: '3px' });
+    expect(serializeCSSStyle('color:red;width:3px;')).toEqual({
+      color: 'red',
+      width: '3px'
+    });
   });
   it('without tail ;', () => {
-    expect(serializeCSSStyle('color:red;width:3px')).toEqual({ color: 'red', width: '3px' });
+    expect(serializeCSSStyle('color:red;width:3px')).toEqual({
+      color: 'red',
+      width: '3px'
+    });
   });
   it('only one ;', () => {
     expect(serializeCSSStyle('color:red')).toEqual({ color: 'red' });

@@ -17,3 +17,23 @@ export function serializeCSSStyle(s: string): object {
 
   return fromPairs(pairs as any);
 }
+
+// text 可能为数字 + 字符 + 汉字
+// 也可能为html, 可能为多段文本
+export const getTextSize = (
+  text: string,
+  styles: { fontSize: string; fontFamily?: string }
+): { w: number; h: number } => {
+  const span = document.createElement('span');
+  span.innerText = text;
+  span.style.display = 'fixed';
+  span.style.left = '-1000000px';
+  span.style.color = 'transparent';
+  span.style.fontSize = styles.fontSize;
+  (span.style.fontFamily = styles.fontFamily || '宋体'),
+    document.body.appendChild(span);
+  const box = span.getBoundingClientRect();
+  const size = { w: box.width, h: box.height };
+  document.body.removeChild(span);
+  return size;
+};
