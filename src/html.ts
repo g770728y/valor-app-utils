@@ -13,7 +13,7 @@ export function serializeCSSStyle(s: string): object {
 
   const s1 = s.endsWith(';') ? s.slice(0, s.length - 1) : s.slice(0);
 
-  const pairs = s.split(';').map(it => it.split(':'));
+  const pairs = s1.split(';').map(it => it.split(':'));
 
   return fromPairs(pairs as any);
 }
