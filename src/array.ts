@@ -78,7 +78,7 @@ export function arrayCompare<T extends { id: any }>(
   // 因为diff操作耗性能, 所以这里先将范围缩小
   const restArr1 = R.without([...removed, ...reserved], arr1);
   const restArr2 = R.without([...added, ...reserved], arr2);
-  const updated = restArr2.reduce(
+  const _updated = restArr2.reduce(
     (acc, arr2El) => {
       const arr2Id = arr2El.id;
       const arr1El = restArr1.find(_el => _el.id === arr2Id);
@@ -93,6 +93,9 @@ export function arrayCompare<T extends { id: any }>(
     },
     [] as any[]
   );
+
+  // 防止出现 [{id:1},{id:2}], 这样仅剩id的情形
+  const updated = _updated.filter(it => Object.keys(it).length > 1);
 
   return {
     added,

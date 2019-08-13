@@ -52,6 +52,12 @@ describe('objSubtract', () => {
       a: 2
     }));
 
+  it('只剩下id', () => {
+    expect(objSubtract({ a: 1, id: 1 }, { a: 1, id: 1 })).toEqual({
+      id: 1
+    });
+  });
+
   it('复杂', () =>
     expect(objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })).toEqual(
       { a: 2, b: [2, 3], c: 5 }
