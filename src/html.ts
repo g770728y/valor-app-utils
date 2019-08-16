@@ -37,3 +37,9 @@ export const getTextSize = (
   document.body.removeChild(span);
   return size;
 };
+
+export function getAttrFromHtmlStr(rawHtml: string, attr: string) {
+  const r = new RegExp(`${attr}[\\s]*?=[\\s]*?[\\"|\\']([\\s\\S]+?)[\\"|\\']`);
+  const v = rawHtml.match(r);
+  return v && v[1];
+}

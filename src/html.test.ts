@@ -1,4 +1,4 @@
-import { string2domNode, serializeCSSStyle } from './html';
+import { string2domNode, serializeCSSStyle, getAttrFromHtmlStr } from './html';
 
 describe('string2domNode', () => {
   it('empty', () => {
@@ -39,4 +39,32 @@ describe('serializeCSSStyle', () => {
   it('nothing;', () => {
     expect(serializeCSSStyle('a')).toEqual({});
   });
+});
+
+describe('getAttrFromHtmlStr', () => {
+  it('src', () =>
+    expect(
+      getAttrFromHtmlStr("<img src='http://www.163.com'/>", 'src')
+    ).toEqual('http://www.163.com'));
+
+  it('src,双引号', () =>
+    expect(
+      getAttrFromHtmlStr('<img src="http://www.163.com"/>', 'src')
+    ).toEqual('http://www.163.com'));
+
+  it('src,有空格', () =>
+    expect(
+      getAttrFromHtmlStr("<img src =   'http://www.163.com' />", 'src')
+    ).toEqual('http://www.163.com'));
+
+  it('src, 无匹配', () =>
+    expect(getAttrFromHtmlStr('<img />', 'src')).toEqual(null));
+
+  it('更多', () =>
+    expect(
+      getAttrFromHtmlStr(
+        '<img src="http://localhost:3000/aaa.jpg" style="width:300px"/>',
+        'src'
+      )
+    ).toEqual('http://localhost:3000/aaa.jpg'));
 });
