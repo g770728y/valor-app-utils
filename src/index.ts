@@ -70,3 +70,14 @@ export { tap };
 
 import { filename, humanReadableCapacity, download } from './fs';
 export { filename, humanReadableCapacity, download };
+
+import {
+  file2DataURL,
+  openFile,
+  dataURItoBlob,
+  getFormDataWithDataURLField
+} from './file';
+export { file2DataURL, openFile, dataURItoBlob, getFormDataWithDataURLField };
+
+import { getImageDimension } from './image';
+export { getImageDimension };
