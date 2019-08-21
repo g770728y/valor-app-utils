@@ -39,7 +39,18 @@ export const getTextSize = (
 };
 
 export function getAttrFromHtmlStr(rawHtml: string, attr: string) {
-  const r = new RegExp(`${attr}[\\s]*?=[\\s]*?[\\"|\\']([\\s\\S]+?)[\\"|\\']`);
+  const r = new RegExp(`${attr}[\\s]*?=[\\s]*?["']([\\s\\S]+?)["']`);
   const v = rawHtml.match(r);
   return v && v[1];
+}
+
+// 获取全部 src, 通常用于替换src , 比如从 base64 换为 http
+export function getAllSrcsFromHtmlStr(rawHtml: string) {
+  const r = new RegExp(`src[\\s]*?=[\\s]*?["']([\\s\\S]+?)["']`, 'g');
+  const v = rawHtml.match(r);
+  if (v) {
+    return v.map(_match => getAttrFromHtmlStr(_match, 'src'));
+  } else {
+    return null;
+  }
 }

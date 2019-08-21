@@ -3,9 +3,16 @@ import {
   string2domNode,
   serializeCSSStyle,
   getTextSize,
-  getAttrFromHtmlStr
+  getAttrFromHtmlStr,
+  getAllSrcsFromHtmlStr
 } from './html';
-export { string2domNode, serializeCSSStyle, getTextSize, getAttrFromHtmlStr };
+export {
+  string2domNode,
+  serializeCSSStyle,
+  getTextSize,
+  getAttrFromHtmlStr,
+  getAllSrcsFromHtmlStr
+};
 
 import { findIndexFrom, reAppend, swapByProp } from './array';
 export { findIndexFrom, reAppend, swapByProp };
@@ -81,3 +88,6 @@ export { file2DataURL, openFile, dataURItoBlob, getFormDataWithDataURLField };
 
 import { getImageDimension } from './image';
 export { getImageDimension };
+
+import { replaceAll } from './string';
+export { replaceAll };

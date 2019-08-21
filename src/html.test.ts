@@ -1,4 +1,9 @@
-import { string2domNode, serializeCSSStyle, getAttrFromHtmlStr } from './html';
+import {
+  string2domNode,
+  serializeCSSStyle,
+  getAttrFromHtmlStr,
+  getAllSrcsFromHtmlStr
+} from './html';
 
 describe('string2domNode', () => {
   it('empty', () => {
@@ -67,4 +72,17 @@ describe('getAttrFromHtmlStr', () => {
         'src'
       )
     ).toEqual('http://localhost:3000/aaa.jpg'));
+});
+
+describe('getAllSrcsFromHtmlStr', () => {
+  const src1 = 'http://localhost:999/abc?a';
+  const src2 = 'http://localhost:888/abc?b';
+
+  const html1 = `adfsa<img src=\"${src1}\" /> dsdfaf`;
+  const result1 = getAllSrcsFromHtmlStr(html1);
+  it('1个', () => expect(result1).toEqual([src1]));
+
+  const html2 = `adfsa<img src=\"${src1}\" /> ds \n <img src='${src2}' />dfaf`;
+  const result2 = getAllSrcsFromHtmlStr(html2);
+  it('2个', () => expect(result2).toEqual([src1, src2]));
 });

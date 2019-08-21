@@ -82,12 +82,13 @@ export function file2DataURL(f: File): Promise<string> {
 */
 export function getFormDataWithDataURLField(
   fileFieldName: string,
-  fileDataURL: string
+  fileDataURL: string,
+  fileName?: string
 ) {
   const blob = dataURItoBlob(fileDataURL);
   const s = `<form method="post" enctype="multipart/form-data"></form>`;
   const form = string2domNode(s) as HTMLFormElement;
   const formData = new FormData(form);
-  formData.append(fileFieldName, blob);
+  formData.append(fileFieldName, blob, fileName);
   return formData;
 }
