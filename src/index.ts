@@ -14,8 +14,8 @@ export {
   getAllSrcsFromHtmlStr
 };
 
-import { findIndexFrom, reAppend, swapByProp } from './array';
-export { findIndexFrom, reAppend, swapByProp };
+import { findIndexFrom, reAppend, swapByProp, insertIndex } from './array';
+export { findIndexFrom, reAppend, swapByProp, insertIndex };
 
 import { min, max, sum, safeDivide } from './math';
 export { min, max, sum, safeDivide };
@@ -91,3 +91,6 @@ export { getImageDimension };
 
 import { replaceAll } from './string';
 export { replaceAll };
+
+import { waitUntil } from './promise';
+export { waitUntil };
