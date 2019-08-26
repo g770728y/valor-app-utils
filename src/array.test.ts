@@ -81,7 +81,6 @@ describe('array-compare', () => {
 
   const c1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
   const c2 = [{ id: 3, k: 1 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
-  console.log('...', arrayCompare(c1, c2));
   it('数组成员是obj, 并且某个obj有变化', () =>
     expect(arrayCompare(c1, c2)).toEqual({
       added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
@@ -92,7 +91,6 @@ describe('array-compare', () => {
 
   const d1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
   const d2 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
-  console.log('...', arrayCompare(d1, d2));
   it('数组成员是obj, reserve', () =>
     expect(arrayCompare(d1, d2)).toEqual({
       added: [],
