@@ -4,14 +4,16 @@ import {
   serializeCSSStyle,
   getTextSize,
   getAttrFromHtmlStr,
-  getAllSrcsFromHtmlStr
+  getAllSrcsFromHtmlStr,
+  stripHtmlTag
 } from './html';
 export {
   string2domNode,
   serializeCSSStyle,
   getTextSize,
   getAttrFromHtmlStr,
-  getAllSrcsFromHtmlStr
+  getAllSrcsFromHtmlStr,
+  stripHtmlTag
 };
 
 import { findIndexFrom, reAppend, swapByProp, insertIndex } from './array';

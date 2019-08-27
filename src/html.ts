@@ -54,3 +54,11 @@ export function getAllSrcsFromHtmlStr(rawHtml: string) {
     return null;
   }
 }
+
+export function stripHtmlTag(s: string) {
+  return s
+    .replace(/^[\s]*?</g, _ => '<')
+    .replace(/>[\s]*?$/g, _ => '>')
+    .replace(/>[\s]*?</g, _ => '><')
+    .replace(/<[^>]+?>/g, _ => '');
+}

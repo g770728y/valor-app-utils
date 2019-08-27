@@ -2,7 +2,8 @@ import {
   string2domNode,
   serializeCSSStyle,
   getAttrFromHtmlStr,
-  getAllSrcsFromHtmlStr
+  getAllSrcsFromHtmlStr,
+  stripHtmlTag
 } from './html';
 
 describe('string2domNode', () => {
@@ -85,4 +86,18 @@ describe('getAllSrcsFromHtmlStr', () => {
   const html2 = `adfsa<img src=\"${src1}\" /> ds \n <img src='${src2}' />dfaf`;
   const result2 = getAllSrcsFromHtmlStr(html2);
   it('2个', () => expect(result2).toEqual([src1, src2]));
+});
+
+describe('stripHtmlTag', () => {
+  const html1 = '<a>11</a>';
+  it('common', () => expect(stripHtmlTag(html1)).toEqual('11'));
+
+  const html2 = "a <a href=''>  测试 </a> <b>33</b>";
+  it('消除> <间的空格', () =>
+    expect(stripHtmlTag(html2)).toEqual('a   测试 33'));
+
+  const html3 = `
+    <a >11 1</a> <img src=''/>
+  `;
+  it('消除前后空白', () => expect(stripHtmlTag(html3)).toEqual('11 1'));
 });
