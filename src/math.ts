@@ -1,11 +1,15 @@
 import { add, is } from 'rambda';
 
-export function min(xs: number[]) {
-  return xs.reduce((acc: number, x: number) => Math.min(acc, x), Infinity);
+export function min(xs: number[], defaultValue?: number) {
+  return xs.length === 0 && is(Number, defaultValue)
+    ? defaultValue!
+    : xs.reduce((acc: number, x: number) => Math.min(acc, x), Infinity);
 }
 
-export function max(xs: number[]) {
-  return xs.reduce((acc: number, x: number) => Math.max(acc, x), -Infinity);
+export function max(xs: number[], defaultValue?: number) {
+  return xs.length === 0 && is(Number, defaultValue)
+    ? defaultValue!
+    : xs.reduce((acc: number, x: number) => Math.max(acc, x), -Infinity);
 }
 
 export function sum(xs: any[]): number {
