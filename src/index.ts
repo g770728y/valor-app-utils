@@ -96,3 +96,6 @@ export { replaceAll };
 
 import { waitUntil } from './promise';
 export { waitUntil };
+
+import appCache, { AppCache } from './appCache';
+export { appCache, AppCache };
