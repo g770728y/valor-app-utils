@@ -1,10 +1,8 @@
 import {
   string2domNode,
-  deserializeCSSStyle,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
-  stripHtmlTag,
-  serializeCSSStyle
+  stripHtmlTag
 } from './html';
 
 describe('string2domNode', () => {
@@ -24,49 +22,6 @@ describe('string2domNode', () => {
     expect(el!.tagName.toLowerCase()).toEqual('p');
     expect((el!.firstChild! as any).tagName.toLowerCase()).toEqual('b');
     expect(el!.textContent).toEqual('111');
-  });
-});
-
-describe('deserializeCSSStyle', () => {
-  it('with tail ;', () => {
-    expect(deserializeCSSStyle('color:red;width:3px;')).toEqual({
-      color: 'red',
-      width: '3px'
-    });
-  });
-  it('without tail ;', () => {
-    expect(deserializeCSSStyle('color:red;width:3px')).toEqual({
-      color: 'red',
-      width: '3px'
-    });
-  });
-  it('only one ;', () => {
-    expect(deserializeCSSStyle('color:red')).toEqual({ color: 'red' });
-  });
-  it('nothing;', () => {
-    expect(deserializeCSSStyle('a')).toEqual({});
-  });
-});
-
-describe('serializeCSSStyle', () => {
-  it('common', () => {
-    expect(serializeCSSStyle({ color: 'red', width: '3px' })).toEqual(
-      'color:red;width:3px'
-    );
-  });
-
-  it('with nil', () => {
-    expect(
-      serializeCSSStyle({
-        color: 'red',
-        width: null,
-        height: undefined
-      })
-    ).toEqual('color:red');
-  });
-
-  it('nothing', () => {
-    expect(serializeCSSStyle({})).toEqual(null);
   });
 });
 

@@ -1,7 +1,6 @@
 // rollup 0.67 不支持 export * from './html'的方式
 import {
   string2domNode,
-  deserializeCSSStyle,
   getTextSize,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
@@ -9,7 +8,6 @@ import {
 } from './html';
 export {
   string2domNode,
-  deserializeCSSStyle,
   getTextSize,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
@@ -68,8 +66,20 @@ export {
 import { nextId, nextArrayId, nextStringId } from './id';
 export { nextId, nextArrayId, nextStringId };
 
-import { css, highlight } from './css';
-export { css, highlight };
+import {
+  css,
+  highlight,
+  serializeCSSStyle,
+  deserializeCSSStyle,
+  condenseStyles
+} from './css';
+export {
+  css,
+  highlight,
+  serializeCSSStyle,
+  deserializeCSSStyle,
+  condenseStyles
+};
 
 import { nop } from './function';
 export { nop };

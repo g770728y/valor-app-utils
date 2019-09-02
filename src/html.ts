@@ -10,25 +10,6 @@ export function string2domNode(s: string, withRoot: boolean = false): Element {
   return withRoot ? div : (div.firstChild as Element);
 }
 
-export function deserializeCSSStyle(s: string): object {
-  if (!s || s.length <= 0 || !s.includes(':')) return {};
-
-  const s1 = s.endsWith(';') ? s.slice(0, s.length - 1) : s.slice(0);
-
-  const pairs = s1.split(';').map(it => it.split(':'));
-
-  return fromPairs(pairs as any);
-}
-
-export function serializeCSSStyle(css: Record<string, any>): string | null {
-  const _css = removeNils(css);
-  if (R.isEmpty(_css)) return null;
-
-  return R.toPairs(_css)
-    .map(([a, b]) => `${a}:${b}`)
-    .join(';');
-}
-
 // text 可能为数字 + 字符 + 汉字
 // 也可能为html, 可能为多段文本
 export const getTextSize = (
