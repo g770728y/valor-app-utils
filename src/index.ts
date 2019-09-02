@@ -1,7 +1,7 @@
 // rollup 0.67 不支持 export * from './html'的方式
 import {
   string2domNode,
-  serializeCSSStyle,
+  deserializeCSSStyle,
   getTextSize,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
@@ -9,7 +9,7 @@ import {
 } from './html';
 export {
   string2domNode,
-  serializeCSSStyle,
+  deserializeCSSStyle,
   getTextSize,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
