@@ -14,3 +14,7 @@
 //     expect(dim).toEqual({ w: 750, h: 1125 });
 //   });
 // });
+
+describe('placeholder', () => {
+  it('必须有占位符', () => expect(true).toEqual(true));
+});

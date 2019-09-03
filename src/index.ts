@@ -4,14 +4,16 @@ import {
   getTextSize,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
-  stripHtmlTag
+  stripHtmlTag,
+  renameTag_danger
 } from './html';
 export {
   string2domNode,
   getTextSize,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
-  stripHtmlTag
+  stripHtmlTag,
+  renameTag_danger
 };
 
 import { findIndexFrom, reAppend, swapByProp, insertIndex } from './array';

@@ -2,7 +2,8 @@ import {
   string2domNode,
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
-  stripHtmlTag
+  stripHtmlTag,
+  renameTag_danger
 } from './html';
 
 describe('string2domNode', () => {
@@ -78,4 +79,32 @@ describe('stripHtmlTag', () => {
     <a >11 1</a> <img src=''/>
   `;
   it('消除前后空白', () => expect(stripHtmlTag(html3)).toEqual('11 1'));
+});
+
+describe('renameTag', () => {
+  const html1 = '<table><tr><td>1</td></tr></table>';
+  const result1 = '<table><tbody><tr><th>1</th></tr></tbody></table>';
+  it('simple', () =>
+    expect(
+      renameTag_danger(string2domNode(html1, true), 'td', 'th').innerHTML
+    ).toEqual(result1));
+
+  const html2 =
+    '<table><tr><td colspan="2" rowspan="3" style="color:red">2</td></tr></table>';
+  const result2 =
+    '<table><tbody><tr><th colspan="2" rowspan="3" style="color:red">2</th></tr></tbody></table>';
+  it('colspan不变', () =>
+    expect(
+      renameTag_danger(string2domNode(html2, true), 'td', 'th').innerHTML
+    ).toEqual(result2));
+
+  const html3 =
+    '<div data-a="1"><div data-a="2"><div data-a="3"></div></div><div data-a="4"></div></div>';
+  const result3 =
+    '<span data-a="1"><span data-a="2"><span data-a="3"></span></span><span data-a="4"></span></span>';
+  it('嵌套情况', () =>
+    expect(
+      renameTag_danger(string2domNode(html3, true), 'div[data-a]', 'span')
+        .innerHTML
+    ).toEqual(result3));
 });

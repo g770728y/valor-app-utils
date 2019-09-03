@@ -4,10 +4,13 @@ import { removeNils } from './object';
 
 // memory: 不要使用DomParser, 原因是: 校验更严格, 甚至 "<p>1</p><p>2</p>"也无法能通过(必须要有root)
 // withRoot: 是否保留div根结点 ? 对于prosemirror需要保留
-export function string2domNode(s: string, withRoot: boolean = false): Element {
+export function string2domNode(
+  s: string,
+  withRoot: boolean = false
+): HTMLElement {
   const div = document.createElement('div');
   div.innerHTML = s;
-  return withRoot ? div : (div.firstChild as Element);
+  return withRoot ? div : (div.firstChild as HTMLElement);
 }
 
 // text 可能为数字 + 字符 + 汉字
@@ -53,4 +56,23 @@ export function stripHtmlTag(s: string) {
     .replace(/>[\s]*?$/g, _ => '>')
     .replace(/>[\s]*?</g, _ => '><')
     .replace(/<[^>]+?>/g, _ => '');
+}
+
+// 这是一个可变方法!!!, 最终将修改doc
+export function renameTag_danger(
+  doc: HTMLElement,
+  fromSelector: string,
+  toTag: string
+) {
+  const nodes = Array.from(doc.querySelectorAll(fromSelector));
+  // 必须要倒序! 避免 <div 1> <div 11> <div 111></div></div></div> 这样的嵌套情况 ( 应先运算 div 111 )
+  R.reverse(nodes).forEach(node => {
+    const newNode = document.createElement(toTag);
+    node.getAttributeNames().forEach((attrKey: string) => {
+      newNode.setAttribute(attrKey, node.getAttribute(attrKey)!);
+    });
+    newNode.innerHTML = node.innerHTML;
+    node.replaceWith(newNode);
+  });
+  return doc;
 }
