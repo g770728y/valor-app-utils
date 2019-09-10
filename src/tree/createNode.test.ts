@@ -16,6 +16,13 @@ describe('createTreeNode', () => {
       children: [{ id: 2 }, { id: 100 }]
     }));
 
+  const tree4 = { id: 1, children: [{ id: 2 }, { id: 3 }] };
+  it('多个叶结点', () =>
+    expect(createTreeNode(tree4, { id: 100 }, 3)).toEqual({
+      id: 1,
+      children: [{ id: 2 }, { id: 3 }, { id: 100 }]
+    }));
+
   const tree3 = { id: 1, children: [{ id: 2, children: [{ id: 3 }] }] };
   it('非叶结点插入时, 插入为非叶结点的第1个子结点', () => {
     expect(createTreeNode(tree3, { id: 100 }, 2)).toEqual({

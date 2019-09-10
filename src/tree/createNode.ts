@@ -22,13 +22,10 @@ export function createTreeNode<T extends { id: any }>(
   } else {
     // 非根, 叶,播入为平级下一节点
     const parent = findTreeNode(tree, node => node.id === nodeContext.parentId);
+    const idx = parent!.children!.findIndex(it => it.id === id);
     const parentContext = contexts[parent!.id];
     parent &&
-      (parent.children = insertIndex(
-        parent!.children || [],
-        parentContext.index + 1,
-        data
-      ));
+      (parent.children = insertIndex(parent!.children || [], idx + 1, data));
   }
 
   return tree;
