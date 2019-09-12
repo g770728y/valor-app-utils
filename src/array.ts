@@ -48,7 +48,7 @@ export function insertIndex<T>(arr: T[], i: number, v: T) {
   return [...arr.slice(0, i), v, ...arr.slice(i)];
 }
 
-interface ArrayDiffs<T> {
+export interface ArrayDiffs<T> {
   added: T[];
   removed: T[];
   updated: Partial<T>[];

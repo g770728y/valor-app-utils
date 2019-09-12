@@ -16,8 +16,14 @@ export {
   renameTag_danger
 };
 
-import { findIndexFrom, reAppend, swapByProp, insertIndex } from './array';
-export { findIndexFrom, reAppend, swapByProp, insertIndex };
+import {
+  findIndexFrom,
+  reAppend,
+  swapByProp,
+  insertIndex,
+  ArrayDiffs
+} from './array';
+export { findIndexFrom, reAppend, swapByProp, insertIndex, ArrayDiffs };
 
 import { min, max, sum, safeDivide } from './math';
 export { min, max, sum, safeDivide };
