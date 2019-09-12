@@ -6,7 +6,8 @@ import {
   swapByProp,
   dropIndex,
   insertIndex,
-  arrayCompare
+  arrayCompare,
+  patchByDiffs
 } from './array';
 import * as R from 'rambda';
 
@@ -98,4 +99,42 @@ describe('array-compare', () => {
       updated: [],
       reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
     }));
+});
+
+describe('patchByDiffs', () => {
+  it('数组成员是obj', () => {
+    const b1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const b2 = [{ id: 3, k: 3 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
+    const diffs1 = {
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
+      updated: [],
+      reserved: [{ id: 3, k: 3 }]
+    };
+    expect(patchByDiffs(b1, diffs1)).toEqual(b2);
+  });
+
+  it('数组成员是obj, 并且某个obj有变化', () => {
+    const c1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const c2 = [{ id: 3, k: 1 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
+    const diffs2 = {
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
+      updated: [{ id: 3, k: 1 }],
+      reserved: []
+    };
+    expect(patchByDiffs(c1, diffs2)).toEqual(c2);
+  });
+
+  it('数组成员是obj, reserve', () => {
+    const d1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const d2 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const diffs3 = {
+      added: [],
+      removed: [],
+      updated: [],
+      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
+    };
+    expect(patchByDiffs(d1, diffs3)).toEqual(d2);
+  });
 });

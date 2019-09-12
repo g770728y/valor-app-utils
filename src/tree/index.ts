@@ -7,6 +7,9 @@ export { getTreeContexts };
 import { createTreeNode, deleteTreeNode } from './createNode';
 export { createTreeNode, deleteTreeNode };
 
+import { replaceTreeNode } from './replaceNode';
+export { replaceTreeNode };
+
 import { findTreeNode } from './findNode';
 export { findTreeNode };
 

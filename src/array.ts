@@ -54,6 +54,7 @@ export interface ArrayDiffs<T> {
   updated: Partial<T>[];
   reserved: T[];
 }
+// 与patchByDiffs可一起使用
 export function arrayCompare<T extends { id: any }>(
   arr1: T[],
   arr2: T[]
@@ -103,4 +104,28 @@ export function arrayCompare<T extends { id: any }>(
     updated,
     reserved
   };
+}
+
+// 与arrayCompare可一起使用
+export function patchByDiffs<T extends { id: any }>(
+  arr: T[],
+  diffs: ArrayDiffs<T>
+): T[] {
+  const arr1 = (diffs.updated || []).reduce((acc, itemPatch) => {
+    const idx = acc.findIndex(it => it.id === itemPatch.id!);
+    return idx >= 0
+      ? R.update(idx, { ...acc[idx], ...itemPatch }, acc)
+      : [...acc];
+  }, arr);
+
+  const arr2 = (diffs.added || []).reduce(
+    (acc, itemToAdd) => [...acc, itemToAdd],
+    arr1
+  );
+
+  const arr3 = (diffs.removed || []).reduce((acc, itemToRemoved) => {
+    return acc.filter(it => it.id !== itemToRemoved.id);
+  }, arr2);
+
+  return arr3;
 }

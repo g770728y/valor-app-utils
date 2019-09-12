@@ -21,9 +21,17 @@ import {
   reAppend,
   swapByProp,
   insertIndex,
-  ArrayDiffs
+  ArrayDiffs,
+  patchByDiffs
 } from './array';
-export { findIndexFrom, reAppend, swapByProp, insertIndex, ArrayDiffs };
+export {
+  findIndexFrom,
+  reAppend,
+  swapByProp,
+  insertIndex,
+  ArrayDiffs,
+  patchByDiffs
+};
 
 import { min, max, sum, safeDivide } from './math';
 export { min, max, sum, safeDivide };
@@ -41,6 +49,7 @@ import {
   getTreeContexts,
   createTreeNode,
   deleteTreeNode,
+  replaceTreeNode,
   findTreeNode,
   mapTreeNode,
   moveTreeNodeDown,
@@ -59,6 +68,7 @@ export {
   getTreeContexts,
   createTreeNode,
   deleteTreeNode,
+  replaceTreeNode,
   findTreeNode,
   mapTreeNode,
   moveTreeNodeDown,
