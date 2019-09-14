@@ -52,7 +52,7 @@ export interface ArrayDiffs<T> {
   added: T[];
   removed: T[];
   updated: Partial<T>[];
-  reserved: T[];
+  reserved?: T[];
 }
 // 与patchByDiffs可一起使用
 export function arrayCompare<T extends { id: any }>(

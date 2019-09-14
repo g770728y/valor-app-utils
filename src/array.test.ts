@@ -11,7 +11,7 @@ import {
 } from './array';
 import * as R from 'rambda';
 
-describe('findIndexUntil', () => {
+describe('findIndexFrom', () => {
   const arr = [5, 6, 3, 4, 5];
   it('default', () =>
     expect(findIndexFrom(arr, 2, (i: number) => i >= 6)).toEqual(-1));
