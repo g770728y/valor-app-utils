@@ -38,3 +38,12 @@ export function download(url: string, fileName?: string) {
     document.body.removeChild(a);
   });
 }
+
+export function getFileExt(fileName: string): string | null {
+  const lastIndex = fileName.lastIndexOf('.');
+  return lastIndex < 0
+    ? null
+    : lastIndex === fileName.length - 1
+    ? ''
+    : fileName.slice(lastIndex + 1);
+}

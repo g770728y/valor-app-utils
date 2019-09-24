@@ -105,8 +105,8 @@ export { nop };
 import { tap } from './debug';
 export { tap };
 
-import { filename, humanReadableCapacity, download } from './fs';
-export { filename, humanReadableCapacity, download };
+import { filename, humanReadableCapacity, download, getFileExt } from './fs';
+export { filename, humanReadableCapacity, download, getFileExt };
 
 import {
   file2DataURL,

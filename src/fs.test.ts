@@ -1,4 +1,4 @@
-import { humanReadableCapacity, filename } from './fs';
+import { humanReadableCapacity, filename, getFileExt } from './fs';
 
 describe('humanReadableCapacity', () => {
   it('< 1000', () => expect(humanReadableCapacity(999)).toEqual('999B'));
@@ -17,4 +17,13 @@ describe('humanReadableCapacity', () => {
 describe('filename', () => {
   it('common', () =>
     expect(filename('http://a.b.c/1/x35.zip')).toEqual('x35.zip'));
+});
+
+describe('getFileExt', () => {
+  it('common', () => {
+    expect(getFileExt('http://a.b.c/1/x35.zip')).toEqual('zip');
+    expect(getFileExt('3332.ssd.zip')).toEqual('zip');
+    expect(getFileExt('3332')).toEqual(null);
+    expect(getFileExt('3332.')).toEqual('');
+  });
 });
