@@ -1,11 +1,10 @@
 {
   "name": "valor-app-utils",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "module": "dist/index.js",
   "main": "dist/index.js",
   "author": "g770728y",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "build": "tsc",
     "start": "tsc -w",
@@ -18,6 +17,6 @@
     "typescript": "^3.5.2"
   },
   "files": [
-    "./dist/**/*"
+    "dist"
   ]
 }
