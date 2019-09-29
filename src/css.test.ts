@@ -1,4 +1,10 @@
-import { deserializeCSSStyle, serializeCSSStyle, condenseStyles } from './css';
+import {
+  deserializeCSSStyle,
+  serializeCSSStyle,
+  condenseStyles,
+  getMarginFromStyle
+} from './css';
+
 describe('deserializeCSSStyle', () => {
   it('with tail ;', () => {
     expect(deserializeCSSStyle('color:red;width:3px;')).toEqual({
@@ -67,5 +73,70 @@ describe('condenseStyles', () => {
     });
 
     expect(condenseStyles({ 'text-indent': '' } as any)).toEqual({});
+  });
+});
+
+describe('getMarginFromStyle', () => {
+  it('返回单值', () => {
+    expect(getMarginFromStyle({ margin: 10 } as any)).toEqual(10);
+    expect(getMarginFromStyle({ margin: '10px' })).toEqual(10);
+    expect(
+      getMarginFromStyle({
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: '10px',
+        marginBottom: '10px'
+      } as any)
+    ).toEqual(10);
+  });
+
+  it('返回多值', () => {
+    expect(
+      getMarginFromStyle(
+        {
+          marginLeft: 10,
+          marginRight: 30,
+          marginTop: '20px',
+          marginBottom: '40px'
+        } as any,
+        false
+      )
+    ).toEqual([20, 30, 40, 10]);
+    expect(
+      getMarginFromStyle(
+        { marginLeft: 10, marginTop: '20px', marginBottom: '40px' } as any,
+        false
+      )
+    ).toEqual([20, 0, 40, 10]);
+    expect(getMarginFromStyle({ margin: '10px' }, false)).toEqual([
+      10,
+      10,
+      10,
+      10
+    ]);
+    expect(getMarginFromStyle({ margin: '10px 20px' }, false)).toEqual([
+      10,
+      20,
+      10,
+      20
+    ]);
+    expect(getMarginFromStyle({ margin: '10px 20px 30px' }, false)).toEqual([
+      10,
+      20,
+      30,
+      20
+    ]);
+    expect(
+      getMarginFromStyle({ margin: '10px 20px 30px 40px' }, false)
+    ).toEqual([10, 20, 30, 40]);
+  });
+
+  it('既有margin, 又有marginLeft', () => {
+    expect(
+      getMarginFromStyle(
+        { margin: '10px', marginLeft: 20, marginRight: 20 } as any,
+        false
+      )
+    ).toEqual([10, 20, 10, 20]);
   });
 });

@@ -1,5 +1,10 @@
-import * as React from 'react';
-import { reverseKV, removeNils, objSubtract } from './object';
+import {
+  reverseKV,
+  removeNils,
+  objSubtract,
+  getOrElse,
+  getNumberOrElse
+} from './object';
 
 describe('reverseKV', () => {
   it('empty', () => {
@@ -62,4 +67,22 @@ describe('objSubtract', () => {
     expect(objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })).toEqual(
       { a: 2, b: [2, 3], c: 5 }
     ));
+});
+
+describe('getOrElse', () => {
+  it('without default', () =>
+    expect(getOrElse({ a: 1, b: 2 }, 'a')).toEqual(1));
+  it('without default2', () =>
+    expect(getOrElse({ a: 1, b: 2 }, 'c' as any)).toEqual(undefined));
+  it('with default', () =>
+    expect(getOrElse({ a: 1, b: 2 }, 'c' as any, 3)).toEqual(3));
+});
+
+describe('getNumberOrElse', () => {
+  it('without default', () =>
+    expect(getNumberOrElse({ a: 1 }, 'a')).toEqual(1));
+  it('with default2', () =>
+    expect(getNumberOrElse({ a: 1 }, 'c' as any, 2)).toEqual(2));
+  it('without default', () =>
+    expect(getNumberOrElse({ a: '1px' }, 'a')).toEqual(1));
 });

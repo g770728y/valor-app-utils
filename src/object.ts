@@ -43,3 +43,26 @@ export function objSubtract<T extends object>(
     }
   }, {});
 }
+
+export function getOrElse<T extends Record<string, any>>(
+  obj: T,
+  k: keyof T,
+  defaultValue?: T[keyof T]
+): T[keyof T] | undefined {
+  return obj && obj.hasOwnProperty(k) ? obj[k] || defaultValue : defaultValue;
+}
+
+export function getNumberOrElse<T extends Record<string, any>>(
+  obj: T,
+  k: keyof T,
+  defaultValue: number = 0
+): number {
+  const result = getOrElse(obj, k);
+  return !result
+    ? defaultValue
+    : R.is(Number, result)
+    ? result
+    : R.is(String, result)
+    ? parseInt(result)
+    : defaultValue;
+}

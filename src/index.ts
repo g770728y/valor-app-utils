@@ -36,8 +36,14 @@ export {
 import { min, max, sum, safeDivide } from './math';
 export { min, max, sum, safeDivide };
 
-import { reverseKV, removeNils } from './object';
-export { reverseKV, removeNils };
+import {
+  reverseKV,
+  removeNils,
+  getNumberOrElse,
+  getOrElse,
+  objSubtract
+} from './object';
+export { reverseKV, removeNils, getNumberOrElse, getOrElse, objSubtract };
 
 import { formatNumber, formatPercent, formatPermillage } from './format';
 export { formatNumber, formatPercent, formatPermillage };
@@ -89,14 +95,16 @@ import {
   highlight,
   serializeCSSStyle,
   deserializeCSSStyle,
-  condenseStyles
+  condenseStyles,
+  getMarginFromStyle
 } from './css';
 export {
   css,
   highlight,
   serializeCSSStyle,
   deserializeCSSStyle,
-  condenseStyles
+  condenseStyles,
+  getMarginFromStyle
 };
 
 import { nop } from './function';

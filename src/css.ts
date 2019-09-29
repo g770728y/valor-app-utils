@@ -1,6 +1,6 @@
 import { Properties as CSSProperties } from 'csstype';
 import * as R from 'rambda';
-import { removeNils } from './object';
+import { removeNils, getOrElse, getNumberOrElse } from './object';
 
 export function css(el: HTMLElement, styleName: string, styleValue: any) {
   el.style[styleName as any] = styleValue;
@@ -63,4 +63,35 @@ export function highlight(el: HTMLElement, color = '#FFFDD0') {
     css(el, 'transition', '');
     highlighting = highlighting.filter(it => it !== el);
   }, 600);
+}
+
+/**
+ * 从对象表示的style中获取margin
+ * @param style 对象表示的style
+ * @param singular 是否返回单一值 ( 如果为false, 表示返回数组 )
+ */
+export function getMarginFromStyle(
+  style: CSSProperties,
+  singular: boolean = true
+): number | number[] {
+  const marginLeft = getNumberOrElse(style, 'marginLeft', 0);
+  const marginRight = getNumberOrElse(style, 'marginRight', 0);
+  const marginTop = getNumberOrElse(style, 'marginTop', 0);
+  const marginBottom = getNumberOrElse(style, 'marginBottom', 0);
+  const marginLRTB = [marginTop, marginRight, marginBottom, marginLeft];
+
+  const oMargin = getOrElse(style, 'margin', 0) + '';
+  const oMargins = oMargin.split(' ').map(x => parseInt(x));
+  const margin4 =
+    oMargins.length === 1
+      ? R.repeat(oMargins[0], 4)
+      : oMargins.length === 2
+      ? [...oMargins, ...oMargins]
+      : oMargins.length === 3
+      ? [...oMargins, oMargins[1]]
+      : [...oMargins];
+
+  const margins = R.map(i => marginLRTB[i] || margin4[i], R.range(0, 4));
+
+  return singular ? margins[0] : margins;
 }
