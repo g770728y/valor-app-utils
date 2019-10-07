@@ -129,3 +129,14 @@ export function patchByDiffs<T extends { id: any }>(
 
   return arr3;
 }
+
+export function upsert<T extends { id: any }>(
+  arr: T[],
+  query: (t: T) => boolean,
+  patch: Partial<T>
+): T[] {
+  const idx = arr.findIndex(query);
+  return idx < 0
+    ? [...arr, patch as T]
+    : R.update(idx, { ...arr[idx], ...patch } as T, arr);
+}

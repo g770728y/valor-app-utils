@@ -7,7 +7,8 @@ import {
   dropIndex,
   insertIndex,
   arrayCompare,
-  patchByDiffs
+  patchByDiffs,
+  upsert
 } from './array';
 import * as R from 'rambda';
 
@@ -136,5 +137,24 @@ describe('patchByDiffs', () => {
       reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
     };
     expect(patchByDiffs(d1, diffs3)).toEqual(d2);
+  });
+});
+
+describe('upsert', () => {
+  const arr = [{ id: 1, a: 1 }, { id: 2, a: 2 }, { id: 3, a: 3 }];
+  it('push', () => {
+    const result = [
+      { id: 1, a: 1 },
+      { id: 2, a: 2 },
+      { id: 3, a: 3 },
+      { id: 0, a: 22 }
+    ];
+    // expect(upsert(arr, {id:0}, {id:0, a:22})).toEqual( result)
+    expect(upsert(arr, n => n.id === 0, { id: 0, a: 22 })).toEqual(result);
+  });
+  it('update', () => {
+    const result = [{ id: 1, a: 22 }, { id: 2, a: 2 }, { id: 3, a: 3 }];
+    // expect(upsert(arr, {id:1}, {id:0, a:22})).toEqual( result)
+    expect(upsert(arr, n => n.id === 1, { id: 1, a: 22 })).toEqual(result);
   });
 });

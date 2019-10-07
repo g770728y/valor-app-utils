@@ -22,7 +22,8 @@ import {
   swapByProp,
   insertIndex,
   ArrayDiffs,
-  patchByDiffs
+  patchByDiffs,
+  upsert
 } from './array';
 export {
   findIndexFrom,
@@ -30,7 +31,8 @@ export {
   swapByProp,
   insertIndex,
   ArrayDiffs,
-  patchByDiffs
+  patchByDiffs,
+  upsert
 };
 
 import { min, max, sum, safeDivide } from './math';
