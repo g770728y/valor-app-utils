@@ -130,7 +130,7 @@ export function patchByDiffs<T extends { id: any }>(
   return arr3;
 }
 
-export function upsert<T extends { id: any }>(
+export function upsert<T extends {}>(
   arr: T[],
   query: (t: T) => boolean,
   patch: Partial<T>
