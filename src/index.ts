@@ -107,8 +107,13 @@ export {
   getMarginFromStyle
 };
 
-import { nop } from './function';
-export { nop };
+import {
+  nop,
+  getFunctionParamsFromStr,
+  getFunctionBodyFromStr,
+  invoke
+} from './function';
+export { nop, getFunctionParamsFromStr, getFunctionBodyFromStr, invoke };
 
 import { tap } from './debug';
 export { tap };

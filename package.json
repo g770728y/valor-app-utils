@@ -1,6 +1,6 @@
 {
   "name": "valor-app-utils",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "module": "dist/index.js",
   "main": "dist/index.js",
   "author": "g770728y",
