@@ -54,20 +54,21 @@ export interface ArrayDiffs<T> {
   updated: Partial<T>[];
   reserved?: T[];
 }
-// 与patchByDiffs可一起使用
-export function arrayCompare<T extends { id: any }>(
+
+export function arrayCompareBy<T extends {}>(
   arr1: T[],
-  arr2: T[]
+  arr2: T[],
+  id: keyof T
 ): ArrayDiffs<T> {
-  const arr1Ids = arr1.map(it => it.id);
-  const arr2Ids = arr2.map(it => it.id);
+  const arr1Ids = arr1.map(it => it[id]);
+  const arr2Ids = arr2.map(it => it[id]);
 
   const added = arr2.reduce(
-    (acc: T[], el2: T) => (arr1Ids.includes(el2.id) ? acc : [...acc, el2]),
+    (acc: T[], el2: T) => (arr1Ids.includes(el2[id]) ? acc : [...acc, el2]),
     []
   );
   const removed = arr1.reduce(
-    (acc: T[], el1: T) => (arr2Ids.includes(el1.id) ? acc : [...acc, el1]),
+    (acc: T[], el1: T) => (arr2Ids.includes(el1[id]) ? acc : [...acc, el1]),
     []
   );
   const reserved = arr1.reduce(
@@ -81,8 +82,8 @@ export function arrayCompare<T extends { id: any }>(
   const restArr2 = R.without([...added, ...reserved], arr2);
   const _updated = restArr2.reduce(
     (acc, arr2El) => {
-      const arr2Id = arr2El.id;
-      const arr1El = restArr1.find(_el => _el.id === arr2Id);
+      const arr2Id = arr2El[id];
+      const arr1El = restArr1.find(_el => _el[id] === arr2Id);
       if (!arr1El)
         throw new Error(
           '数组比较出错' +
@@ -104,6 +105,14 @@ export function arrayCompare<T extends { id: any }>(
     updated,
     reserved
   };
+}
+
+// 与patchByDiffs可一起使用
+export function arrayCompare<T extends { id: any }>(
+  arr1: T[],
+  arr2: T[]
+): ArrayDiffs<T> {
+  return arrayCompareBy(arr1, arr2, 'id');
 }
 
 // 与arrayCompare可一起使用
