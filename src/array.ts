@@ -91,7 +91,7 @@ export function arrayCompareBy<T extends {}>(
             '    ' +
             JSON.stringify(restArr2)
         );
-      return [...acc, objSubtract(arr2El, arr1El)];
+      return [...acc, objSubtract(arr2El, arr1El, id + '')];
     },
     [] as any[]
   );

@@ -113,6 +113,26 @@ describe('array-compare-by', () => {
       updated: [],
       reserved: [{ xid: 3, k: 3 }]
     }));
+
+  const c1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  const c2 = [{ xid: 3, k: 1 }, { xid: 4, k: 4 }, { xid: 5, k: 5 }];
+  it('数组成员是obj, 并且某个obj有变化', () =>
+    expect(arrayCompareBy(c1, c2, 'xid')).toEqual({
+      added: [{ xid: 4, k: 4 }, { xid: 5, k: 5 }],
+      removed: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }],
+      updated: [{ xid: 3, k: 1 }],
+      reserved: []
+    }));
+
+  const d1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  const d2 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  it('数组成员是obj, reserve', () =>
+    expect(arrayCompareBy(d1, d2, 'xid')).toEqual({
+      added: [],
+      removed: [],
+      updated: [],
+      reserved: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }]
+    }));
 });
 
 describe('patchByDiffs', () => {
