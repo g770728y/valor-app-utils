@@ -8,7 +8,8 @@ import {
   insertIndex,
   arrayCompare,
   patchByDiffs,
-  upsert
+  upsert,
+  arrayCompareBy
 } from './array';
 import * as R from 'rambda';
 
@@ -99,6 +100,18 @@ describe('array-compare', () => {
       removed: [],
       updated: [],
       reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
+    }));
+});
+
+describe('array-compare-by', () => {
+  const b1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  const b2 = [{ xid: 3, k: 3 }, { xid: 4, k: 4 }, { xid: 5, k: 5 }];
+  it('数组成员是obj', () =>
+    expect(arrayCompareBy(b1, b2, 'xid')).toEqual({
+      added: [{ xid: 4, k: 4 }, { xid: 5, k: 5 }],
+      removed: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }],
+      updated: [],
+      reserved: [{ xid: 3, k: 3 }]
     }));
 });
 
