@@ -3,8 +3,24 @@ import {
   removeNils,
   objSubtract,
   getOrElse,
-  getNumberOrElse
+  getNumberOrElse,
+  isPlainObject,
+  objSubtractDeep
 } from './object';
+
+describe('isPlainObject', () => {
+  it('null', () => expect(isPlainObject(null)).toBe(false));
+  it('undefined', () => expect(isPlainObject(undefined)).toBe(false));
+  it('number', () => expect(isPlainObject(3)).toBe(false));
+  it('string', () => expect(isPlainObject('3')).toBe(false));
+  it('function', () => expect(isPlainObject(function() {})).toBe(false));
+  it('lambda', () => expect(isPlainObject(() => {})).toBe(false));
+  it('array', () => expect(isPlainObject([])).toBe(false));
+  it('object create null', () =>
+    expect(isPlainObject(Object.create(null))).toBe(false));
+  it('object create', () => expect(isPlainObject({})).toBe(true));
+  it('object', () => expect(isPlainObject({})).toBe(true));
+});
 
 describe('reverseKV', () => {
   it('empty', () => {
@@ -67,6 +83,63 @@ describe('objSubtract', () => {
     expect(objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })).toEqual(
       { a: 2, b: [2, 3], c: 5 }
     ));
+});
+
+describe('objSubtractDeep recusive', () => {
+  it('1 layer -> 1 layer, equals', () =>
+    expect(objSubtractDeep({ a: 1, b: 2 }, { a: 1, b: 2 })).toEqual({}));
+  it('1 layer -> 1 layer, equals, removeNil', () =>
+    expect(
+      objSubtractDeep({ a: 1, b: undefined }, { a: 1 }, { removeNil: true })
+    ).toEqual({}));
+  it('1 layer -> 1 layer, equals, removeEmpty', () =>
+    expect(objSubtractDeep({ a: 1, b: [] }, { a: 1 })).toEqual({}));
+  it('1 layer -> 1 layer, equals, !removeEmpty', () =>
+    expect(
+      objSubtractDeep({ a: 1, b: [] }, { a: 1 }, { removeEmpty: false })
+    ).toEqual({ b: [] }));
+  it('1 layer -> 1 layer, equals, removeBlank', () =>
+    expect(
+      objSubtractDeep({ a: 1, b: '' }, { a: 1 }, { removeBlank: true })
+    ).toEqual({}));
+  it('1 layer -> 1 layer, equals, removeNil', () =>
+    expect(
+      objSubtractDeep({ a: 1, b: undefined }, { a: 1 }, { removeNil: true })
+    ).toEqual({}));
+  it('1 layer -> 1 layer', () =>
+    expect(objSubtractDeep({ a: 1, b: 2 }, { a: 2, b: 2 })).toEqual({ a: 1 }));
+  it('2 layers -> 1 layer', () =>
+    expect(objSubtract({ a: { a1: 1, a2: 2 }, b: 2 }, { a: 2, b: 2 })).toEqual({
+      a: { a1: 1, a2: 2 }
+    }));
+  it('2 layers -> 2 layer, empty', () =>
+    expect(
+      objSubtractDeep(
+        { a: { a1: 1, a2: 2 }, b: 2 },
+        { a: { a1: 1, a2: 2 }, b: 2 }
+      )
+    ).toEqual({}));
+  it('2 layers -> 2 layer', () =>
+    expect(
+      objSubtractDeep(
+        { a: { a1: 1, a2: 2 }, b: 2 },
+        { a: { a1: 1, a2: 3 }, b: 2 }
+      )
+    ).toEqual({ a: { a2: 2 } }));
+  it('2 layers -> 3 layer', () =>
+    expect(
+      objSubtractDeep(
+        { a: { a1: { a11: 1, a12: 2 }, a2: 2 }, b: 2 },
+        { a: { a1: 1, a2: 3 }, b: 2 }
+      )
+    ).toEqual({ a: { a1: { a11: 1, a12: 2 }, a2: 2 } }));
+  it('3 layers -> 2 layer', () =>
+    expect(
+      objSubtractDeep(
+        { a: { a1: 1, a2: 3 }, b: 2 },
+        { a: { a1: { a11: 1, a12: 2 }, a2: 2 }, b: 2 }
+      )
+    ).toEqual({ a: { a1: 1, a2: 3 } }));
 });
 
 describe('getOrElse', () => {

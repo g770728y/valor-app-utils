@@ -13,7 +13,10 @@ function idGenerator() {
 export const nextId = idGenerator();
 
 // 与number型分开, 避免调用时去转类型
-function stringIdGenerator(prefix: string) {
+// 另外, 由于可以prefix, 可以按类型命名, 比如:
+// const nextId_name = stringGenerator('name_')
+// const nextId_age = stringGenerator('age_')
+export function stringIdGenerator(prefix: string) {
   let id = 1;
   return function(_prefix?: string) {
     return `${_prefix || prefix}${id++}`;

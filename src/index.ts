@@ -47,9 +47,19 @@ import {
   removeNils,
   getNumberOrElse,
   getOrElse,
-  objSubtract
+  objSubtract,
+  objSubtractDeep,
+  isPlainObject
 } from './object';
-export { reverseKV, removeNils, getNumberOrElse, getOrElse, objSubtract };
+export {
+  reverseKV,
+  removeNils,
+  getNumberOrElse,
+  getOrElse,
+  objSubtract,
+  objSubtractDeep,
+  isPlainObject
+};
 
 import { formatNumber, formatPercent, formatPermillage } from './format';
 export { formatNumber, formatPercent, formatPermillage };
@@ -93,8 +103,8 @@ export {
   traverseTree
 };
 
-import { nextId, nextArrayId, nextStringId } from './id';
-export { nextId, nextArrayId, nextStringId };
+import { nextId, nextArrayId, nextStringId, stringIdGenerator } from './id';
+export { nextId, nextArrayId, nextStringId, stringIdGenerator };
 
 import {
   css,

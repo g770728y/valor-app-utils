@@ -1,5 +1,14 @@
 import * as R from 'rambda';
 
+export function isPlainObject(obj: any): boolean {
+  return !!(
+    obj &&
+    typeof obj === 'object' &&
+    obj.constructor &&
+    obj.constructor.name === 'Object'
+  );
+}
+
 export function reverseKV(obj: Record<string, any>): Record<string, string> {
   if (!obj) return {};
   return R.fromPairs(R.toPairs(obj).reduce(
@@ -42,6 +51,41 @@ export function objSubtract<T extends object>(
       return reserveKey === k2 ? { ...acc, [k2]: (obj2 as any)[k2] } : acc;
     }
   }, {});
+}
+
+export function objSubtractDeep<T extends {}>(
+  obj2: T,
+  obj1: T,
+  options: {
+    removeBlank?: boolean;
+    removeEmpty?: boolean;
+    removeNil?: boolean;
+  } = { removeBlank: false, removeEmpty: true, removeNil: true }
+): Partial<T> {
+  // 不对比 非 object
+  if (!(isPlainObject(obj2) && isPlainObject(obj1))) {
+    return obj2;
+  }
+
+  const _result = Object.keys(obj2).reduce((acc: Partial<T>, k2) => {
+    const v2 = (obj2 as any)[k2];
+    const v1 = (obj1 as any)[k2];
+    return v2 === v1
+      ? acc
+      : isPlainObject(v2) && isPlainObject(v1)
+      ? { ...acc, [k2]: objSubtractDeep(v2, v1) }
+      : { ...acc, [k2]: v2 };
+  }, {});
+
+  return R.filter(
+    v =>
+      !(
+        (options.removeNil && R.isNil(v)) ||
+        (options.removeEmpty && (R.equals({}, v) || R.equals([], v))) ||
+        (options.removeBlank && v === '')
+      ),
+    _result
+  ) as any;
 }
 
 export function getOrElse<T extends Record<string, any>>(
