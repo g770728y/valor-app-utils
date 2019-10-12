@@ -70,7 +70,7 @@ export function objSubtractDeep<T extends {}>(
   const _result = Object.keys(obj2).reduce((acc: Partial<T>, k2) => {
     const v2 = (obj2 as any)[k2];
     const v1 = (obj1 as any)[k2];
-    return v2 === v1
+    return R.equals(v1, v2)
       ? acc
       : isPlainObject(v2) && isPlainObject(v1)
       ? { ...acc, [k2]: objSubtractDeep(v2, v1) }

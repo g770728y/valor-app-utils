@@ -96,7 +96,11 @@ describe('objSubtractDeep recusive', () => {
     expect(objSubtractDeep({ a: 1, b: [] }, { a: 1 })).toEqual({}));
   it('1 layer -> 1 layer, equals, !removeEmpty', () =>
     expect(
-      objSubtractDeep({ a: 1, b: [] }, { a: 1 }, { removeEmpty: false })
+      objSubtractDeep(
+        { a: 1, b: [], c: { c1: {} } },
+        { a: 1, c: { c1: {} } },
+        { removeEmpty: false }
+      )
     ).toEqual({ b: [] }));
   it('1 layer -> 1 layer, equals, removeBlank', () =>
     expect(
