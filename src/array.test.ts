@@ -11,7 +11,8 @@ import {
   upsert,
   arrayCompareBy,
   insertBetween,
-  insertArround
+  insertArround,
+  swap
 } from './array';
 import * as R from 'rambda';
 
@@ -61,6 +62,17 @@ describe('swapByProp', () => {
       { id: 3 },
       { id: 2 }
     ]));
+});
+
+describe('swap', () => {
+  const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  it('default', () => expect(swap(arr, 1, 1)).toEqual(arr));
+  it('swap 1 and 2 ', () =>
+    expect(swap(arr, 1, 2)).toEqual([{ id: 1 }, { id: 3 }, { id: 2 }]));
+  it('swap 0 and 1', () =>
+    expect(swap(arr, 0, 1)).toEqual([{ id: 2 }, { id: 1 }, { id: 3 }]));
+  it('swap 2 and 0', () =>
+    expect(swap(arr, 2, 0)).toEqual([{ id: 3 }, { id: 2 }, { id: 1 }]));
 });
 
 describe('dropIndex', () => {

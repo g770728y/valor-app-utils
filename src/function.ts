@@ -5,7 +5,6 @@ export function getFunctionParamsFromStr(s: string): string[] {
   if (!match) throw new Error('函数无效');
   const _params = match[1].split(',');
   const params = _params.map(it => it.trim()).filter(Boolean);
-  console.log('paramStr', params);
   return params;
 }
 

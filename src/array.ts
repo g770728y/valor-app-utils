@@ -30,8 +30,15 @@ export function swapByProp<T>(
     throw new Error(`swapByProp error: v2 not existed in xs: ${xs}, v2: ${v2}`);
   if (i1 === i2) return xs;
 
+  return swap(xs, i1, i2);
+}
+
+export function swap<T>(xs: T[], i1: number, i2: number): T[] {
+  if (i1 === i2) return xs;
+
   const minIndex = Math.min(i1, i2);
   const maxIndex = Math.max(i1, i2);
+
   return [
     ...xs.slice(0, minIndex),
     xs[maxIndex],
