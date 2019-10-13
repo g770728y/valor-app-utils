@@ -12,7 +12,7 @@ export function findIndexFrom<T>(
 }
 
 export function reAppend<T = any>(arr: T[], item: T) {
-  return [...arr.filter(it => it !== item), item];
+  return [...arr.filter(it => !R.equals(it, item)), item];
 }
 
 export function swapByProp<T>(
@@ -148,4 +148,20 @@ export function upsert<T extends {}>(
   return idx < 0
     ? [...arr, patch as T]
     : R.update(idx, { ...arr[idx], ...patch } as T, arr);
+}
+
+export function insertArround<T>(arr: T[], placeholder: T): T[] {
+  const result = arr.reduce((acc, curr) => [...acc, curr, placeholder], [
+    placeholder
+  ]);
+
+  return result.length === 1 ? [] : result;
+}
+
+export function insertBetween<T>(arr: T[], placeholder: T): T[] {
+  const result = arr.reduce(
+    (acc, curr) => [...acc, placeholder, curr],
+    [] as T[]
+  );
+  return result.length > 0 ? result.slice(1) : result;
 }

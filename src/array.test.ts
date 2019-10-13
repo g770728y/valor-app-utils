@@ -9,7 +9,9 @@ import {
   arrayCompare,
   patchByDiffs,
   upsert,
-  arrayCompareBy
+  arrayCompareBy,
+  insertBetween,
+  insertArround
 } from './array';
 import * as R from 'rambda';
 
@@ -37,6 +39,16 @@ describe('reAppend', () => {
   const arr = [1, 3, 2, 4, 5];
   it('not existed', () => expect(reAppend(arr, 6)).toEqual([1, 3, 2, 4, 5, 6]));
   it('existed', () => expect(reAppend(arr, 2)).toEqual([1, 3, 4, 5, 2]));
+  it('existed, object', () =>
+    expect(reAppend([{ a: 1 }, { a: 2 }], { a: 1 })).toEqual([
+      { a: 2 },
+      { a: 1 }
+    ]));
+  it('existed, complex', () =>
+    expect(reAppend([{ a: [1] }, { a: [2] }], { a: [1] })).toEqual([
+      { a: [2] },
+      { a: [1] }
+    ]));
 });
 
 describe('swapByProp', () => {
@@ -189,5 +201,37 @@ describe('upsert', () => {
     const result = [{ id: 1, a: 22 }, { id: 2, a: 2 }, { id: 3, a: 3 }];
     // expect(upsert(arr, {id:1}, {id:0, a:22})).toEqual( result)
     expect(upsert(arr, n => n.id === 1, { id: 1, a: 22 })).toEqual(result);
+  });
+});
+
+describe('insertArround', () => {
+  it('empty', () => {
+    expect(insertArround([], 0)).toEqual([]);
+  });
+
+  it('one', () => {
+    expect(insertArround([1], 0)).toEqual([0, 1, 0]);
+  });
+
+  it('two', () => {
+    expect(insertArround([1, 2], 0)).toEqual([0, 1, 0, 2, 0]);
+  });
+});
+
+describe('insertBetween', () => {
+  it('empty', () => {
+    expect(insertBetween([], 0)).toEqual([]);
+  });
+
+  it('one', () => {
+    expect(insertBetween([1], 0)).toEqual([1]);
+  });
+
+  it('two', () => {
+    expect(insertBetween([1, 2], 0)).toEqual([1, 0, 2]);
+  });
+
+  it('three', () => {
+    expect(insertBetween([1, 2, 3], 0)).toEqual([1, 0, 2, 0, 3]);
   });
 });

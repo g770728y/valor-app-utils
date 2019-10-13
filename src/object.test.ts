@@ -102,6 +102,37 @@ describe('objSubtractDeep recusive', () => {
         { removeEmpty: false }
       )
     ).toEqual({ b: [] }));
+
+  it('1 layer -> 1 layer, equals, !removeEmpty2', () =>
+    expect(
+      objSubtractDeep(
+        {
+          id: 'slot102',
+          type: 'slot',
+          props: {
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start'
+            }
+          }
+        },
+        {
+          props: {
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start'
+            }
+          }
+        },
+        { removeEmpty: true }
+      )
+    ).toEqual({
+      id: 'slot102',
+      type: 'slot'
+    }));
+
   it('1 layer -> 1 layer, equals, removeBlank', () =>
     expect(
       objSubtractDeep({ a: 1, b: '' }, { a: 1 }, { removeBlank: true })
