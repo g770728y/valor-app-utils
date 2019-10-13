@@ -45,8 +45,8 @@ export {
   insertBetween
 };
 
-import { min, max, sum, safeDivide } from './math';
-export { min, max, sum, safeDivide };
+import { min, max, sum, safeDivide, inferBlankCells } from './math';
+export { min, max, sum, safeDivide, inferBlankCells };
 
 import {
   reverseKV,

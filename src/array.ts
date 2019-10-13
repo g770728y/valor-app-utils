@@ -2,7 +2,14 @@ import * as R from 'rambda';
 import { objSubtract } from './object';
 import * as Rx from 'rambdax';
 
-// 从fromIndex查找符合condition的index
+/**
+ * 从fromIndex查找符合condition的index
+ * 如果 fromIndex 刚好符合condition, 则返回 fromIndex
+ * 如果 没有符合要求的, 则返回 -1
+ * @param arr 数组
+ * @param fromIndex 起始索引
+ * @param condition 查找条件
+ */
 export function findIndexFrom<T>(
   arr: T[],
   fromIndex: number,

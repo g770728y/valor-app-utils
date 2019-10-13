@@ -1,4 +1,4 @@
-import { sum, max } from './math';
+import { sum, max } from './arithmetic';
 
 it('sum', () => {
   expect(sum([])).toEqual(0);

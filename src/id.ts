@@ -1,4 +1,4 @@
-import { max } from './math';
+import { max } from './math/arithmetic';
 
 export function nextArrayId(arr: { id: number; [k: string]: any }[]) {
   return arr.length === 0 ? 1 : max(arr.map(it => it.id)) + 1;
