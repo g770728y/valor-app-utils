@@ -216,6 +216,10 @@ describe('insertArround', () => {
   it('two', () => {
     expect(insertArround([1, 2], 0)).toEqual([0, 1, 0, 2, 0]);
   });
+
+  it('two, function', () => {
+    expect(insertArround([1, 2], i => i + 10)).toEqual([10, 1, 11, 2, 12]);
+  });
 });
 
 describe('insertBetween', () => {
@@ -233,5 +237,9 @@ describe('insertBetween', () => {
 
   it('three', () => {
     expect(insertBetween([1, 2, 3], 0)).toEqual([1, 0, 2, 0, 3]);
+  });
+
+  it('three', () => {
+    expect(insertBetween([1, 2, 3], i => i + 10)).toEqual([1, 10, 2, 11, 3]);
   });
 });

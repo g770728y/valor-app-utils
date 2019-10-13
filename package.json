@@ -1,6 +1,6 @@
 {
   "name": "valor-app-utils",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "module": "dist/index.js",
   "main": "dist/index.js",
   "author": "g770728y",
@@ -22,6 +22,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "rambda": "^2.11.1"
+    "rambda": "^2.11.1",
+    "rambdax": "^2.14.1"
   }
 }

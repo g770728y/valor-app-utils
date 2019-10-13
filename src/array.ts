@@ -1,5 +1,6 @@
 import * as R from 'rambda';
 import { objSubtract } from './object';
+import * as Rx from 'rambdax';
 
 // 从fromIndex查找符合condition的index
 export function findIndexFrom<T>(
@@ -150,17 +151,27 @@ export function upsert<T extends {}>(
     : R.update(idx, { ...arr[idx], ...patch } as T, arr);
 }
 
-export function insertArround<T>(arr: T[], placeholder: T): T[] {
-  const result = arr.reduce((acc, curr) => [...acc, curr, placeholder], [
-    placeholder
+export function insertArround<T>(
+  arr: T[],
+  placeholder: T | ((i: number) => T)
+): T[] {
+  const f = (i?: number) =>
+    Rx.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
+  const result = arr.reduce((acc, curr, idx) => [...acc, curr, f(idx + 1)], [
+    f(0)
   ]);
 
   return result.length === 1 ? [] : result;
 }
 
-export function insertBetween<T>(arr: T[], placeholder: T): T[] {
+export function insertBetween<T>(
+  arr: T[],
+  placeholder: T | ((i: number) => T)
+): T[] {
+  const f = (i?: number) =>
+    Rx.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
   const result = arr.reduce(
-    (acc, curr) => [...acc, placeholder, curr],
+    (acc, curr, idx) => [...acc, f(idx - 1), curr],
     [] as T[]
   );
   return result.length > 0 ? result.slice(1) : result;

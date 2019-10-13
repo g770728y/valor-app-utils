@@ -25,7 +25,9 @@ import {
   patchByDiffs,
   upsert,
   arrayCompare,
-  arrayCompareBy
+  arrayCompareBy,
+  insertArround,
+  insertBetween
 } from './array';
 export {
   findIndexFrom,
@@ -36,7 +38,9 @@ export {
   patchByDiffs,
   upsert,
   arrayCompare,
-  arrayCompareBy
+  arrayCompareBy,
+  insertArround,
+  insertBetween
 };
 
 import { min, max, sum, safeDivide } from './math';
