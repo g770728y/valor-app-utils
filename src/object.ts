@@ -17,6 +17,25 @@ export function reverseKV(obj: Record<string, any>): Record<string, string> {
   ) as any);
 }
 
+export function remove<T extends Record<string, any>>(
+  obj: T,
+  f: (v: T[keyof T], k: keyof T, obj: T) => boolean
+): T;
+export function remove<T>(
+  arr: T[],
+  f: (v: T, k: number, arr: T[]) => boolean
+): T[];
+export function remove(obj: any, f: (v: any, k: any, obj: any) => boolean) {
+  return isPlainObject(obj)
+    ? Object.keys(obj).reduce(
+        (acc, k) => (f(obj[k], k, obj) ? { ...acc } : { ...acc, [k]: obj[k] }),
+        {} as Record<string, any>
+      )
+    : Array.isArray(obj)
+    ? obj.filter((el, idx) => !f(el, idx, obj))
+    : obj;
+}
+
 export function removeNils(
   obj: Record<string, any>,
   options: { removeBlank?: boolean; removeEmpty?: boolean } = {

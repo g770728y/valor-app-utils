@@ -6,7 +6,8 @@ import {
   getNumberOrElse,
   isPlainObject,
   objSubtractDeep,
-  removeProp
+  removeProp,
+  remove
 } from './object';
 
 describe('isPlainObject', () => {
@@ -34,6 +35,25 @@ describe('reverseKV', () => {
 
   it('value has number, boolean', () => {
     expect(reverseKV({ a: true, b: 2 })).toEqual({ true: 'a', 2: 'b' });
+  });
+});
+
+describe('remove', () => {
+  it('empty', () => {
+    expect(remove({}, () => true)).toEqual({});
+  });
+
+  it('object', () => {
+    expect(remove({ a: 1, b: 2, c: 2 }, v => v === 2)).toEqual({ a: 1 });
+    expect(remove({ a: 1, b: 2, c: 2 }, (v, k) => k === 'a')).toEqual({
+      b: 2,
+      c: 2
+    });
+  });
+
+  it('array', () => {
+    expect(remove([0, 1, 2], v => v === 2)).toEqual([0, 1]);
+    expect(remove([0, 1, 2], (v, k) => k === 1)).toEqual([0, 2]);
   });
 });
 
