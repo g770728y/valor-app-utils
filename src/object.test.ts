@@ -5,7 +5,8 @@ import {
   getOrElse,
   getNumberOrElse,
   isPlainObject,
-  objSubtractDeep
+  objSubtractDeep,
+  removeProp
 } from './object';
 
 describe('isPlainObject', () => {
@@ -53,6 +54,33 @@ describe('removeNils', () => {
     ).toEqual({
       a: 1
     });
+  });
+});
+
+describe('removeProp', () => {
+  it('common', () => {
+    expect(removeProp({}, 'a')).toEqual({});
+    expect(removeProp({ a: [] }, 'a')).toEqual({});
+    expect(removeProp({ a: { b: 1 }, a1: 1 }, 'a')).toEqual({ a1: 1 });
+    expect(removeProp({ a: { b: 1 }, a1: { a: 2 } }, 'a')).toEqual({
+      a1: { a: 2 }
+    });
+    expect(removeProp({ b: [{ a: 1, b: [{ a: 1 }] }, { b: 2 }] }, 'a')).toEqual(
+      {
+        b: [{ a: 1, b: [{ a: 1 }] }, { b: 2 }]
+      }
+    );
+  });
+
+  it('recursive', () => {
+    expect(
+      removeProp({ a: { b: 1 }, a1: { a: 2 } }, 'a', { recursive: true })
+    ).toEqual({ a1: {} });
+    expect(
+      removeProp({ b: [{ a: 1, b: [{ a: 1 }] }, { b: 2 }] }, 'a', {
+        recursive: true
+      })
+    ).toEqual({ b: [{ b: [{}] }, { b: 2 }] });
   });
 });
 

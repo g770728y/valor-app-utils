@@ -37,6 +37,29 @@ export function removeNils(
   ) as any);
 }
 
+export function removeProp(
+  obj: Record<string, any>,
+  prop: string,
+  options?: { recursive?: boolean }
+): Record<string, any> {
+  const deep = !!(options && options.recursive);
+  if (!isPlainObject(obj)) return obj;
+
+  return Object.keys(obj).reduce(
+    (acc, k) => {
+      const v = obj[k];
+      return prop === k
+        ? { ...acc }
+        : ((deep && isPlainObject(v)
+            ? { ...acc, [k]: removeProp(v, prop, options) }
+            : deep && Array.isArray(v)
+            ? { ...acc, [k]: v.map(it => removeProp(it, prop, options)) }
+            : { ...acc, [k]: v }) as any);
+    },
+    {} as Record<string, any>
+  );
+}
+
 // 返回obj2有, 但obj1没有, 或obj2[k]!==obj1[k] 所对应的entries, 约等于 obj2-obj1
 export function objSubtract<T extends object>(
   obj2: T,

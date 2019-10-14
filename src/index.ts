@@ -51,6 +51,7 @@ export { min, max, sum, safeDivide, inferBlankCells };
 import {
   reverseKV,
   removeNils,
+  removeProps,
   getNumberOrElse,
   getOrElse,
   objSubtract,
@@ -60,6 +61,7 @@ import {
 export {
   reverseKV,
   removeNils,
+  removeProps,
   getNumberOrElse,
   getOrElse,
   objSubtract,
