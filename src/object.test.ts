@@ -75,6 +75,21 @@ describe('removeNils', () => {
       a: 1
     });
   });
+
+  it('recursive', () => {
+    expect(
+      removeNils(
+        { a: 1, b: {}, c: { d: {} } },
+        { removeEmpty: true, recursive: true }
+      )
+    ).toEqual({ a: 1 });
+    expect(
+      removeNils(
+        { a: 1, b: [{}], c: { d: [1, 2] }, d: [{}, {}] },
+        { removeEmpty: true, recursive: true }
+      )
+    ).toEqual({ a: 1, b: [{}], c: { d: [1, 2] }, d: [{}, {}] });
+  });
 });
 
 describe('removeProp', () => {

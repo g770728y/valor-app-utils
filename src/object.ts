@@ -38,25 +38,43 @@ export function remove(obj: any, f: (v: any, k: any, obj: any) => boolean) {
 
 /**
  * 从对象中移除空值
+ * 注意: removeBlank会移除零长字符串, removeEmpty会移除{}
+ * 但removeEmpty不会移除[]
  */
 export function removeNils(
   obj: Record<string, any>,
-  options: { removeBlank?: boolean; removeEmpty?: boolean } = {
+  options: {
+    removeBlank?: boolean;
+    removeEmpty?: boolean;
+    recursive?: boolean;
+  } = {
     removeBlank: false,
-    removeEmpty: false
+    removeEmpty: false,
+    recursive: false
   }
-) {
-  return R.fromPairs(R.toPairs(obj).reduce(
-    (acc: string[][], [k, v]) =>
-      R.isNil(v) ||
-      (options.removeBlank && v === '') ||
-      (options.removeEmpty &&
-        R.type(v) === 'Object' &&
-        Object.keys(v).length === 0)
+): Record<string, any> {
+  const deep = !!(options && options.recursive);
+  if (!isPlainObject(obj)) return obj;
+
+  return Object.keys(obj).reduce(
+    (acc, k) => {
+      const v = obj[k];
+      return R.isNil(v)
         ? acc
-        : [...acc, [k, v]],
-    []
-  ) as any);
+        : options.removeBlank && v === ''
+        ? acc
+        : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
+        ? acc
+        : deep && Array.isArray(v)
+        ? { ...acc, [k]: v.map(it => removeNils(it, options)) }
+        : deep && isPlainObject(v)
+        ? R.isEmpty(removeNils(v, options))
+          ? acc
+          : { ...acc, [k]: removeNils(v, options) }
+        : { ...acc, [k]: v };
+    },
+    {} as Record<string, any>
+  );
 }
 
 export function removeProp(
