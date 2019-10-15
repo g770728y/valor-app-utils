@@ -36,6 +36,9 @@ export function remove(obj: any, f: (v: any, k: any, obj: any) => boolean) {
     : obj;
 }
 
+/**
+ * 从对象中移除空值
+ */
 export function removeNils(
   obj: Record<string, any>,
   options: { removeBlank?: boolean; removeEmpty?: boolean } = {

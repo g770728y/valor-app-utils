@@ -28,7 +28,8 @@ import {
   arrayCompare,
   arrayCompareBy,
   insertArround,
-  insertBetween
+  insertBetween,
+  padding
 } from './array';
 export {
   findIndexFrom,
@@ -42,7 +43,8 @@ export {
   arrayCompare,
   arrayCompareBy,
   insertArround,
-  insertBetween
+  insertBetween,
+  padding
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from './math';

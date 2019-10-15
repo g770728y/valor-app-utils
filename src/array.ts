@@ -190,3 +190,22 @@ export function insertBetween<T>(
   );
   return result.length > 0 ? result.slice(1) : result;
 }
+
+/**
+ * 对齐到长度toLength
+ * 如果长度小于toLength, 则用f填充
+ * 如果长度大于toLength, 则删除多余元素
+ * 如果元素为undefined, 则会填充之!
+ */
+export function padding<T>(
+  arr: T[],
+  toLength: number,
+  f: ((i: number) => T) | T
+): T[] {
+  const ff = R.is(Function, f) ? f : () => f;
+  return R.range(0, toLength).reduce(
+    (acc, i) =>
+      arr[i] === undefined ? [...acc, (ff as any)(i)] : [...acc, arr[i]],
+    [] as T[]
+  );
+}

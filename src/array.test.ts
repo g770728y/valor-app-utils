@@ -12,7 +12,8 @@ import {
   arrayCompareBy,
   insertBetween,
   insertArround,
-  swap
+  swap,
+  padding
 } from './array';
 import * as R from 'rambda';
 
@@ -253,5 +254,35 @@ describe('insertBetween', () => {
 
   it('three', () => {
     expect(insertBetween([1, 2, 3], i => i + 10)).toEqual([1, 10, 2, 11, 3]);
+  });
+});
+
+describe('padding', () => {
+  it('差2个', () => {
+    expect(padding([], 2, 1)).toEqual([1, 1]);
+  });
+
+  it('差1个', () => {
+    expect(padding([3], 2, 1)).toEqual([3, 1]);
+  });
+
+  it('刚刚好', () => {
+    expect(padding([3, 3], 2, 1)).toEqual([3, 3]);
+  });
+
+  it('null', () => {
+    expect(padding([null, 3], 2, 1)).toEqual([null, 3]);
+  });
+
+  it('undefined会被替换', () => {
+    expect(padding([undefined, 3], 2, 1)).toEqual([1, 3]);
+  });
+
+  it('多一个', () => {
+    expect(padding([3, 3, 3], 2, 1)).toEqual([3, 3]);
+  });
+
+  it('函数参数', () => {
+    expect(padding([], 2, i => `${i}1`)).toEqual(['01', '11']);
   });
 });
