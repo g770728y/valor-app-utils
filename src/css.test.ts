@@ -2,7 +2,9 @@ import {
   deserializeCSSStyle,
   serializeCSSStyle,
   condenseStyles,
-  getMarginFromStyle
+  getMarginFromStyle,
+  reactStyle2style,
+  style2ReactStyle
 } from './css';
 
 describe('deserializeCSSStyle', () => {
@@ -138,5 +140,19 @@ describe('getMarginFromStyle', () => {
         false
       )
     ).toEqual([10, 20, 10, 20]);
+  });
+});
+
+describe('reactStyle2css', () => {
+  it('default', () => {
+    const style = {
+      color: '#fff',
+      fontSize: 12,
+      borderColor: '#ccc'
+    };
+
+    const expected = 'color:#fff;font-size:12;border-color:#ccc;';
+    expect(reactStyle2style(style)).toEqual(expected);
+    expect(style2ReactStyle(expected)).toEqual(style);
   });
 });

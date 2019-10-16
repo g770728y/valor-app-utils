@@ -1,6 +1,7 @@
 import { Properties as CSSProperties } from 'csstype';
 import * as R from 'rambda';
-import { removeNils, getOrElse, getNumberOrElse } from './object';
+import { removeNils, getOrElse, getNumberOrElse, remove } from './object';
+import { camel2snake, snake2camel } from './string';
 
 export function css(el: HTMLElement, styleName: string, styleValue: any) {
   el.style[styleName as any] = styleValue;
@@ -94,4 +95,23 @@ export function getMarginFromStyle(
   const margins = R.map(i => marginLRTB[i] || margin4[i], R.range(0, 4));
 
   return singular ? margins[0] : margins;
+}
+
+export function reactStyle2style(reactStyle: Record<string, any>): string {
+  return Object.keys(reactStyle).reduce((acc, k) => {
+    const v = reactStyle[k];
+    return `${acc}${camel2snake(k)}:${v};`;
+  }, '');
+}
+
+export function style2ReactStyle(style: string): Record<string, any> {
+  const s = remove(style.split(';'), el => el === '');
+  return s
+    .map(it => it.split(':'))
+    .reduce((acc, [k, v]) => {
+      return {
+        ...acc,
+        [snake2camel(k)]: /^[\d|\.]+$/.test(v) ? parseFloat(v) : v
+      };
+    }, {});
 }
