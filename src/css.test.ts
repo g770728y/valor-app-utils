@@ -155,4 +155,15 @@ describe('reactStyle2css', () => {
     expect(reactStyle2style(style)).toEqual(expected);
     expect(style2ReactStyle(expected)).toEqual(style);
   });
+
+  it('empty', () => {
+    expect(reactStyle2style(null as any)).toEqual('');
+    expect(reactStyle2style({})).toEqual('');
+    expect(style2ReactStyle(null as any)).toEqual({});
+    expect(style2ReactStyle('')).toEqual({});
+  });
+
+  it('unexpected', () => {
+    expect(style2ReactStyle('a')).toEqual({});
+  });
 });
