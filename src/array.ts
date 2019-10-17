@@ -203,9 +203,11 @@ export function padding<T>(
   f: ((i: number) => T) | T
 ): T[] {
   const ff = R.is(Function, f) ? f : () => f;
+  // 下面循环可能超界, mobx会报警, 所以创建一个新数组
+  const _arr = [...arr];
   return R.range(0, toLength).reduce(
     (acc, i) =>
-      arr[i] === undefined ? [...acc, (ff as any)(i)] : [...acc, arr[i]],
+      _arr[i] === undefined ? [...acc, (ff as any)(i)] : [...acc, _arr[i]],
     [] as T[]
   );
 }
