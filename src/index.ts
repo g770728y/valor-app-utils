@@ -127,7 +127,11 @@ import {
   serializeCSSStyle,
   deserializeCSSStyle,
   condenseStyles,
-  getMarginFromStyle
+  getMarginFromStyle,
+  reactStyle2style,
+  style2ReactStyle,
+  isDimStyleKey,
+  normalizeReactStyle
 } from './css';
 export {
   css,
@@ -135,7 +139,11 @@ export {
   serializeCSSStyle,
   deserializeCSSStyle,
   condenseStyles,
-  getMarginFromStyle
+  getMarginFromStyle,
+  reactStyle2style,
+  style2ReactStyle,
+  isDimStyleKey,
+  normalizeReactStyle
 };
 
 import {
