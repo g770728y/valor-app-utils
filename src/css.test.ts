@@ -5,7 +5,8 @@ import {
   getMarginFromStyle,
   reactStyle2style,
   style2ReactStyle,
-  normalizeReactStyle
+  normalizeReactStyle,
+  normalizeDimValue
 } from './css';
 
 describe('deserializeCSSStyle', () => {
@@ -188,4 +189,28 @@ describe('noralizeReactStyle', () => {
       x: '3%',
       z: 3
     }));
+});
+
+describe('normalizeDimValue', () => {
+  it('number', () => {
+    expect(normalizeDimValue(3)).toEqual('3px');
+    expect(normalizeDimValue(3.0)).toEqual('3px');
+  });
+
+  it('string', () => {
+    expect(normalizeDimValue('3')).toEqual('3px');
+    expect(normalizeDimValue(' 3.02 ')).toEqual('3.02px');
+    expect(normalizeDimValue(' 3.0 ')).toEqual('3.0px');
+    expect(normalizeDimValue('-')).toEqual(undefined);
+  });
+
+  it('undefined', () => {
+    expect(normalizeDimValue(undefined)).toEqual(undefined);
+  });
+
+  it('preset', () => {
+    expect(normalizeDimValue('3px')).toEqual('3px');
+    expect(normalizeDimValue('3pt')).toEqual('3pt');
+    expect(normalizeDimValue('3%')).toEqual('3%');
+  });
 });

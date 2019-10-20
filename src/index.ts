@@ -131,7 +131,8 @@ import {
   reactStyle2style,
   style2ReactStyle,
   isDimStyleKey,
-  normalizeReactStyle
+  normalizeReactStyle,
+  normalizeDimValue
 } from './css';
 export {
   css,
@@ -143,7 +144,8 @@ export {
   reactStyle2style,
   style2ReactStyle,
   isDimStyleKey,
-  normalizeReactStyle
+  normalizeReactStyle,
+  normalizeDimValue
 };
 
 import {
@@ -171,8 +173,14 @@ export { file2DataURL, openFile, dataURItoBlob, getFormDataWithDataURLField };
 import { getImageDimension } from './image';
 export { getImageDimension };
 
-import { replaceAll } from './string';
-export { replaceAll };
+import {
+  replaceAll,
+  camel2snake,
+  snake2camel,
+  isNumberLike,
+  ensureSuffix
+} from './string';
+export { replaceAll, camel2snake, snake2camel, isNumberLike, ensureSuffix };
 
 import { waitUntil } from './promise';
 export { waitUntil };

@@ -14,3 +14,15 @@ export function snake2camel(s: string): string {
 export function isNumberLike(s: any): boolean {
   return R.is(Number, s) || /^[\d|\.]+$/.test(s);
 }
+
+export function ensureSuffix(_s: any, suffix: string): string | undefined {
+  const s = R.is(String, _s) ? _s.trim() : _s;
+  if (R.isNil(s) || s === '') return undefined;
+
+  const reg = new RegExp(`^[\\d|\\.]+${suffix}$`);
+  return R.is(Number, s) || /^[\d|\.]+$/.test(s)
+    ? `${s}${suffix}`
+    : reg.test(s)
+    ? s
+    : undefined;
+}
