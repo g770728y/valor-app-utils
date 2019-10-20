@@ -1,7 +1,7 @@
 import { Properties as CSSProperties } from 'csstype';
 import * as R from 'rambda';
 import { removeNils, getOrElse, getNumberOrElse, remove } from './object';
-import { camel2snake, snake2camel } from './string';
+import { camel2snake, snake2camel, isNumberLike } from './string';
 
 export function css(el: HTMLElement, styleName: string, styleValue: any) {
   el.style[styleName as any] = styleValue;
@@ -114,4 +114,15 @@ export function style2ReactStyle(style: string): Record<string, any> {
         [snake2camel(k)]: /^[\d|\.]+$/.test(v) ? parseFloat(v) : v
       };
     }, {});
+}
+
+export function isDimStyleKey(k: string): boolean {
+  const regs = [/width/i, /height/i, /padding/i, /margin/i];
+  return regs.some(reg => reg.test(k));
+}
+
+export function normalizeReactStyle(style: CSSProperties): CSSProperties {
+  return R.map((v: any, k: string) => {
+    return isDimStyleKey(k) && isNumberLike(v) ? `${v}px` : v;
+  }, style);
 }

@@ -4,7 +4,8 @@ import {
   condenseStyles,
   getMarginFromStyle,
   reactStyle2style,
-  style2ReactStyle
+  style2ReactStyle,
+  normalizeReactStyle
 } from './css';
 
 describe('deserializeCSSStyle', () => {
@@ -166,4 +167,25 @@ describe('reactStyle2css', () => {
   it('unexpected', () => {
     expect(style2ReactStyle('a')).toEqual({});
   });
+});
+
+describe('noralizeReactStyle', () => {
+  it('default', () =>
+    expect(
+      normalizeReactStyle({
+        borderWidth: '1',
+        width: 3,
+        height: '0pt',
+        xHeight: '3',
+        x: '3%',
+        z: 3
+      } as any)
+    ).toEqual({
+      borderWidth: '1px',
+      width: '3px',
+      height: '0pt',
+      xHeight: '3px',
+      x: '3%',
+      z: 3
+    }));
 });
