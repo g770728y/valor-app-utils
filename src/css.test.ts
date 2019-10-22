@@ -153,7 +153,7 @@ describe('reactStyle2css', () => {
       borderColor: '#ccc'
     };
 
-    const expected = 'color:#fff;font-size:12;border-color:#ccc;';
+    const expected = 'color:#fff;\nfont-size:12;\nborder-color:#ccc;\n';
     expect(reactStyle2style(style)).toEqual(expected);
     expect(style2ReactStyle(expected)).toEqual(style);
   });

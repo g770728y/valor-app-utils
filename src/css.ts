@@ -100,14 +100,19 @@ export function getMarginFromStyle(
 export function reactStyle2style(reactStyle: Record<string, any>): string {
   return Object.keys(reactStyle || {}).reduce((acc, k) => {
     const v = reactStyle[k];
-    return `${acc}${camel2snake(k)}:${v};`;
+    return `${acc}${camel2snake(k)}:${v};\n`;
   }, '');
 }
 
 export function style2ReactStyle(style: string): Record<string, any> {
-  const s = remove((style || '').split(';'), el => el === '');
+  const s = remove(
+    (style || '').split(';'),
+    el => (el as string).trim() === ''
+  );
   return s
     .map(it => it.split(':'))
+    .filter(el => el.length === 2)
+    .map(([a, b]) => [a.trim(), b.trim()])
     .reduce((acc, [k, v]) => {
       return {
         ...acc,
