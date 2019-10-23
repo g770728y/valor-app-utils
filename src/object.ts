@@ -173,3 +173,31 @@ export function getNumberOrElse<T extends Record<string, any>>(
     ? parseInt(result)
     : defaultValue;
 }
+
+/**
+ * 注意与JSON.parse不同
+ */
+export function str2object(s: string): any {
+  return eval(`(()=>(${s}))()`);
+}
+
+/**
+ * 注意与JSON.stringify不同
+ */
+export function object2str(obj: any): string {
+  return isPlainObject(obj)
+    ? '{' +
+        Object.keys(obj).reduce((acc: string, k: string) => {
+          const v = obj[k];
+          const p = `${k}:${object2str(v)}`;
+          return acc ? acc + ',' + p : p;
+        }, '') +
+        '}'
+    : R.is(Array, obj)
+    ? '[' + obj.map(object2str).join(',') + ']'
+    : R.isNil(obj)
+    ? obj + ''
+    : R.is(String, obj)
+    ? `\"${obj}\"`
+    : obj.toString();
+}

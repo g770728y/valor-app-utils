@@ -7,7 +7,9 @@ import {
   isPlainObject,
   objSubtractDeep,
   removeProp,
-  remove
+  remove,
+  str2object,
+  object2str
 } from './object';
 
 describe('isPlainObject', () => {
@@ -256,4 +258,76 @@ describe('getNumberOrElse', () => {
     expect(getNumberOrElse({ a: 1 }, 'c' as any, 2)).toEqual(2));
   it('without default', () =>
     expect(getNumberOrElse({ a: '1px' }, 'a')).toEqual(1));
+});
+
+describe('str2object', () => {
+  it('default', () => {
+    expect(str2object('{}')).toEqual({});
+    expect(str2object('[]')).toEqual([]);
+    expect(str2object('[{}, {}]')).toEqual([{}, {}]);
+    expect(str2object('null')).toEqual(null);
+    expect(str2object('undefined')).toEqual(undefined);
+    expect(str2object('3')).toEqual(3);
+    expect(str2object('"3"')).toEqual('3');
+  });
+
+  it('complex', () => {
+    expect(str2object('{a:[{b:{a1: {b1: 1}}}]}')).toEqual({
+      a: [{ b: { a1: { b1: 1 } } }]
+    });
+  });
+
+  it('function', () => {
+    const expected = function() {}.toString();
+    expect(str2object('function () { }').toString()).toEqual(expected);
+  });
+});
+
+describe('object2str', () => {
+  it('default', () => {
+    expect(object2str({})).toEqual('{}');
+    expect(object2str([])).toEqual('[]');
+    expect(object2str([{}, {}])).toEqual('[{},{}]');
+    expect(object2str({ a: 1 })).toEqual('{a:1}');
+    expect(object2str([1, 2])).toEqual('[1,2]');
+    expect(object2str(null)).toEqual('null');
+    expect(object2str(undefined)).toEqual('undefined');
+    expect(object2str(3)).toEqual('3');
+    expect(object2str('3')).toEqual('"3"');
+  });
+
+  it('complex', () => {
+    expect(object2str({ a: [{ b: { a1: { b1: 1 } } }] })).toEqual(
+      '{a:[{b:{a1:{b1:1}}}]}'
+    );
+    expect(object2str({ a: 1, b: 2 })).toEqual('{a:1,b:2}');
+  });
+
+  it('function', () => {
+    expect(object2str(function() {})).toEqual('function () { }');
+    expect(object2str(() => {})).toEqual('function () { }');
+  });
+});
+
+describe('str <-> object', () => {
+  it('simple', () => {
+    const str = '{a:1,b:2,d:null,e:[{f:1}]}';
+    const expected = { a: 1, b: 2, d: null, e: [{ f: 1 }] };
+    expect(str2object(str)).toEqual(expected);
+    expect(object2str(expected)).toEqual(str);
+  });
+
+  it('with function', () => {
+    const str = '{c:function(a,b){return a+b;}}';
+    const expected = {
+      // @ts-ignore
+      c: function(a, b) {
+        return a + b;
+      }
+    };
+    expect(str2object(str).c(1, 2)).toEqual(3);
+    expect(object2str(expected).replace(/\s/g, x => '')).toEqual(
+      str.replace(/\s/g, x => '')
+    );
+  });
 });
