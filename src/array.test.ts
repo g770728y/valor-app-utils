@@ -13,7 +13,8 @@ import {
   insertBetween,
   insertArround,
   swap,
-  padding
+  padding,
+  sliceBy
 } from './array';
 import * as R from 'rambda';
 
@@ -284,5 +285,34 @@ describe('padding', () => {
 
   it('函数参数', () => {
     expect(padding([], 2, i => `${i}1`)).toEqual(['01', '11']);
+  });
+});
+
+describe('sliceBy', () => {
+  test('nil', () => {
+    expect(sliceBy('12345', {})).toEqual('12345');
+  });
+
+  test('common', () => {
+    expect(sliceBy('12345', { to: '1' })).toEqual('');
+    expect(sliceBy('12345', { to: '2' })).toEqual('1');
+    expect(sliceBy('12345', { from: '1', to: '4' })).toEqual('123');
+    expect(sliceBy('12345', { from: '1' })).toEqual('12345');
+    expect(sliceBy('12345', { from: '5' })).toEqual('5');
+  });
+
+  test('不存在的值,  一律返回空', () => {
+    expect(sliceBy('12345', { from: '6' })).toEqual('');
+    expect(sliceBy('12345', { from: '6', to: '3' })).toEqual('');
+    expect(sliceBy('12345', { from: '3', to: '6' })).toEqual('');
+  });
+
+  test('from > to', () => {
+    expect(sliceBy('12345', { from: '5', to: '1' })).toEqual('');
+  });
+
+  test('array', () => {
+    expect(sliceBy([1, 2, 3, 4, 5], { from: 1, to: 2 })).toEqual([1]);
+    expect(sliceBy([1, 2, 3, 4, 5], { from: 3, to: 2 })).toEqual([]);
   });
 });

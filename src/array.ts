@@ -211,3 +211,27 @@ export function padding<T>(
     [] as T[]
   );
 }
+
+/**
+ * 类似于slice, 但针对string  和  array
+ * sliceBy('12345', ':3') => '12'
+ * sliceBy('12345', '2:4') => '23'
+ * sliceBy('12345', '4:') => '45'
+ */
+export function sliceBy(
+  s: string,
+  slicer: { from?: string; to?: string }
+): string;
+export function sliceBy<T>(s: T[], slicer: { from?: T; to?: T }): T[];
+
+export function sliceBy(s: any, slicer: any) {
+  if (R.isEmpty(slicer)) return s;
+
+  const fromIndex = slicer.from ? s.indexOf(slicer.from) : 0;
+  const toIndex = slicer.to ? s.indexOf(slicer.to) : s.length;
+
+  if (toIndex < fromIndex || toIndex < 0 || fromIndex < 0)
+    return R.is(Array, s) ? [] : '';
+
+  return s.slice(fromIndex >= 0 ? fromIndex : 0, toIndex >= 0 ? toIndex : 0);
+}
