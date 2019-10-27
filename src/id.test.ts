@@ -18,6 +18,15 @@ describe('next-strArray-id', () => {
       nextStrArrayId(['zhang_1', 'zhang_3', 'wang_4', 'wang_2'], 'wang', '_')
     ).toEqual('wang_5');
   });
+
+  it('排除无效值', () => {
+    expect(
+      nextStrArrayId(['zhang_1', 'zhang_3', 'zhang_', '_zhang'], 'zhang', '_')
+    ).toEqual('zhang_4');
+    expect(
+      nextStrArrayId(['zhang_1', 'zhang_3', 'zhang_xx'], 'zhang', '_')
+    ).toEqual('zhang_4');
+  });
 });
 
 describe('next-id', () => {

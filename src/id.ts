@@ -13,8 +13,11 @@ export function nextStrArrayId(
     max(
       arr
         .map(it => it.split(separator))
+        // 排除 prefix_ / _seq
+        .filter(([_prefix, seqStr]) => _prefix && seqStr)
         .filter(([_prefix, seqStr]) => _prefix === prefix)
-        .map(([_, seqStr]) => parseInt(seqStr)),
+        .map(([_, seqStr]) => parseInt(seqStr))
+        .filter(seq => !isNaN(seq)),
       0
     ) + 1;
   return prefix + separator + seq;
