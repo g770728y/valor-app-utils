@@ -120,8 +120,14 @@ export {
   traverseTree
 };
 
-import { nextId, nextArrayId, nextStringId, stringIdGenerator } from './id';
-export { nextId, nextArrayId, nextStringId, stringIdGenerator };
+import {
+  nextId,
+  nextArrayId,
+  nextStringId,
+  stringIdGenerator,
+  nextStrArrayId
+} from './id';
+export { nextId, nextArrayId, nextStringId, stringIdGenerator, nextStrArrayId };
 
 import {
   css,
