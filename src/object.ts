@@ -201,3 +201,10 @@ export function object2str(obj: any): string {
     ? `\"${obj}\"`
     : obj.toString();
 }
+
+export function dissoc(obj: any, arr: string[] | string) {
+  return ((R.is(Array, arr) ? arr : [arr]) as string[]).reduce(
+    (acc, key) => R.dissoc(key, acc),
+    obj
+  );
+}

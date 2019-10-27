@@ -64,7 +64,8 @@ import {
   getOrElse,
   objSubtract,
   objSubtractDeep,
-  isPlainObject
+  isPlainObject,
+  dissoc
 } from './object';
 export {
   reverseKV,
@@ -75,7 +76,8 @@ export {
   getOrElse,
   objSubtract,
   objSubtractDeep,
-  isPlainObject
+  isPlainObject,
+  dissoc
 };
 
 import { formatNumber, formatPercent, formatPermillage } from './format';

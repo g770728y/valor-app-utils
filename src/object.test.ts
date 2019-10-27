@@ -9,7 +9,8 @@ import {
   removeProp,
   remove,
   str2object,
-  object2str
+  object2str,
+  dissoc
 } from './object';
 
 describe('isPlainObject', () => {
@@ -330,4 +331,9 @@ describe('str <-> object', () => {
       str.replace(/\s/g, x => '')
     );
   });
+});
+
+describe('dissocByArr', () => {
+  expect(dissoc({ a: 1, b: 2, c: 3 }, ['a', 'b'])).toEqual({ c: 3 });
+  expect(dissoc({ a: 1, b: 2 }, 'a')).toEqual({ b: 2 });
 });
