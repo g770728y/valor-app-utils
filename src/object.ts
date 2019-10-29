@@ -214,8 +214,8 @@ export function dissoc(obj: any, arr: string[] | string) {
  * 类似Rx.mergeDeep, 但支持数组 ( 按index )
  */
 export function mergeDeep(slave: any, master: any): any {
-  if (R.isNil(slave)) return master;
-  if (R.isNil(master)) return slave;
+  if (slave === undefined) return master;
+  if (master === undefined) return slave;
 
   if (isPlainObject(slave) && isPlainObject(master)) {
     const added = Object.keys(master).reduce(
@@ -233,10 +233,7 @@ export function mergeDeep(slave: any, master: any): any {
   }
 
   if (R.is(Array, slave) && R.is(Array, master)) {
-    const maxLength = Math.max(slave.length, master.length);
-    const _slave = padding(slave, maxLength, undefined);
-    const _master = padding(master, maxLength, undefined);
-    return R.range(0, maxLength).map(i => mergeDeep(_slave[i], _master[i]));
+    return master.map((it: any, i: number) => mergeDeep(slave[i], master[i]));
   }
 
   return master;

@@ -345,7 +345,7 @@ describe('mergeDeep', () => {
   it('with nil', () => {
     expect(mergeDeep(null, null)).toEqual(null);
     expect(mergeDeep(null, {})).toEqual({});
-    expect(mergeDeep({}, null)).toEqual({});
+    expect(mergeDeep({}, null)).toEqual(null);
   });
 
   it('without array', () => {
@@ -355,6 +355,10 @@ describe('mergeDeep', () => {
   });
 
   it('with array', () => {
+    expect(mergeDeep([1, 2, undefined, null], [3, 4, null, undefined])).toEqual(
+      [3, 4, null, null]
+    );
+
     expect(
       mergeDeep(
         { a: [{ a1: 1, a2: { a3: 1, a4: 1 } }, { a10: 1 }], b: 1 },
@@ -371,7 +375,7 @@ describe('mergeDeep', () => {
         { a: [{ a1: 1 }, { a10: 1 }, { a11: 1 }] },
         { a: [{ a1: 2 }, { a10: 2 }] }
       )
-    ).toEqual({ a: [{ a1: 2 }, { a10: 2 }, { a11: 1 }] });
+    ).toEqual({ a: [{ a1: 2 }, { a10: 2 }] });
 
     expect(
       mergeDeep(
