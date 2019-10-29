@@ -1,4 +1,5 @@
 import * as R from 'rambda';
+import { padding } from './array';
 
 export function isPlainObject(obj: any): boolean {
   return !!(
@@ -207,4 +208,36 @@ export function dissoc(obj: any, arr: string[] | string) {
     (acc, key) => R.dissoc(key, acc),
     obj
   );
+}
+
+/**
+ * 类似Rx.mergeDeep, 但支持数组 ( 按index )
+ */
+export function mergeDeep(slave: any, master: any): any {
+  if (R.isNil(slave)) return master;
+  if (R.isNil(master)) return slave;
+
+  if (isPlainObject(slave) && isPlainObject(master)) {
+    const added = Object.keys(master).reduce(
+      (acc, masterKey) =>
+        Object.keys(slave).includes(masterKey)
+          ? acc
+          : { ...acc, [masterKey]: master[masterKey] },
+      {}
+    );
+    const updated = Object.keys(slave).reduce(
+      (acc, k) => ({ ...acc, [k]: mergeDeep(slave[k], master[k]) }),
+      {}
+    );
+    return { ...updated, ...added };
+  }
+
+  if (R.is(Array, slave) && R.is(Array, master)) {
+    const maxLength = Math.max(slave.length, master.length);
+    const _slave = padding(slave, maxLength, undefined);
+    const _master = padding(master, maxLength, undefined);
+    return R.range(0, maxLength).map(i => mergeDeep(_slave[i], _master[i]));
+  }
+
+  return master;
 }

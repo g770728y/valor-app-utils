@@ -10,7 +10,8 @@ import {
   remove,
   str2object,
   object2str,
-  dissoc
+  dissoc,
+  mergeDeep
 } from './object';
 
 describe('isPlainObject', () => {
@@ -334,6 +335,53 @@ describe('str <-> object', () => {
 });
 
 describe('dissocByArr', () => {
-  expect(dissoc({ a: 1, b: 2, c: 3 }, ['a', 'b'])).toEqual({ c: 3 });
-  expect(dissoc({ a: 1, b: 2 }, 'a')).toEqual({ b: 2 });
+  it('default', () => {
+    expect(dissoc({ a: 1, b: 2, c: 3 }, ['a', 'b'])).toEqual({ c: 3 });
+    expect(dissoc({ a: 1, b: 2 }, 'a')).toEqual({ b: 2 });
+  });
+});
+
+describe('mergeDeep', () => {
+  it('with nil', () => {
+    expect(mergeDeep(null, null)).toEqual(null);
+    expect(mergeDeep(null, {})).toEqual({});
+    expect(mergeDeep({}, null)).toEqual({});
+  });
+
+  it('without array', () => {
+    expect(
+      mergeDeep({ a: 1, b: { b1: 2, c1: 3 } }, { a: 2, b: { b2: 1, c1: 4 } })
+    ).toEqual({ a: 2, b: { b1: 2, b2: 1, c1: 4 } });
+  });
+
+  it('with array', () => {
+    expect(
+      mergeDeep(
+        { a: [{ a1: 1, a2: { a3: 1, a4: 1 } }, { a10: 1 }], b: 1 },
+        { a: [{ a1: 1, a2: { a3: 4 } }, { a10: 2 }], c: 1 }
+      )
+    ).toEqual({
+      a: [{ a1: 1, a2: { a3: 4, a4: 1 } }, { a10: 2 }],
+      b: 1,
+      c: 1
+    });
+
+    expect(
+      mergeDeep(
+        { a: [{ a1: 1 }, { a10: 1 }, { a11: 1 }] },
+        { a: [{ a1: 2 }, { a10: 2 }] }
+      )
+    ).toEqual({ a: [{ a1: 2 }, { a10: 2 }, { a11: 1 }] });
+
+    expect(
+      mergeDeep(
+        { a: [{ a1: 1 }, { a10: 1 }] },
+        { a: [{ a1: 2 }, { a10: 2 }, { a11: 1 }] }
+      )
+    ).toEqual({ a: [{ a1: 2 }, { a10: 2 }, { a11: 1 }] });
+  });
+
+  it('类型不同', () => {
+    expect(mergeDeep({ a: { a: 1 } }, { a: [2] })).toEqual({ a: [2] });
+  });
 });
