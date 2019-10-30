@@ -14,7 +14,8 @@ import {
   insertArround,
   swap,
   padding,
-  sliceBy
+  sliceBy,
+  crossJoin
 } from './array';
 import * as R from 'rambda';
 
@@ -314,5 +315,16 @@ describe('sliceBy', () => {
   test('array', () => {
     expect(sliceBy([1, 2, 3, 4, 5], { from: 1, to: 2 })).toEqual([1]);
     expect(sliceBy([1, 2, 3, 4, 5], { from: 3, to: 2 })).toEqual([]);
+  });
+});
+
+describe('crossjoin', () => {
+  test('simple', () => {
+    expect(crossJoin([1, 2], ['a', 'b'])).toEqual([
+      [1, 'a'],
+      [1, 'b'],
+      [2, 'a'],
+      [2, 'b']
+    ]);
   });
 });

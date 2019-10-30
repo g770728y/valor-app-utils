@@ -233,7 +233,9 @@ export function mergeDeep(slave: any, master: any): any {
   }
 
   if (R.is(Array, slave) && R.is(Array, master)) {
-    return master.map((it: any, i: number) => mergeDeep(slave[i], master[i]));
+    return master.map((it: any, i: number) =>
+      mergeDeep(slave[i], i >= master.length ? undefined : master[i])
+    );
   }
 
   return master;

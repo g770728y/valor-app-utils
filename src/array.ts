@@ -235,3 +235,10 @@ export function sliceBy(s: any, slicer: any) {
 
   return s.slice(fromIndex >= 0 ? fromIndex : 0, toIndex >= 0 ? toIndex : 0);
 }
+
+// 笛卡尔积
+export function crossJoin<T1, T2>(xs: T1[], ys: T2[]): [T1, T2][] {
+  return xs
+    .map(x => ys.map(y => [x, y]))
+    .reduce((acc, xy) => [...acc, ...xy] as any, []) as any;
+}

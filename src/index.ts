@@ -33,7 +33,8 @@ import {
   insertArround,
   insertBetween,
   padding,
-  sliceBy
+  sliceBy,
+  crossJoin
 } from './array';
 export {
   findIndexFrom,
@@ -49,7 +50,8 @@ export {
   insertArround,
   insertBetween,
   padding,
-  sliceBy
+  sliceBy,
+  crossJoin
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from './math';
