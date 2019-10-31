@@ -1,4 +1,10 @@
-import { camel2snake, snake2camel, isNumberLike, ensureSuffix } from './string';
+import {
+  camel2snake,
+  snake2camel,
+  isNumberLike,
+  ensureSuffix,
+  getIgnoreBlank
+} from './string';
 describe('camel2snake', () => {
   test('common', () => {
     expect(camel2snake('textIndex')).toEqual('text-index');
@@ -44,5 +50,22 @@ describe('ensureSuffix', () => {
     expect(ensureSuffix('-', 'px')).toEqual(undefined);
     expect(ensureSuffix('30-3', 'px')).toEqual(undefined);
     expect(ensureSuffix('30px', 'px')).toEqual('30px');
+  });
+});
+
+describe('getIgnoreBlank', () => {
+  it('nil', () => {
+    expect(getIgnoreBlank(null)).toEqual(undefined);
+    expect(getIgnoreBlank(undefined)).toEqual(undefined);
+  });
+
+  it('blank', () => {
+    expect(getIgnoreBlank('')).toEqual(undefined);
+    expect(getIgnoreBlank('', 'x')).toEqual('x');
+    expect(getIgnoreBlank('   ')).toEqual(undefined);
+  });
+
+  it('with blank', () => {
+    expect(getIgnoreBlank(' x  ')).toEqual('x');
   });
 });

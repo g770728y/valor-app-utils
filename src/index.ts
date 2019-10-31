@@ -192,9 +192,17 @@ import {
   camel2snake,
   snake2camel,
   isNumberLike,
-  ensureSuffix
+  ensureSuffix,
+  getIgnoreBlank
 } from './string';
-export { replaceAll, camel2snake, snake2camel, isNumberLike, ensureSuffix };
+export {
+  replaceAll,
+  camel2snake,
+  snake2camel,
+  isNumberLike,
+  ensureSuffix,
+  getIgnoreBlank
+};
 
 import { waitUntil } from './promise';
 export { waitUntil };

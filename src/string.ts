@@ -26,3 +26,11 @@ export function ensureSuffix(_s: any, suffix: string): string | undefined {
     ? s
     : undefined;
 }
+
+export function getIgnoreBlank(
+  s: string | null | undefined,
+  defaultValue?: string
+): string | undefined {
+  const ss = (s || '').trim();
+  return ss.length > 0 ? ss : defaultValue || undefined;
+}
