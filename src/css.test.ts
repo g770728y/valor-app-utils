@@ -213,4 +213,10 @@ describe('normalizeDimValue', () => {
     expect(normalizeDimValue('3pt')).toEqual('3pt');
     expect(normalizeDimValue('3%')).toEqual('3%');
   });
+
+  it('auto / inherit', () => {
+    expect(normalizeDimValue('auto')).toEqual('auto');
+    expect(normalizeDimValue('  auto ')).toEqual('auto');
+    expect(normalizeDimValue(' inherit')).toEqual('inherit');
+  });
 });

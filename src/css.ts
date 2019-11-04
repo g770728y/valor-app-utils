@@ -134,6 +134,7 @@ export function normalizeReactStyle(style: CSSProperties): CSSProperties {
 
 export function normalizeDimValue(_v: any): string | undefined {
   const v = R.is(String, _v) ? _v.trim() : _v;
+  if (['auto', 'inherit'].includes(v)) return v;
   const regs = ['px', 'pt', 'rev', 'em', '%'].map(
     unit => new RegExp(`^[\\d|\\.]+${unit}$`)
   );
