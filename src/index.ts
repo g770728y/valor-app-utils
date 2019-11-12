@@ -2,6 +2,9 @@
 import { isDescendant } from './dom';
 export { isDescendant };
 
+import { dagSort } from './graph';
+export { dagSort };
+
 import {
   string2domNode,
   getTextSize,
