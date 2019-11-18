@@ -212,3 +212,6 @@ export { waitUntil };
 
 import appCache, { AppCache } from "./appCache";
 export { appCache, AppCache };
+
+import { isCopyFromWord } from "./office";
+export { isCopyFromWord };
