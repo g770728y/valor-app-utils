@@ -1,8 +1,8 @@
 // rollup 0.67 不支持 export * from './html'的方式
-import { isDescendant } from './dom';
+import { isDescendant } from "./dom";
 export { isDescendant };
 
-import { dagSort } from './graph';
+import { dagSort } from "./graph";
 export { dagSort };
 
 import {
@@ -12,7 +12,7 @@ import {
   getAllSrcsFromHtmlStr,
   stripHtmlTag,
   renameTag_danger
-} from './html';
+} from "./html";
 export {
   string2domNode,
   getTextSize,
@@ -38,7 +38,7 @@ import {
   padding,
   sliceBy,
   crossJoin
-} from './array';
+} from "./array";
 export {
   findIndexFrom,
   reAppend,
@@ -57,7 +57,7 @@ export {
   crossJoin
 };
 
-import { min, max, sum, safeDivide, inferBlankCells } from './math';
+import { min, max, sum, safeDivide, inferBlankCells } from "./math";
 export { min, max, sum, safeDivide, inferBlankCells };
 
 import {
@@ -72,7 +72,7 @@ import {
   isPlainObject,
   dissoc,
   mergeDeep
-} from './object';
+} from "./object";
 export {
   reverseKV,
   remove,
@@ -87,7 +87,7 @@ export {
   mergeDeep
 };
 
-import { formatNumber, formatPercent, formatPermillage } from './format';
+import { formatNumber, formatPercent, formatPermillage } from "./format";
 export { formatNumber, formatPercent, formatPermillage };
 
 import {
@@ -108,7 +108,7 @@ import {
   array2tree_byPid,
   tree2Array,
   traverseTree
-} from './tree';
+} from "./tree";
 export {
   TreeNode,
   NodeContext,
@@ -135,7 +135,7 @@ import {
   nextStringId,
   stringIdGenerator,
   nextStrArrayId
-} from './id';
+} from "./id";
 export { nextId, nextArrayId, nextStringId, stringIdGenerator, nextStrArrayId };
 
 import {
@@ -150,7 +150,7 @@ import {
   isDimStyleKey,
   normalizeReactStyle,
   normalizeDimValue
-} from './css';
+} from "./css";
 export {
   css,
   highlight,
@@ -170,13 +170,13 @@ import {
   getFunctionParamsFromStr,
   getFunctionBodyFromStr,
   invoke
-} from './function';
+} from "./function";
 export { nop, getFunctionParamsFromStr, getFunctionBodyFromStr, invoke };
 
-import { tap } from './debug';
-export { tap };
+import { tap, debug } from "./debug";
+export { tap, debug };
 
-import { filename, humanReadableCapacity, download, getFileExt } from './fs';
+import { filename, humanReadableCapacity, download, getFileExt } from "./fs";
 export { filename, humanReadableCapacity, download, getFileExt };
 
 import {
@@ -184,10 +184,10 @@ import {
   openFile,
   dataURItoBlob,
   getFormDataWithDataURLField
-} from './file';
+} from "./file";
 export { file2DataURL, openFile, dataURItoBlob, getFormDataWithDataURLField };
 
-import { getImageDimension } from './image';
+import { getImageDimension } from "./image";
 export { getImageDimension };
 
 import {
@@ -197,7 +197,7 @@ import {
   isNumberLike,
   ensureSuffix,
   getIgnoreBlank
-} from './string';
+} from "./string";
 export {
   replaceAll,
   camel2snake,
@@ -207,8 +207,8 @@ export {
   getIgnoreBlank
 };
 
-import { waitUntil } from './promise';
+import { waitUntil } from "./promise";
 export { waitUntil };
 
-import appCache, { AppCache } from './appCache';
+import appCache, { AppCache } from "./appCache";
 export { appCache, AppCache };
