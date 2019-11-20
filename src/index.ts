@@ -71,7 +71,9 @@ import {
   objSubtractDeep,
   isPlainObject,
   dissoc,
-  mergeDeep
+  mergeDeep,
+  str2object,
+  object2str
 } from "./object";
 export {
   reverseKV,
@@ -84,7 +86,9 @@ export {
   objSubtractDeep,
   isPlainObject,
   dissoc,
-  mergeDeep
+  mergeDeep,
+  str2object,
+  object2str
 };
 
 import { formatNumber, formatPercent, formatPermillage } from "./format";
