@@ -37,7 +37,8 @@ import {
   insertBetween,
   padding,
   sliceBy,
-  crossJoin
+  crossJoin,
+  is2dArray
 } from "./array";
 export {
   findIndexFrom,
@@ -54,7 +55,8 @@ export {
   insertBetween,
   padding,
   sliceBy,
-  crossJoin
+  crossJoin,
+  is2dArray
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from "./math";

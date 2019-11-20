@@ -1,6 +1,6 @@
-import * as R from 'rambda';
-import { objSubtract } from './object';
-import * as Rx from 'rambdax';
+import * as R from "rambda";
+import { objSubtract } from "./object";
+import * as Rx from "rambdax";
 
 /**
  * 从fromIndex查找符合condition的index
@@ -95,21 +95,18 @@ export function arrayCompareBy<T extends {}>(
   // 因为diff操作耗性能, 所以这里先将范围缩小
   const restArr1 = R.without([...removed, ...reserved], arr1);
   const restArr2 = R.without([...added, ...reserved], arr2);
-  const _updated = restArr2.reduce(
-    (acc, arr2El) => {
-      const arr2Id = arr2El[id];
-      const arr1El = restArr1.find(_el => _el[id] === arr2Id);
-      if (!arr1El)
-        throw new Error(
-          '数组比较出错' +
-            JSON.stringify(restArr1) +
-            '    ' +
-            JSON.stringify(restArr2)
-        );
-      return [...acc, objSubtract(arr2El, arr1El, id + '')];
-    },
-    [] as any[]
-  );
+  const _updated = restArr2.reduce((acc, arr2El) => {
+    const arr2Id = arr2El[id];
+    const arr1El = restArr1.find(_el => _el[id] === arr2Id);
+    if (!arr1El)
+      throw new Error(
+        "数组比较出错" +
+          JSON.stringify(restArr1) +
+          "    " +
+          JSON.stringify(restArr2)
+      );
+    return [...acc, objSubtract(arr2El, arr1El, id + "")];
+  }, [] as any[]);
 
   // 防止出现 [{id:1},{id:2}], 这样仅剩id的情形
   const updated = _updated.filter(it => Object.keys(it).length > 1);
@@ -127,7 +124,7 @@ export function arrayCompare<T extends { id: any }>(
   arr1: T[],
   arr2: T[]
 ): ArrayDiffs<T> {
-  return arrayCompareBy(arr1, arr2, 'id');
+  return arrayCompareBy(arr1, arr2, "id");
 }
 
 // 与arrayCompare可一起使用
@@ -231,7 +228,7 @@ export function sliceBy(s: any, slicer: any) {
   const toIndex = slicer.to ? s.indexOf(slicer.to) : s.length;
 
   if (toIndex < fromIndex || toIndex < 0 || fromIndex < 0)
-    return R.is(Array, s) ? [] : '';
+    return R.is(Array, s) ? [] : "";
 
   return s.slice(fromIndex >= 0 ? fromIndex : 0, toIndex >= 0 ? toIndex : 0);
 }
@@ -242,3 +239,15 @@ export function crossJoin<T1, T2>(xs: T1[], ys: T2[]): [T1, T2][] {
     .map(x => ys.map(y => [x, y]))
     .reduce((acc, xy) => [...acc, ...xy] as any, []) as any;
 }
+
+/**
+ * 是否二维数组
+ *  [] => true
+ *  [1, 2] => false
+ *  [[1], [2]] => ture
+ */
+export const is2dArray = (arr: any) => {
+  if (!Array.isArray(arr)) return false;
+  if (R.isEmpty(arr)) return true;
+  return arr.every(x => Array.isArray(x));
+};
