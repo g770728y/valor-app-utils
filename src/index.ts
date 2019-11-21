@@ -224,3 +224,6 @@ export { isCopyFromWord };
 
 import { mockLocation } from "./mock";
 export { mockLocation };
+
+import { querystring } from "./querystring";
+export { querystring };
