@@ -221,3 +221,6 @@ export { appCache, AppCache };
 
 import { isCopyFromWord } from "./office";
 export { isCopyFromWord };
+
+import { mockLocation } from "./mock";
+export { mockLocation };
