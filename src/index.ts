@@ -1,4 +1,8 @@
 // rollup 0.67 不支持 export * from './html'的方式
+
+import { partialEquals } from "./common";
+export { partialEquals };
+
 import { isDescendant } from "./dom";
 export { isDescendant };
 
