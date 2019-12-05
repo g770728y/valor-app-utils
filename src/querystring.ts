@@ -6,7 +6,7 @@ export function querystring(s: string): Record<string, string> {
     ? (sliceBy(s, { from: "?" }) || sliceBy(s, { from: "#" })).slice(1)
     : s;
   return R.fromPairs(
-    ss
+    decodeURIComponent(ss)
       .split("&")
       .map(segment =>
         segment && segment.includes("=") ? segment.split("=") : ([] as any)

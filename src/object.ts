@@ -1,21 +1,23 @@
-import * as R from 'rambda';
-import { padding } from './array';
+import * as R from "rambda";
+import { padding } from "./array";
 
 export function isPlainObject(obj: any): boolean {
   return !!(
     obj &&
-    typeof obj === 'object' &&
+    typeof obj === "object" &&
     obj.constructor &&
-    obj.constructor.name === 'Object'
+    obj.constructor.name === "Object"
   );
 }
 
 export function reverseKV(obj: Record<string, any>): Record<string, string> {
   if (!obj) return {};
-  return R.fromPairs(R.toPairs(obj).reduce(
-    (acc: string[][], [k, v]) => [...acc, [v, k]],
-    []
-  ) as any);
+  return R.fromPairs(
+    R.toPairs(obj).reduce(
+      (acc: string[][], [k, v]) => [...acc, [v, k]],
+      []
+    ) as any
+  );
 }
 
 export function remove<T extends Record<string, any>>(
@@ -57,25 +59,22 @@ export function removeNils(
   const deep = !!(options && options.recursive);
   if (!isPlainObject(obj)) return obj;
 
-  return Object.keys(obj).reduce(
-    (acc, k) => {
-      const v = obj[k];
-      return R.isNil(v)
+  return Object.keys(obj).reduce((acc, k) => {
+    const v = obj[k];
+    return R.isNil(v)
+      ? acc
+      : options.removeBlank && v === ""
+      ? acc
+      : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
+      ? acc
+      : deep && Array.isArray(v)
+      ? { ...acc, [k]: v.map(it => removeNils(it, options)) }
+      : deep && isPlainObject(v)
+      ? R.isEmpty(removeNils(v, options))
         ? acc
-        : options.removeBlank && v === ''
-        ? acc
-        : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
-        ? acc
-        : deep && Array.isArray(v)
-        ? { ...acc, [k]: v.map(it => removeNils(it, options)) }
-        : deep && isPlainObject(v)
-        ? R.isEmpty(removeNils(v, options))
-          ? acc
-          : { ...acc, [k]: removeNils(v, options) }
-        : { ...acc, [k]: v };
-    },
-    {} as Record<string, any>
-  );
+        : { ...acc, [k]: removeNils(v, options) }
+      : { ...acc, [k]: v };
+  }, {} as Record<string, any>);
 }
 
 export function removeProp(
@@ -86,26 +85,23 @@ export function removeProp(
   const deep = !!(options && options.recursive);
   if (!isPlainObject(obj)) return obj;
 
-  return Object.keys(obj).reduce(
-    (acc, k) => {
-      const v = obj[k];
-      return prop === k
-        ? { ...acc }
-        : ((deep && isPlainObject(v)
-            ? { ...acc, [k]: removeProp(v, prop, options) }
-            : deep && Array.isArray(v)
-            ? { ...acc, [k]: v.map(it => removeProp(it, prop, options)) }
-            : { ...acc, [k]: v }) as any);
-    },
-    {} as Record<string, any>
-  );
+  return Object.keys(obj).reduce((acc, k) => {
+    const v = obj[k];
+    return prop === k
+      ? { ...acc }
+      : ((deep && isPlainObject(v)
+          ? { ...acc, [k]: removeProp(v, prop, options) }
+          : deep && Array.isArray(v)
+          ? { ...acc, [k]: v.map(it => removeProp(it, prop, options)) }
+          : { ...acc, [k]: v }) as any);
+  }, {} as Record<string, any>);
 }
 
 // 返回obj2有, 但obj1没有, 或obj2[k]!==obj1[k] 所对应的entries, 约等于 obj2-obj1
 export function objSubtract<T extends object>(
   obj2: T,
   obj1: T,
-  reserveKey = 'id'
+  reserveKey = "id"
 ): Partial<T> {
   return Object.keys(obj2).reduce((acc: Partial<T>, k2: string) => {
     if ((obj2 as any)[k2] !== (obj1 as any)[k2]) {
@@ -146,7 +142,7 @@ export function objSubtractDeep<T extends {}>(
       !(
         (options.removeNil && R.isNil(v)) ||
         (options.removeEmpty && (R.equals({}, v) || R.equals([], v))) ||
-        (options.removeBlank && v === '')
+        (options.removeBlank && v === "")
       ),
     _result
   ) as any;
@@ -187,17 +183,17 @@ export function str2object(s: string): any {
  */
 export function object2str(obj: any): string {
   return isPlainObject(obj)
-    ? '{' +
+    ? "{" +
         Object.keys(obj).reduce((acc: string, k: string) => {
           const v = obj[k];
           const p = `${k}:${object2str(v)}`;
-          return acc ? acc + ',' + p : p;
-        }, '') +
-        '}'
+          return acc ? acc + "," + p : p;
+        }, "") +
+        "}"
     : R.is(Array, obj)
-    ? '[' + obj.map(object2str).join(',') + ']'
+    ? "[" + obj.map(object2str).join(",") + "]"
     : R.isNil(obj)
-    ? obj + ''
+    ? obj + ""
     : R.is(String, obj)
     ? `\"${obj}\"`
     : obj.toString();
