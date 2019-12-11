@@ -236,3 +236,16 @@ export function mergeDeep(slave: any, master: any): any {
 
   return master;
 }
+
+/**
+ * [{id:1},{id:2}] =>{1: {id:1}, 2: {id:2}}
+ */
+export function idMap<T>(
+  idArray: T[],
+  idField: string = "id"
+): { [id: string]: T } {
+  return idArray.reduce(
+    (acc, obj) => ({ ...acc, [(obj as any)[idField]]: obj }),
+    {}
+  );
+}

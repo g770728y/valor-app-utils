@@ -11,7 +11,8 @@ import {
   str2object,
   object2str,
   dissoc,
-  mergeDeep
+  mergeDeep,
+  idMap
 } from "./object";
 
 describe("isPlainObject", () => {
@@ -147,9 +148,9 @@ describe("objSubtract", () => {
   });
 
   it("复杂", () =>
-    expect(objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })).toEqual(
-      { a: 2, b: [2, 3], c: 5 }
-    ));
+    expect(
+      objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })
+    ).toEqual({ a: 2, b: [2, 3], c: 5 }));
 });
 
 describe("objSubtractDeep recusive", () => {
@@ -365,9 +366,9 @@ describe("mergeDeep", () => {
   });
 
   it("with array", () => {
-    expect(mergeDeep([1, 2, undefined, null], [3, 4, null, undefined])).toEqual(
-      [3, 4, null, null]
-    );
+    expect(
+      mergeDeep([1, 2, undefined, null], [3, 4, null, undefined])
+    ).toEqual([3, 4, null, null]);
 
     expect(
       mergeDeep(
@@ -397,5 +398,20 @@ describe("mergeDeep", () => {
 
   it("类型不同", () => {
     expect(mergeDeep({ a: { a: 1 } }, { a: [2] })).toEqual({ a: [2] });
+  });
+});
+
+describe("idMap", () => {
+  it("default", () => {
+    expect(idMap([{ id: 1 }, { id: 2 }])).toEqual({
+      1: { id: 1 },
+      2: { id: 2 }
+    });
+  });
+  it("with idKey", () => {
+    expect(idMap([{ key: 1 }, { key: 2 }], "key")).toEqual({
+      1: { key: 1 },
+      2: { key: 2 }
+    });
   });
 });
