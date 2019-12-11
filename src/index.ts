@@ -79,7 +79,8 @@ import {
   dissoc,
   mergeDeep,
   str2object,
-  object2str
+  object2str,
+  idMap
 } from "./object";
 export {
   reverseKV,
@@ -94,7 +95,8 @@ export {
   dissoc,
   mergeDeep,
   str2object,
-  object2str
+  object2str,
+  idMap
 };
 
 import { formatNumber, formatPercent, formatPermillage } from "./format";
