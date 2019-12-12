@@ -1,29 +1,32 @@
-import { TreeNode, NodeContext, NamingStrategy } from './interface';
+/**
+ * 由于一些方法会改变源树, 所以 更适合 mobx
+ */
+import { TreeNode, NodeContext, NamingStrategy } from "./interface";
 export { TreeNode, NodeContext, NamingStrategy };
 
-import { getTreeContexts } from './context';
+import { getTreeContexts } from "./context";
 export { getTreeContexts };
 
-import { createTreeNode, deleteTreeNode } from './createNode';
+import { createTreeNode, deleteTreeNode } from "./createNode";
 export { createTreeNode, deleteTreeNode };
 
-import { replaceTreeNode } from './replaceNode';
+import { replaceTreeNode } from "./replaceNode";
 export { replaceTreeNode };
 
-import { findTreeNode } from './findNode';
+import { findTreeNode } from "./findNode";
 export { findTreeNode };
 
-import { mapTreeNode } from './mapNode';
+import { mapTreeNode } from "./mapNode";
 export { mapTreeNode };
 
-import { moveTreeNodeUp, moveTreeNodeDown } from './moveNode';
+import { moveTreeNodeUp, moveTreeNodeDown } from "./moveNode";
 export { moveTreeNodeUp, moveTreeNodeDown };
 
-import { pushTreeNodeLeft, pushTreeNodeRight } from './pushNode';
+import { pushTreeNodeLeft, pushTreeNodeRight } from "./pushNode";
 export { pushTreeNodeLeft, pushTreeNodeRight };
 
-import { array2tree_byLevel, array2tree_byPid, tree2Array } from './transform';
+import { array2tree_byLevel, array2tree_byPid, tree2Array } from "./transform";
 export { array2tree_byLevel, array2tree_byPid, tree2Array };
 
-import { traverseTree } from './traverse';
+import { traverseTree } from "./traverse";
 export { traverseTree };
