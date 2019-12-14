@@ -192,10 +192,19 @@ export { filename, humanReadableCapacity, download, getFileExt };
 import {
   file2DataURL,
   openFile,
+  openFiles,
   dataURItoBlob,
-  getFormDataWithDataURLField
+  getFormDataWithDataURLField,
+  getFormDataWithDataURLFields
 } from "./file";
-export { file2DataURL, openFile, dataURItoBlob, getFormDataWithDataURLField };
+export {
+  file2DataURL,
+  openFile,
+  openFiles,
+  dataURItoBlob,
+  getFormDataWithDataURLField,
+  getFormDataWithDataURLFields
+};
 
 import { getImageDimension } from "./image";
 export { getImageDimension };
