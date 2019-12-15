@@ -232,8 +232,8 @@ export { waitUntil };
 import appCache, { AppCache } from "./appCache";
 export { appCache, AppCache };
 
-import { isCopyFromWord } from "./office";
-export { isCopyFromWord };
+import { isCopyFromWord, stripWordTag } from "./office";
+export { isCopyFromWord, stripWordTag };
 
 import { mockLocation } from "./mock";
 export { mockLocation };
