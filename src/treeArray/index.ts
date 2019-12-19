@@ -1,6 +1,14 @@
-/**
- * 特别适合于 redux 类
- * 特点: [a, b, c] => [a', b, c], b和c由于没有改变, 指针是相同的, 可以浅比较
- * 所有计算依赖于 tree
- * 最后还原为 数组
- */
+import { TreeArrayItem } from "./interface";
+export { TreeArrayItem };
+
+import { getTreeContexts } from "./context";
+export { getTreeContexts };
+
+import { createSiblingItem, createChildItem, deleteItem } from "./createItem";
+export { createSiblingItem, createChildItem, deleteItem };
+
+import { moveUp, moveDown } from "./moveItem";
+export { moveUp, moveDown };
+
+import { pushItemLeft, pushItemRight } from "./pushItem";
+export { pushItemLeft, pushItemRight };

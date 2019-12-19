@@ -242,3 +242,6 @@ export { mockLocation };
 
 import { querystring } from "./querystring";
 export { querystring };
+
+import * as treeArray from "./treeArray";
+export { treeArray };

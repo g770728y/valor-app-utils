@@ -1,15 +1,11 @@
 import { TreeArrayItem } from "./interface";
 import { RootNodeId } from "../tree/interface";
 import { SimpleNodeContext } from "../tree/context";
-import { array2tree } from "./transform";
 import {
   createSiblingTreeNode,
   createChildTreeNode,
   deleteTreeNode
 } from "../tree/createNode";
-import { tree2Array } from "../tree/transform";
-import { getTreeContexts } from "./context";
-import { TreeNode } from "../tree";
 import { actionWrapper } from "./util";
 
 export function createSiblingItem<A extends TreeArrayItem>(
