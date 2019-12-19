@@ -18,6 +18,9 @@ export function array2tree<A extends TreeArrayItem>(arr: A[]): TreeNode<A> {
   }
 }
 
+/**
+ * @deprecated
+ */
 export function transform<A extends TreeArrayItem>(
   arr: A[],
   f: (t: TreeNode<A>) => TreeNode<A>

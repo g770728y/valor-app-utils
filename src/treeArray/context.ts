@@ -1,6 +1,6 @@
 import { getTreeContexts as get, SimpleNodeContext } from "../tree/context";
 import { TreeArrayItem } from "./interface";
-import { transform, array2tree } from "./transform";
+import { array2tree } from "./transform";
 
 export function getTreeContexts<A extends TreeArrayItem>(
   arr: A[]
