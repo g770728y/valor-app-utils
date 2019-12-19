@@ -10,23 +10,20 @@ import {
 import { tree2Array } from "../tree/transform";
 import { getTreeContexts } from "./context";
 import { TreeNode } from "../tree";
+import { actionWrapper } from "./util";
 
 export function createSiblingItem<A extends TreeArrayItem>(
   arr: A[],
   data: A,
   index: number
 ): [A[], SimpleNodeContext[]] {
-  // 需要空数组插入, 所以不能直接使用wrapper
-  const tree = array2tree(arr);
-  const newTree =
+  return actionWrapper(arr, index, tree =>
     arr.length === 0
       ? createChildTreeNode(tree, data, RootNodeId, { clone: true })
       : createSiblingTreeNode(tree, data, arr[index].id, {
           clone: true
-        });
-  const newArray = tree2Array(newTree, ["level"] as any);
-  const context = getTreeContexts(newArray);
-  return [newArray as A[], context];
+        })
+  );
 }
 
 export function createChildItem<A extends TreeArrayItem>(
@@ -34,7 +31,6 @@ export function createChildItem<A extends TreeArrayItem>(
   data: A,
   index: number
 ): [A[], SimpleNodeContext[]] {
-  // 需要空数组插入, 所以不能直接使用wrapper
   return actionWrapper(arr, index, tree =>
     createChildTreeNode(
       tree,
@@ -56,16 +52,4 @@ export function deleteItem<A extends TreeArrayItem>(
           clone: true
         })
   );
-}
-
-export function actionWrapper<A extends TreeArrayItem>(
-  arr: A[],
-  index: number,
-  f: (tree: TreeNode<A>) => TreeNode<A>
-): [A[], SimpleNodeContext[]] {
-  const tree = array2tree(arr);
-  const newTree = f(tree);
-  const newArray = tree2Array(newTree, ["level"] as any);
-  const context = getTreeContexts(newArray);
-  return [newArray as A[], context];
 }
