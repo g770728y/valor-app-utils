@@ -92,8 +92,7 @@ describe("stripHtmlTag", () => {
 
   const html4 = `
 a
-b 
-  `;
+b`;
   it("保留换行", () => expect(stripHtmlTag(html4)).toEqual("\na\nb"));
 });
 

@@ -79,7 +79,8 @@ import {
   dissoc,
   mergeDeep,
   str2object,
-  object2str
+  object2str,
+  idMap
 } from "./object";
 export {
   reverseKV,
@@ -94,7 +95,8 @@ export {
   dissoc,
   mergeDeep,
   str2object,
-  object2str
+  object2str,
+  idMap
 };
 
 import { formatNumber, formatPercent, formatPermillage } from "./format";
@@ -241,5 +243,10 @@ export { mockLocation };
 import { querystring } from "./querystring";
 export { querystring };
 
+<<<<<<< HEAD
 import { toHzNumber } from "./translate";
 export { toHzNumber };
+=======
+import * as treeArray from "./treeArray";
+export { treeArray };
+>>>>>>> cade6be8877b60a6b6da09d88d3f823c82942910

@@ -1,4 +1,4 @@
-export const RootNodeId = '-1';
+export const RootNodeId = "-1";
 
 export interface Identity {
   id: any;
