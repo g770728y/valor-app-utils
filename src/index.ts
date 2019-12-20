@@ -243,10 +243,8 @@ export { mockLocation };
 import { querystring } from "./querystring";
 export { querystring };
 
-<<<<<<< HEAD
 import { toHzNumber } from "./translate";
 export { toHzNumber };
-=======
+
 import * as treeArray from "./treeArray";
 export { treeArray };
->>>>>>> cade6be8877b60a6b6da09d88d3f823c82942910
