@@ -2,12 +2,13 @@ import { Identity } from "../tree/interface";
 import { TreeNode, array2tree_byLevel, array2tree_byPid } from "../tree";
 import { tree2Array } from "../tree/transform";
 import { TreeArrayItem } from "./interface";
+import * as R from "rambda";
 
 export function array2tree<A extends TreeArrayItem>(arr: A[]): TreeNode<A> {
   if (arr.length <= 0) {
     //@ts-ignore
     return array2tree_byLevel(arr as any);
-  } else if (arr[0].level) {
+  } else if (!R.isNil(arr[0].level)) {
     //@ts-ignore
     return array2tree_byLevel(arr as any);
   } else if (arr[1].level) {
