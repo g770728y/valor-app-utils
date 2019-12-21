@@ -234,14 +234,17 @@ export { waitUntil };
 import appCache, { AppCache } from "./appCache";
 export { appCache, AppCache };
 
-import { isCopyFromWord, stripWordTag } from "./office";
-export { isCopyFromWord, stripWordTag };
+import { isCopyFromWord, stripWordTag, renderCatalogNo } from "./office";
+export { isCopyFromWord, stripWordTag, renderCatalogNo };
 
 import { mockLocation } from "./mock";
 export { mockLocation };
 
 import { querystring } from "./querystring";
 export { querystring };
+
+import { toHzNumber } from "./translate";
+export { toHzNumber };
 
 import * as treeArray from "./treeArray";
 export { treeArray };
