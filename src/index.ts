@@ -103,6 +103,7 @@ import { formatNumber, formatPercent, formatPermillage } from "./format";
 export { formatNumber, formatPercent, formatPermillage };
 
 import {
+  TreeContext,
   TreeNode,
   NodeContext,
   NamingStrategy,
@@ -122,6 +123,7 @@ import {
   traverseTree
 } from "./tree";
 export {
+  TreeContext,
   TreeNode,
   NodeContext,
   NamingStrategy,

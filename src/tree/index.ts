@@ -4,8 +4,8 @@
 import { TreeNode, NodeContext, NamingStrategy } from "./interface";
 export { TreeNode, NodeContext, NamingStrategy };
 
-import { getTreeContexts } from "./context";
-export { getTreeContexts };
+import { getTreeContexts, TreeContext } from "./context";
+export { getTreeContexts, TreeContext };
 
 import { createTreeNode, deleteTreeNode } from "./createNode";
 export { createTreeNode, deleteTreeNode };

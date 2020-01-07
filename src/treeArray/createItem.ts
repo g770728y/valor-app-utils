@@ -1,6 +1,6 @@
 import { TreeArrayItem } from "./interface";
 import { RootNodeId } from "../tree/interface";
-import { SimpleNodeContext } from "../tree/context";
+import { SimpleNodeContext, TreeContext } from "../tree/context";
 import {
   createSiblingTreeNode,
   createChildTreeNode,
@@ -12,7 +12,7 @@ export function createSiblingItem<A extends TreeArrayItem>(
   arr: A[],
   data: A,
   index: number
-): [A[], SimpleNodeContext[]] {
+): [A[], TreeContext] {
   return actionWrapper(arr, index, tree =>
     arr.length === 0
       ? createChildTreeNode(tree, data, RootNodeId, { clone: true })
@@ -26,7 +26,7 @@ export function createChildItem<A extends TreeArrayItem>(
   arr: A[],
   data: A,
   index: number
-): [A[], SimpleNodeContext[]] {
+): [A[], TreeContext] {
   return actionWrapper(arr, index, tree =>
     createChildTreeNode(
       tree,
@@ -40,7 +40,7 @@ export function createChildItem<A extends TreeArrayItem>(
 export function deleteItem<A extends TreeArrayItem>(
   arr: A[],
   index: number
-): [A[], SimpleNodeContext[]] {
+): [A[], TreeContext] {
   return actionWrapper(arr, index, tree =>
     index >= arr.length || arr.length <= 0
       ? tree

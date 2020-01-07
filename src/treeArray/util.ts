@@ -1,6 +1,6 @@
 import { TreeArrayItem } from "./interface";
 import { TreeNode } from "..";
-import { SimpleNodeContext } from "../tree/context";
+import { TreeContext } from "../tree/context";
 import { array2tree } from "./transform";
 import { tree2Array } from "../tree";
 import { getTreeContexts } from "./context";
@@ -9,7 +9,7 @@ export function actionWrapper<A extends TreeArrayItem>(
   arr: A[],
   index: number,
   f: (tree: TreeNode<A>) => TreeNode<A>
-): [A[], SimpleNodeContext[]] {
+): [A[], TreeContext] {
   const tree = array2tree(arr);
   const newTree = f(tree);
   const newArray = tree2Array(newTree, ["level"] as any);
