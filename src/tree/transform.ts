@@ -84,7 +84,7 @@ export function tree2Array<A extends Identity>(
   const result = [] as any;
   traverseTree(tree, (node, context) => {
     const contextObj = R.pick(attachContextKeys as any, context);
-    const newNode = { ...R.dissoc("children", node), ...contextObj };
+    const newNode = { ...(R.dissoc("children", node) as any), ...contextObj };
     result.push(newNode);
   });
   return result.slice(1) as any;
