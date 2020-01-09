@@ -11,6 +11,6 @@ export function getTreeContexts<A extends TreeArrayItem>(
   arr: A[]
 ): TreeContext {
   const tree = array2tree(arr);
-  console.log("tree", JSON.stringify(tree));
+  // console.log("tree", JSON.stringify(tree));
   return dissoc(get(tree), ["-1"]);
 }
