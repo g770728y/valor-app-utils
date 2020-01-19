@@ -12,3 +12,6 @@ export { moveUp, moveDown };
 
 import { pushItemLeft, pushItemRight } from "./pushItem";
 export { pushItemLeft, pushItemRight };
+
+import { getLastDecendantIndex } from "./query";
+export { getLastDecendantIndex };

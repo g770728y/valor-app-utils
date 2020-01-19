@@ -47,7 +47,7 @@ describe("createSiblingItem", () => {
     ];
     expect(createSiblingItem(arr, { id: 5 }, 1 /*index*/)[0]).toEqual(expected);
   });
-  it.only("case5: 子树", () => {
+  it("case5: 子树", () => {
     const arr = [
       { id: 1, level: 1 },
       { id: 2, level: 2 }
@@ -139,7 +139,7 @@ describe("createChildItem", () => {
     expect(createChildItem(arr, { id: 5 }, 2 /*index*/)[0]).toEqual(expected1);
   });
 
-  it.only("case5: 子树", () => {
+  it("case5: 子树", () => {
     const arr = [
       { id: 1, level: 1 },
       { id: 2, level: 2 }
