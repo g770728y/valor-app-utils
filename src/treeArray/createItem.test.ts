@@ -89,6 +89,35 @@ describe("createChildItem", () => {
     const [result, _] = createChildItem(arr, { id: 1, level: 1 }, 0);
     expect(result).toEqual(expected);
   });
+
+  it.only("在根结点下增加", () => {
+    const arr = [
+      { id: 1, level: 1 },
+      { id: 2, level: 2 }
+    ] as any;
+    const expected = [
+      { id: 1, level: 1 },
+      { id: 2, level: 2 },
+      { id: 3, level: 1 }
+    ];
+    expect(createChildItem(arr, { id: 3 }, -1 /*index*/)[0]).toEqual(expected);
+  });
+
+  it.only("在根结点下增加, 并增加为第2个结点", () => {
+    const arr = [
+      { id: 1, level: 1 },
+      { id: 2, level: 2 }
+    ] as any;
+    const expected = [
+      { id: 3, level: 1 },
+      { id: 1, level: 1 },
+      { id: 2, level: 2 }
+    ];
+    expect(createChildItem(arr, { id: 3 }, -1 /*index*/, 0)[0]).toEqual(
+      expected
+    );
+  });
+
   it("case2", () => {
     const arr = [
       { id: 1, level: 1 },

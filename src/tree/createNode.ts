@@ -55,16 +55,23 @@ export function createSiblingTreeNode<T extends { id: any }>(
   }
 }
 
+/**
+ * @param options.insertAt 比如A有[A1,A2,A3]三个子节点, 默认插入到最后, 但可以选择插入到 A1前, 即insertAt=0
+ */
 export function createChildTreeNode<T extends { id: any }>(
   _tree: TreeNode<T>,
   data: T,
   id: any,
-  options?: { clone?: boolean }
+  options?: { clone?: boolean; insertAt?: number }
 ) {
   const tree = options && options.clone ? R.clone(_tree) : _tree;
 
   const node = findTreeNode(tree, node => node.id === id)!;
-  node.children = [...(node.children || []), data];
+  const _insertAt =
+    options && options.insertAt !== undefined
+      ? options.insertAt
+      : (node.children || []).length;
+  node.children = insertIndex(node.children || [], _insertAt, data);
 
   return tree;
 }

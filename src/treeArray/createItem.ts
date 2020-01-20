@@ -37,11 +37,25 @@ export function createSiblingItem<A extends TreeArrayItem>(
   );
 }
 
+/**
+ * 在arr里, 找到index所在的节点, 并在其子节点的insertAt处插入子节点
+ * 例如:
+ * A
+ *   A1
+ *     A21
+ *   A2
+ * index=1, 表示A1
+ * insertAt=1, 表示在A2后面插行
+ * 默认插入在尾部
+ */
 export function createChildItem<A extends TreeArrayItem>(
   arr: A[],
   data: A | A[],
-  index: number
+  index: number,
+  insertAt?: number
 ): [A[], TreeContext] {
+  // 增加逻辑: 如何保证正常插入第一个节点 ?
+
   let _data = data as any;
   if (Array.isArray(data)) {
     // 子树数组, 见测试用例
@@ -56,8 +70,8 @@ export function createChildItem<A extends TreeArrayItem>(
     createChildTreeNode(
       tree,
       _data,
-      arr.length === 0 ? RootNodeId : arr[index].id,
-      { clone: true }
+      arr.length === 0 || index === -1 ? RootNodeId : arr[index].id,
+      { clone: true, insertAt }
     )
   );
 }
