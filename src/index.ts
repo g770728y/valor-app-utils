@@ -3,8 +3,8 @@
 import { partialEquals } from "./common";
 export { partialEquals };
 
-import { isDescendant } from "./dom";
-export { isDescendant };
+import { isDescendant, insertHtmlStr_to_editableCaretContainer } from "./dom";
+export { isDescendant, insertHtmlStr_to_editableCaretContainer };
 
 import { dagSort } from "./graph";
 export { dagSort };
