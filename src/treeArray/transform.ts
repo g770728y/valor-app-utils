@@ -11,7 +11,7 @@ export function array2tree<A extends TreeArrayItem>(arr: A[]): TreeNode<A> {
   } else if (!R.isNil(arr[0].level)) {
     //@ts-ignore
     return array2tree_byLevel(arr as any);
-  } else if (arr[1].level) {
+  } else if (arr[1].pid) {
     //@ts-ignore
     return array2tree_byPid(arr as any);
   } else {
