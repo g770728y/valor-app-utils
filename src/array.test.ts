@@ -15,9 +15,13 @@ import {
   swap,
   padding,
   sliceBy,
+<<<<<<< HEAD
   crossJoin,
   getNextByIndex,
   getPrevByIndex
+=======
+  crossJoin
+>>>>>>> 19018ac17a234ac45594a3c5f3fafc98b222431e
 } from "./array";
 import * as R from "rambda";
 
@@ -351,7 +355,7 @@ describe("upsert", () => {
 
 describe("insertArround", () => {
   it("empty", () => {
-    expect(insertArround([], 0)).toEqual([]);
+    expect(insertArround<number>([], 0)).toEqual([]);
   });
 
   it("one", () => {
@@ -369,7 +373,7 @@ describe("insertArround", () => {
 
 describe("insertBetween", () => {
   it("empty", () => {
-    expect(insertBetween([], 0)).toEqual([]);
+    expect(insertBetween<number>([], 0)).toEqual([]);
   });
 
   it("one", () => {
@@ -391,7 +395,7 @@ describe("insertBetween", () => {
 
 describe("padding", () => {
   it("差2个", () => {
-    expect(padding([], 2, 1)).toEqual([1, 1]);
+    expect(padding<number>([], 2, 1)).toEqual([1, 1]);
   });
 
   it("差1个", () => {

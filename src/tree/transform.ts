@@ -83,7 +83,7 @@ export function tree2Array<A extends Identity>(
 ): Omit<TreeNode<A>, "children">[] {
   const result = [] as any;
   traverseTree(tree, (node, context) => {
-    const contextObj = R.pick(attachContextKeys as any, context);
+    const contextObj = R.pick(attachContextKeys as any, context as any);
     const newNode = { ...(R.dissoc("children", node) as any), ...contextObj };
     result.push(newNode);
   });
