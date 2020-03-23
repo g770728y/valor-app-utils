@@ -42,7 +42,9 @@ import {
   padding,
   sliceBy,
   crossJoin,
-  is2dArray
+  is2dArray,
+  getPrevByIndex,
+  getNextByIndex
 } from "./array";
 export {
   findIndexFrom,
@@ -60,7 +62,9 @@ export {
   padding,
   sliceBy,
   crossJoin,
-  is2dArray
+  is2dArray,
+  getPrevByIndex,
+  getNextByIndex
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from "./math";

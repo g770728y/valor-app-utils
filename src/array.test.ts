@@ -15,7 +15,13 @@ import {
   swap,
   padding,
   sliceBy,
+<<<<<<< HEAD
+  crossJoin,
+  getNextByIndex,
+  getPrevByIndex
+=======
   crossJoin
+>>>>>>> 19018ac17a234ac45594a3c5f3fafc98b222431e
 } from "./array";
 import * as R from "rambda";
 
@@ -454,5 +460,47 @@ describe("crossjoin", () => {
       [2, "a"],
       [2, "b"]
     ]);
+  });
+});
+
+describe("getNextByIndex", () => {
+  var xs = [
+    { id: 1, index: 1 },
+    { id: 0, index: -1 },
+    { id: 2, index: 2 },
+    { id: 3, index: 3 }
+  ];
+
+  it("case0: 没有下一个", () => {
+    var result = getNextByIndex(xs, 3);
+    var expected = null;
+    expect(result).toEqual(expected);
+  });
+
+  it("case1: 有下一个", () => {
+    var result = getNextByIndex(xs, 0);
+    var expected = { id: 1, index: 1 };
+    expect(result).toEqual(expected);
+  });
+});
+
+describe("getPrevByIndex", () => {
+  var xs = [
+    { id: 1, index: 1 },
+    { id: 0, index: -1 },
+    { id: 2, index: 2 },
+    { id: 3, index: 3 }
+  ];
+
+  it("case0: 没有上一个", () => {
+    var result = getPrevByIndex(xs, 0);
+    var expected = null;
+    expect(result).toEqual(expected);
+  });
+
+  it("case1: 有上一个", () => {
+    var result = getPrevByIndex(xs, 1);
+    var expected = { id: 0, index: -1 };
+    expect(result).toEqual(expected);
   });
 });

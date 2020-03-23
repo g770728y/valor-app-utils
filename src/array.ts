@@ -251,3 +251,32 @@ export const is2dArray = (arr: any) => {
   if (R.isEmpty(arr)) return true;
   return arr.every(x => Array.isArray(x));
 };
+
+// 以下四个是用于以下场景
+// 1. 将数组以index排序
+// 2. 然后点击表格中的 上移/下移 按钮
+// 3. 将[{id:1,index:1}, {id:2, index:2}]发往后端保存, 实现后端调序
+// 4. 直接将数组元素换序,实现前端排序
+// 以下是实现后端排序使用
+export function getNextByIndex<T extends { id: any; index: number }>(
+  xs: T[],
+  id: any
+): T | null {
+  var sorted = R.sort((x1, x2) => x1.index - x2.index, xs);
+  var idx_in_array = sorted.findIndex(it => it.id === id);
+  if (idx_in_array >= xs.length - 1) return null;
+
+  return sorted[idx_in_array + 1];
+}
+// 以下是实现后端排序使用
+export function getPrevByIndex<T extends { id: any; index: number }>(
+  xs: T[],
+  id: any
+): T | null {
+  var sorted = R.sort((x1, x2) => x1.index - x2.index, xs);
+  var idx_in_array = sorted.findIndex(it => it.id === id);
+  if (idx_in_array <= 0) return null;
+  console.log(sorted);
+
+  return sorted[idx_in_array - 1];
+}
