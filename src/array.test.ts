@@ -15,13 +15,9 @@ import {
   swap,
   padding,
   sliceBy,
-<<<<<<< HEAD
   crossJoin,
-  getNextByIndex,
-  getPrevByIndex
-=======
-  crossJoin
->>>>>>> 19018ac17a234ac45594a3c5f3fafc98b222431e
+  getPrevByIndex,
+  getNextByIndex
 } from "./array";
 import * as R from "rambda";
 
