@@ -280,3 +280,25 @@ export function getPrevByIndex<T extends { id: any; index: number }>(
 
   return sorted[idx_in_array - 1];
 }
+
+/**
+ *  按条件替换
+ * @param source 要修改的源数组
+ * @param patch patch数组, 见test
+ * @param findFn patch中的元素, 对应到source中哪个元素? 通过findFn查找
+ * @param updateFn 找到sourceEl后, 通过什么办法修改?
+ * @return 修改后的数据
+ */
+export function updateBy<T>(
+  source: T[],
+  patch: T[],
+  findFn: (sourceEl: T, patchEl: T) => boolean,
+  updateFn: (sourceEl: T, patchEl: T) => T
+): T[] {
+  return source.reduce((acc: T[], sourceEl) => {
+    const currentPatchEl = patch.find(patchEl => findFn(sourceEl, patchEl));
+    return currentPatchEl !== undefined
+      ? [...acc, updateFn(sourceEl, currentPatchEl)]
+      : [...acc, sourceEl];
+  }, []);
+}

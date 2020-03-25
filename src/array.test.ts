@@ -17,7 +17,8 @@ import {
   sliceBy,
   crossJoin,
   getPrevByIndex,
-  getNextByIndex
+  getNextByIndex,
+  updateBy
 } from "./array";
 import * as R from "rambda";
 
@@ -499,4 +500,24 @@ describe("getPrevByIndex", () => {
     var expected = { id: 0, index: -1 };
     expect(result).toEqual(expected);
   });
+});
+
+describe("updateBy", () => {
+  const arr = [
+    { id: 1, v: 1 },
+    { id: 2, v: 2 },
+    { id: 3, v: 3 }
+  ];
+  const expected = [
+    { id: 1, v: 1 },
+    { id: 2, v: 2, k: 3 },
+    { id: 3, v: 3, kk: 4 }
+  ];
+  const result = updateBy(
+    arr,
+    [{ id: 2, k: 3 } as any, { id: 3, kk: 4 } as any, { id: 5, kk: 3 } as any],
+    (a, b) => a.id === b.id,
+    (a, b) => ({ ...a, ...b })
+  );
+  expect(result).toEqual(expected);
 });

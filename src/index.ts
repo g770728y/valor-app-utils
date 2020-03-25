@@ -44,7 +44,8 @@ import {
   crossJoin,
   is2dArray,
   getPrevByIndex,
-  getNextByIndex
+  getNextByIndex,
+  updateBy
 } from "./array";
 export {
   findIndexFrom,
@@ -64,7 +65,8 @@ export {
   crossJoin,
   is2dArray,
   getPrevByIndex,
-  getNextByIndex
+  getNextByIndex,
+  updateBy
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from "./math";
