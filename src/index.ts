@@ -45,7 +45,8 @@ import {
   is2dArray,
   getPrevByIndex,
   getNextByIndex,
-  updateBy
+  updateBy,
+  dropIndex
 } from "./array";
 export {
   findIndexFrom,
@@ -66,7 +67,8 @@ export {
   is2dArray,
   getPrevByIndex,
   getNextByIndex,
-  updateBy
+  updateBy,
+  dropIndex
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from "./math";
