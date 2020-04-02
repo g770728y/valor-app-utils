@@ -258,3 +258,6 @@ export { toHzNumber };
 
 import * as treeArray from "./treeArray";
 export { treeArray };
+
+import { getDateRange } from "./time";
+export { getDateRange };
