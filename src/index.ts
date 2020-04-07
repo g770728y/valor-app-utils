@@ -261,3 +261,6 @@ export { treeArray };
 
 import { getDateRange } from "./time";
 export { getDateRange };
+
+import { shallowEqualsArray } from "./compare";
+export { shallowEqualsArray };
