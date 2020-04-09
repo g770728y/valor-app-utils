@@ -1,7 +1,7 @@
 import {
   getTreeContexts as get,
   SimpleNodeContext,
-  TreeContext
+  TreeContext,
 } from "../tree/context";
 import { TreeArrayItem } from "./interface";
 import { array2tree } from "./transform";
@@ -12,5 +12,6 @@ export function getTreeContexts<A extends TreeArrayItem>(
 ): TreeContext {
   const tree = array2tree(arr);
   // console.log("tree", JSON.stringify(tree));
-  return dissoc(get(tree), ["-1"]);
+  // return dissoc(get(tree), ["-1"]);
+  return get(tree);
 }
