@@ -12,12 +12,10 @@ export function isPlainObject(obj: any): boolean {
 
 export function reverseKV(obj: Record<string, any>): Record<string, string> {
   if (!obj) return {};
-  return R.fromPairs(
-    R.toPairs(obj).reduce(
-      (acc: string[][], [k, v]) => [...acc, [v, k]],
-      []
-    ) as any
-  );
+  return R.fromPairs(R.toPairs(obj).reduce(
+    (acc: string[][], [k, v]) => [...acc, [v, k]],
+    []
+  ) as any);
 }
 
 export function remove<T extends Record<string, any>>(
@@ -59,22 +57,25 @@ export function removeNils(
   const deep = !!(options && options.recursive);
   if (!isPlainObject(obj)) return obj;
 
-  return Object.keys(obj).reduce((acc, k) => {
-    const v = obj[k];
-    return R.isNil(v)
-      ? acc
-      : options.removeBlank && v === ""
-      ? acc
-      : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
-      ? acc
-      : deep && Array.isArray(v)
-      ? { ...acc, [k]: v.map(it => removeNils(it, options)) }
-      : deep && isPlainObject(v)
-      ? R.isEmpty(removeNils(v, options))
+  return Object.keys(obj).reduce(
+    (acc, k) => {
+      const v = obj[k];
+      return R.isNil(v)
         ? acc
-        : { ...acc, [k]: removeNils(v, options) }
-      : { ...acc, [k]: v };
-  }, {} as Record<string, any>);
+        : options.removeBlank && v === ""
+        ? acc
+        : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
+        ? acc
+        : deep && Array.isArray(v)
+        ? { ...acc, [k]: v.map(it => removeNils(it, options)) }
+        : deep && isPlainObject(v)
+        ? R.isEmpty(removeNils(v, options))
+          ? acc
+          : { ...acc, [k]: removeNils(v, options) }
+        : { ...acc, [k]: v };
+    },
+    {} as Record<string, any>
+  );
 }
 
 export function removeProp(
@@ -85,16 +86,19 @@ export function removeProp(
   const deep = !!(options && options.recursive);
   if (!isPlainObject(obj)) return obj;
 
-  return Object.keys(obj).reduce((acc, k) => {
-    const v = obj[k];
-    return prop === k
-      ? { ...acc }
-      : ((deep && isPlainObject(v)
-          ? { ...acc, [k]: removeProp(v, prop, options) }
-          : deep && Array.isArray(v)
-          ? { ...acc, [k]: v.map(it => removeProp(it, prop, options)) }
-          : { ...acc, [k]: v }) as any);
-  }, {} as Record<string, any>);
+  return Object.keys(obj).reduce(
+    (acc, k) => {
+      const v = obj[k];
+      return prop === k
+        ? { ...acc }
+        : ((deep && isPlainObject(v)
+            ? { ...acc, [k]: removeProp(v, prop, options) }
+            : deep && Array.isArray(v)
+            ? { ...acc, [k]: v.map(it => removeProp(it, prop, options)) }
+            : { ...acc, [k]: v }) as any);
+    },
+    {} as Record<string, any>
+  );
 }
 
 // 返回obj2有, 但obj1没有, 或obj2[k]!==obj1[k] 所对应的entries, 约等于 obj2-obj1
@@ -244,8 +248,21 @@ export function idMap<T>(
   idArray: T[],
   idField: string = "id"
 ): { [id: string]: T } {
-  return idArray.reduce(
+  /* 用于性能比较, 3300条记录需要2.7秒!!!
+  console.log("测试记录条数:", idArray.length);
+  console.time("idMap");
+  const result1 = idArray.reduce(
     (acc, obj) => ({ ...acc, [(obj as any)[idField]]: obj }),
     {}
   );
+  console.timeEnd("idMap");
+  */
+
+  // forEach同样记录数, 只要0.7ms, 差距非常悬殊
+  let result = {} as any;
+  idArray.forEach(obj => {
+    const idName = (obj as any)[idField];
+    result[idName] = obj;
+  });
+  return result;
 }

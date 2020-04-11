@@ -148,9 +148,9 @@ describe("objSubtract", () => {
   });
 
   it("复杂", () =>
-    expect(
-      objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })
-    ).toEqual({ a: 2, b: [2, 3], c: 5 }));
+    expect(objSubtract({ a: 2, b: [2, 3], c: 5 }, { a: 1, b: [1, 2] })).toEqual(
+      { a: 2, b: [2, 3], c: 5 }
+    ));
 });
 
 describe("objSubtractDeep recusive", () => {
@@ -318,7 +318,7 @@ describe("object2str", () => {
         return "a'b'";
       }).replace(/\s/g, "")
     ).toEqual("function(){return\"a'b'\";}");
-    expect(object2str(() => {})).toEqual("function () { }");
+    expect(object2str(() => {})).toEqual("() => { }");
   });
 });
 
@@ -366,9 +366,9 @@ describe("mergeDeep", () => {
   });
 
   it("with array", () => {
-    expect(
-      mergeDeep([1, 2, undefined, null], [3, 4, null, undefined])
-    ).toEqual([3, 4, null, null]);
+    expect(mergeDeep([1, 2, undefined, null], [3, 4, null, undefined])).toEqual(
+      [3, 4, null, null]
+    );
 
     expect(
       mergeDeep(
