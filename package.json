@@ -28,6 +28,6 @@
     "rambdax": "^3.5.0"
   },
   "dependencies": {
-    "dayjs": "^1.8.23"
+    "dayjs": "^1.8.15"
   }
 }
