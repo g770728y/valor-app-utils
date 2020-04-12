@@ -260,7 +260,7 @@ export function idMap<T>(
 
   // forEach同样记录数, 只要0.7ms, 差距非常悬殊
   let result = {} as any;
-  idArray.forEach(obj => {
+  idArray.forEach((obj, i) => {
     const idName = (obj as any)[idField];
     result[idName] = obj;
   });

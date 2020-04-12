@@ -18,7 +18,8 @@ import {
   crossJoin,
   getPrevByIndex,
   getNextByIndex,
-  updateBy
+  updateBy,
+  replaceById
 } from "./array";
 import * as R from "rambda";
 
@@ -102,170 +103,76 @@ describe("insertIndex", () => {
 });
 
 describe("array-compare", () => {
-  const b1 = [
-    { id: 1, k: 1 },
-    { id: 2, k: 2 },
-    { id: 3, k: 3 }
-  ];
-  const b2 = [
-    { id: 3, k: 3 },
-    { id: 4, k: 4 },
-    { id: 5, k: 5 }
-  ];
+  const b1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  const b2 = [{ id: 3, k: 3 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
   it("数组成员是obj", () =>
     expect(arrayCompare(b1, b2)).toEqual({
-      added: [
-        { id: 4, k: 4 },
-        { id: 5, k: 5 }
-      ],
-      removed: [
-        { id: 1, k: 1 },
-        { id: 2, k: 2 }
-      ],
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [],
       reserved: [{ id: 3, k: 3 }]
     }));
 
-  const c1 = [
-    { id: 1, k: 1 },
-    { id: 2, k: 2 },
-    { id: 3, k: 3 }
-  ];
-  const c2 = [
-    { id: 3, k: 1 },
-    { id: 4, k: 4 },
-    { id: 5, k: 5 }
-  ];
+  const c1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  const c2 = [{ id: 3, k: 1 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
   it("数组成员是obj, 并且某个obj有变化", () =>
     expect(arrayCompare(c1, c2)).toEqual({
-      added: [
-        { id: 4, k: 4 },
-        { id: 5, k: 5 }
-      ],
-      removed: [
-        { id: 1, k: 1 },
-        { id: 2, k: 2 }
-      ],
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [{ id: 3, k: 1 }],
       reserved: []
     }));
 
-  const d1 = [
-    { id: 1, k: 1 },
-    { id: 2, k: 2 },
-    { id: 3, k: 3 }
-  ];
-  const d2 = [
-    { id: 1, k: 1 },
-    { id: 2, k: 2 },
-    { id: 3, k: 3 }
-  ];
+  const d1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+  const d2 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
   it("数组成员是obj, reserve", () =>
     expect(arrayCompare(d1, d2)).toEqual({
       added: [],
       removed: [],
       updated: [],
-      reserved: [
-        { id: 1, k: 1 },
-        { id: 2, k: 2 },
-        { id: 3, k: 3 }
-      ]
+      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
     }));
 });
 
 describe("array-compare-by", () => {
-  const b1 = [
-    { xid: 1, k: 1 },
-    { xid: 2, k: 2 },
-    { xid: 3, k: 3 }
-  ];
-  const b2 = [
-    { xid: 3, k: 3 },
-    { xid: 4, k: 4 },
-    { xid: 5, k: 5 }
-  ];
+  const b1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  const b2 = [{ xid: 3, k: 3 }, { xid: 4, k: 4 }, { xid: 5, k: 5 }];
   it("数组成员是obj", () =>
     expect(arrayCompareBy(b1, b2, "xid")).toEqual({
-      added: [
-        { xid: 4, k: 4 },
-        { xid: 5, k: 5 }
-      ],
-      removed: [
-        { xid: 1, k: 1 },
-        { xid: 2, k: 2 }
-      ],
+      added: [{ xid: 4, k: 4 }, { xid: 5, k: 5 }],
+      removed: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }],
       updated: [],
       reserved: [{ xid: 3, k: 3 }]
     }));
 
-  const c1 = [
-    { xid: 1, k: 1 },
-    { xid: 2, k: 2 },
-    { xid: 3, k: 3 }
-  ];
-  const c2 = [
-    { xid: 3, k: 1 },
-    { xid: 4, k: 4 },
-    { xid: 5, k: 5 }
-  ];
+  const c1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  const c2 = [{ xid: 3, k: 1 }, { xid: 4, k: 4 }, { xid: 5, k: 5 }];
   it("数组成员是obj, 并且某个obj有变化", () =>
     expect(arrayCompareBy(c1, c2, "xid")).toEqual({
-      added: [
-        { xid: 4, k: 4 },
-        { xid: 5, k: 5 }
-      ],
-      removed: [
-        { xid: 1, k: 1 },
-        { xid: 2, k: 2 }
-      ],
+      added: [{ xid: 4, k: 4 }, { xid: 5, k: 5 }],
+      removed: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }],
       updated: [{ xid: 3, k: 1 }],
       reserved: []
     }));
 
-  const d1 = [
-    { xid: 1, k: 1 },
-    { xid: 2, k: 2 },
-    { xid: 3, k: 3 }
-  ];
-  const d2 = [
-    { xid: 1, k: 1 },
-    { xid: 2, k: 2 },
-    { xid: 3, k: 3 }
-  ];
+  const d1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
+  const d2 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
   it("数组成员是obj, reserve", () =>
     expect(arrayCompareBy(d1, d2, "xid")).toEqual({
       added: [],
       removed: [],
       updated: [],
-      reserved: [
-        { xid: 1, k: 1 },
-        { xid: 2, k: 2 },
-        { xid: 3, k: 3 }
-      ]
+      reserved: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }]
     }));
 });
 
 describe("patchByDiffs", () => {
   it("数组成员是obj", () => {
-    const b1 = [
-      { id: 1, k: 1 },
-      { id: 2, k: 2 },
-      { id: 3, k: 3 }
-    ];
-    const b2 = [
-      { id: 3, k: 3 },
-      { id: 4, k: 4 },
-      { id: 5, k: 5 }
-    ];
+    const b1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const b2 = [{ id: 3, k: 3 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
     const diffs1 = {
-      added: [
-        { id: 4, k: 4 },
-        { id: 5, k: 5 }
-      ],
-      removed: [
-        { id: 1, k: 1 },
-        { id: 2, k: 2 }
-      ],
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [],
       reserved: [{ id: 3, k: 3 }]
     };
@@ -273,25 +180,11 @@ describe("patchByDiffs", () => {
   });
 
   it("数组成员是obj, 并且某个obj有变化", () => {
-    const c1 = [
-      { id: 1, k: 1 },
-      { id: 2, k: 2 },
-      { id: 3, k: 3 }
-    ];
-    const c2 = [
-      { id: 3, k: 1 },
-      { id: 4, k: 4 },
-      { id: 5, k: 5 }
-    ];
+    const c1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const c2 = [{ id: 3, k: 1 }, { id: 4, k: 4 }, { id: 5, k: 5 }];
     const diffs2 = {
-      added: [
-        { id: 4, k: 4 },
-        { id: 5, k: 5 }
-      ],
-      removed: [
-        { id: 1, k: 1 },
-        { id: 2, k: 2 }
-      ],
+      added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
+      removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [{ id: 3, k: 1 }],
       reserved: []
     };
@@ -299,36 +192,20 @@ describe("patchByDiffs", () => {
   });
 
   it("数组成员是obj, reserve", () => {
-    const d1 = [
-      { id: 1, k: 1 },
-      { id: 2, k: 2 },
-      { id: 3, k: 3 }
-    ];
-    const d2 = [
-      { id: 1, k: 1 },
-      { id: 2, k: 2 },
-      { id: 3, k: 3 }
-    ];
+    const d1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
+    const d2 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
     const diffs3 = {
       added: [],
       removed: [],
       updated: [],
-      reserved: [
-        { id: 1, k: 1 },
-        { id: 2, k: 2 },
-        { id: 3, k: 3 }
-      ]
+      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
     };
     expect(patchByDiffs(d1, diffs3)).toEqual(d2);
   });
 });
 
 describe("upsert", () => {
-  const arr = [
-    { id: 1, a: 1 },
-    { id: 2, a: 2 },
-    { id: 3, a: 3 }
-  ];
+  const arr = [{ id: 1, a: 1 }, { id: 2, a: 2 }, { id: 3, a: 3 }];
   it("push", () => {
     const result = [
       { id: 1, a: 1 },
@@ -340,11 +217,7 @@ describe("upsert", () => {
     expect(upsert(arr, n => n.id === 0, { id: 0, a: 22 })).toEqual(result);
   });
   it("update", () => {
-    const result = [
-      { id: 1, a: 22 },
-      { id: 2, a: 2 },
-      { id: 3, a: 3 }
-    ];
+    const result = [{ id: 1, a: 22 }, { id: 2, a: 2 }, { id: 3, a: 3 }];
     // expect(upsert(arr, {id:1}, {id:0, a:22})).toEqual( result)
     expect(upsert(arr, n => n.id === 1, { id: 1, a: 22 })).toEqual(result);
   });
@@ -503,11 +376,7 @@ describe("getPrevByIndex", () => {
 });
 
 describe("updateBy", () => {
-  const arr = [
-    { id: 1, v: 1 },
-    { id: 2, v: 2 },
-    { id: 3, v: 3 }
-  ];
+  const arr = [{ id: 1, v: 1 }, { id: 2, v: 2 }, { id: 3, v: 3 }];
   const expected = [
     { id: 1, v: 1 },
     { id: 2, v: 2, k: 3 },
@@ -519,5 +388,23 @@ describe("updateBy", () => {
     (a, b) => a.id === b.id,
     (a, b) => ({ ...a, ...b })
   );
-  expect(result).toEqual(expected);
+  it("case0", () => {
+    expect(result).toEqual(expected);
+  });
+});
+
+describe("replaceById", () => {
+  // 比如 树形数组操作最后一步, 返回新的数组
+  // 这个数组里, 有新的item, 也有老item(但引用不等)
+  // 为了维持引用相等, 所以替换之
+  const arr0 = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  const arr1 = [{ id: 1 }, { id: 3 }, { id: 4 }];
+  it("case0", () => {
+    expect(arr1[0]).not.toBe(arr0[0]);
+
+    const result = replaceById(arr1, arr0);
+    expect(result).toEqual(arr1);
+    expect(result[0]).toBe(arr0[0]);
+    expect(result[1]).toBe(arr0[2]);
+  });
 });

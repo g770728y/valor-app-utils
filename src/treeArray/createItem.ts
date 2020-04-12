@@ -8,6 +8,7 @@ import {
 } from "../tree/createNode";
 import { actionWrapper } from "./util";
 import { array2tree } from "./transform";
+import { replaceById } from "../array";
 
 /**
  * 关于data参数, 既可以为 : {a:1}, 也可以为: [{a:1, level:5}, {a:2, leve:6}]
@@ -32,7 +33,7 @@ export function createSiblingItem<A extends TreeArrayItem>(
     }));
     _data = array2tree(dataWithLevel).children![0];
   }
-  return actionWrapper(arr, baseI, tree =>
+  const result = actionWrapper(arr, baseI, tree =>
     arr.length === 0
       ? createChildTreeNode(tree, _data, RootNodeId, { clone: true })
       : createSiblingTreeNode(
@@ -44,6 +45,8 @@ export function createSiblingItem<A extends TreeArrayItem>(
           }
         )
   );
+  // 确保 老节点引用不变
+  return [replaceById(result[0], arr), result[1]];
 }
 
 /**
@@ -79,7 +82,7 @@ export function createChildItem<A extends TreeArrayItem>(
     }));
     _data = array2tree(dataWithLevel).children![0];
   }
-  return actionWrapper(arr, baseI, tree =>
+  const result = actionWrapper(arr, baseI, tree =>
     createChildTreeNode(
       tree,
       _data,
@@ -87,17 +90,23 @@ export function createChildItem<A extends TreeArrayItem>(
       { clone: true, insertAt }
     )
   );
+
+  // 确保 老节点引用不变
+  return [replaceById(result[0], arr), result[1]];
 }
 
 export function deleteItem<A extends TreeArrayItem>(
   arr: A[],
   index: number
 ): [A[], TreeContext] {
-  return actionWrapper(arr, index, tree =>
+  const result = actionWrapper(arr, index, tree =>
     index >= arr.length || arr.length <= 0
       ? tree
       : deleteTreeNode(tree, arr[index] && arr[index].id, {
           clone: true
         })
   );
+
+  // 确保 老节点引用不变
+  return [replaceById(result[0], arr), result[1]];
 }

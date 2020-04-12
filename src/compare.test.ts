@@ -100,7 +100,7 @@ describe("equals", () => {
   });
 });
 
-describe.only("shallowEqualsArray", () => {
+describe("shallowEqualsArray", () => {
   it("ok", () => {
     expect(true).toBe(true);
   });

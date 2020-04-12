@@ -8,22 +8,19 @@ describe("createSiblingItem", () => {
     expect(result).toEqual(expected);
   });
   it("case2", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const expected = [
       { id: 1, level: 1 },
       { id: 2, level: 2 },
       { id: 3, level: 1 }
     ];
-    expect(createSiblingItem(arr, { id: 3 }, 0 /*index*/)[0]).toEqual(expected);
+    const result = createSiblingItem(arr, { id: 3 }, 0 /*index*/)[0];
+    expect(result).toEqual(expected);
+    expect(result[0]).toBe(arr[0]);
+    expect(result[1]).toBe(arr[1]);
   });
   it("case3", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const expected = [
       { id: 1, level: 1 },
       { id: 2, level: 2 },
@@ -48,10 +45,7 @@ describe("createSiblingItem", () => {
     expect(createSiblingItem(arr, { id: 5 }, 1 /*index*/)[0]).toEqual(expected);
   });
   it("case5: 子树", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const subtree = [
       { id: 3, level: 10 },
       { id: 4, level: 11 },
@@ -90,11 +84,8 @@ describe("createChildItem", () => {
     expect(result).toEqual(expected);
   });
 
-  it.only("在根结点下增加", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+  it("在根结点下增加", () => {
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const expected = [
       { id: 1, level: 1 },
       { id: 2, level: 2 },
@@ -103,11 +94,8 @@ describe("createChildItem", () => {
     expect(createChildItem(arr, { id: 3 }, -1 /*index*/)[0]).toEqual(expected);
   });
 
-  it.only("在根结点下增加, 并增加为第2个结点", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+  it("在根结点下增加, 并增加为第2个结点", () => {
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const expected = [
       { id: 3, level: 1 },
       { id: 1, level: 1 },
@@ -119,10 +107,7 @@ describe("createChildItem", () => {
   });
 
   it("case2", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const expected = [
       { id: 1, level: 1 },
       { id: 2, level: 2 },
@@ -131,10 +116,7 @@ describe("createChildItem", () => {
     expect(createChildItem(arr, { id: 3 }, 0 /*index*/)[0]).toEqual(expected);
   });
   it("case3", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const expected = [
       { id: 1, level: 1 },
       { id: 2, level: 2 },
@@ -169,10 +151,7 @@ describe("createChildItem", () => {
   });
 
   it("case5: 子树", () => {
-    const arr = [
-      { id: 1, level: 1 },
-      { id: 2, level: 2 }
-    ] as any;
+    const arr = [{ id: 1, level: 1 }, { id: 2, level: 2 }] as any;
     const subtree = [
       { id: 3, level: 10 },
       { id: 4, level: 11 },

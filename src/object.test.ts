@@ -403,10 +403,15 @@ describe("mergeDeep", () => {
 
 describe("idMap", () => {
   it("default", () => {
-    expect(idMap([{ id: 1 }, { id: 2 }])).toEqual({
+    const idArray = [{ id: 1 }, { id: 2 }];
+    const result = idMap(idArray);
+    const expected = {
       1: { id: 1 },
       2: { id: 2 }
-    });
+    };
+    expect(result).toEqual(expected);
+    // 引用不变
+    expect(result[1] === idArray[0]).toBe(true);
   });
   it("with idKey", () => {
     expect(idMap([{ key: 1 }, { key: 2 }], "key")).toEqual({

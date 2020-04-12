@@ -1,5 +1,5 @@
 import * as R from "rambda";
-import { objSubtract } from "./object";
+import { objSubtract, idMap } from "./object";
 import * as Rx from "rambdax";
 
 /**
@@ -95,18 +95,21 @@ export function arrayCompareBy<T extends {}>(
   // 因为diff操作耗性能, 所以这里先将范围缩小
   const restArr1 = R.without([...removed, ...reserved], arr1);
   const restArr2 = R.without([...added, ...reserved], arr2);
-  const _updated = restArr2.reduce((acc, arr2El) => {
-    const arr2Id = arr2El[id];
-    const arr1El = restArr1.find(_el => _el[id] === arr2Id);
-    if (!arr1El)
-      throw new Error(
-        "数组比较出错" +
-          JSON.stringify(restArr1) +
-          "    " +
-          JSON.stringify(restArr2)
-      );
-    return [...acc, objSubtract(arr2El, arr1El, id + "")];
-  }, [] as any[]);
+  const _updated = restArr2.reduce(
+    (acc, arr2El) => {
+      const arr2Id = arr2El[id];
+      const arr1El = restArr1.find(_el => _el[id] === arr2Id);
+      if (!arr1El)
+        throw new Error(
+          "数组比较出错" +
+            JSON.stringify(restArr1) +
+            "    " +
+            JSON.stringify(restArr2)
+        );
+      return [...acc, objSubtract(arr2El, arr1El, id + "")];
+    },
+    [] as any[]
+  );
 
   // 防止出现 [{id:1},{id:2}], 这样仅剩id的情形
   const updated = _updated.filter(it => Object.keys(it).length > 1);
@@ -276,7 +279,6 @@ export function getPrevByIndex<T extends { id: any; index: number }>(
   var sorted = R.sort((x1, x2) => x1.index - x2.index, xs);
   var idx_in_array = sorted.findIndex(it => it.id === id);
   if (idx_in_array <= 0) return null;
-  console.log(sorted);
 
   return sorted[idx_in_array - 1];
 }
@@ -301,4 +303,12 @@ export function updateBy<T>(
       ? [...acc, updateFn(sourceEl, currentPatchEl)]
       : [...acc, sourceEl];
   }, []);
+}
+
+export function replaceById<T extends { id: any }>(
+  newArray: T[],
+  baseArray: T[]
+): T[] {
+  const baseArrayIdMap = idMap(baseArray);
+  return newArray.map(item => baseArrayIdMap[item.id] || item);
 }
