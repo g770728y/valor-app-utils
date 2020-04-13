@@ -264,3 +264,6 @@ export { getDateRange };
 
 import { shallowEqualsArray } from "./compare";
 export { shallowEqualsArray };
+
+import { hash } from "./hash";
+export { hash };
