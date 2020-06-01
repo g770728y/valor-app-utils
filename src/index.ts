@@ -15,7 +15,7 @@ import {
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
   stripHtmlTag,
-  renameTag_danger
+  renameTag_danger,
 } from "./html";
 export {
   string2domNode,
@@ -23,7 +23,7 @@ export {
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
   stripHtmlTag,
-  renameTag_danger
+  renameTag_danger,
 };
 
 import {
@@ -33,6 +33,7 @@ import {
   swap,
   insertIndex,
   ArrayDiffs,
+  batchMove,
   patchByDiffs,
   upsert,
   arrayCompare,
@@ -46,7 +47,7 @@ import {
   getPrevByIndex,
   getNextByIndex,
   updateBy,
-  dropIndex
+  dropIndex,
 } from "./array";
 export {
   findIndexFrom,
@@ -68,7 +69,8 @@ export {
   getPrevByIndex,
   getNextByIndex,
   updateBy,
-  dropIndex
+  dropIndex,
+  batchMove,
 };
 
 import { min, max, sum, safeDivide, inferBlankCells } from "./math";
@@ -88,7 +90,7 @@ import {
   mergeDeep,
   str2object,
   object2str,
-  idMap
+  idMap,
 } from "./object";
 export {
   reverseKV,
@@ -104,7 +106,7 @@ export {
   mergeDeep,
   str2object,
   object2str,
-  idMap
+  idMap,
 };
 
 import { formatNumber, formatPercent, formatPermillage } from "./format";
@@ -128,7 +130,7 @@ import {
   array2tree_byLevel,
   array2tree_byPid,
   tree2Array,
-  traverseTree
+  traverseTree,
 } from "./tree";
 export {
   TreeContext,
@@ -148,7 +150,7 @@ export {
   array2tree_byLevel,
   array2tree_byPid,
   tree2Array,
-  traverseTree
+  traverseTree,
 };
 
 import {
@@ -156,7 +158,7 @@ import {
   nextArrayId,
   nextStringId,
   stringIdGenerator,
-  nextStrArrayId
+  nextStrArrayId,
 } from "./id";
 export { nextId, nextArrayId, nextStringId, stringIdGenerator, nextStrArrayId };
 
@@ -171,7 +173,7 @@ import {
   style2ReactStyle,
   isDimStyleKey,
   normalizeReactStyle,
-  normalizeDimValue
+  normalizeDimValue,
 } from "./css";
 export {
   css,
@@ -184,14 +186,14 @@ export {
   style2ReactStyle,
   isDimStyleKey,
   normalizeReactStyle,
-  normalizeDimValue
+  normalizeDimValue,
 };
 
 import {
   nop,
   getFunctionParamsFromStr,
   getFunctionBodyFromStr,
-  invoke
+  invoke,
 } from "./function";
 export { nop, getFunctionParamsFromStr, getFunctionBodyFromStr, invoke };
 
@@ -207,7 +209,7 @@ import {
   openFiles,
   dataURItoBlob,
   getFormDataWithDataURLField,
-  getFormDataWithDataURLFields
+  getFormDataWithDataURLFields,
 } from "./file";
 export {
   file2DataURL,
@@ -215,7 +217,7 @@ export {
   openFiles,
   dataURItoBlob,
   getFormDataWithDataURLField,
-  getFormDataWithDataURLFields
+  getFormDataWithDataURLFields,
 };
 
 import { getImageDimension } from "./image";
@@ -227,7 +229,7 @@ import {
   snake2camel,
   isNumberLike,
   ensureSuffix,
-  getIgnoreBlank
+  getIgnoreBlank,
 } from "./string";
 export {
   replaceAll,
@@ -235,7 +237,7 @@ export {
   snake2camel,
   isNumberLike,
   ensureSuffix,
-  getIgnoreBlank
+  getIgnoreBlank,
 };
 
 import { waitUntil } from "./promise";

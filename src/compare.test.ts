@@ -43,13 +43,13 @@ describe("equals", () => {
     o1: { o11: obj, a: 1 },
     o2: { o11: obj, a: 1 },
     o3: { o11: obj, a: 1 },
-    o4: { o11: obj, a: 1 }
+    o4: { o11: obj, a: 1 },
   };
   const a2 = {
     o1: { o11: obj, a: 1 },
     o2: { o11: obj, a: 1 },
     o3: { o11: obj, a: 1 },
-    o4: { o11: obj, a: 1 }
+    o4: { o11: obj, a: 1 },
   };
 
   it("浅比较", () => {
@@ -66,20 +66,20 @@ describe("equals", () => {
           o1: { o11: obj, a: 1 },
           o2: { o11: obj, a: 1 },
           o3: { o11: obj, a: 1 },
-          o4: { o11: obj, a: 1 }
+          o4: { o11: obj, a: 1 },
         },
         {
           o1: { o11: obj, a: 1 },
           o2: { o11: obj, a: 1 },
           o3: { o11: obj, a: 1 },
-          o4: { o11: obj, a: 1 }
+          o4: { o11: obj, a: 1 },
         }
       )
     ).toBe(true);
     expect(equals(a1, a2)).toBe(true);
   });
 
-  it("性能", () => {
+  it.skip("性能", () => {
     console.time("用我的方法测试10万次");
     for (let i = 0; i < 100000; i++) {
       equals(a1, a2);
