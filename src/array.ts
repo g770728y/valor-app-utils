@@ -15,12 +15,12 @@ export function findIndexFrom<T>(
   fromIndex: number,
   condition: (i: T) => boolean
 ) {
-  const result = arr.slice(fromIndex).findIndex(it => condition(it));
+  const result = arr.slice(fromIndex).findIndex((it) => condition(it));
   return result < 0 ? result : result + fromIndex;
 }
 
 export function reAppend<T = any>(arr: T[], item: T) {
-  return [...arr.filter(it => !R.equals(it, item)), item];
+  return [...arr.filter((it) => !R.equals(it, item)), item];
 }
 
 export function swapByProp<T>(
@@ -51,7 +51,7 @@ export function swap<T>(xs: T[], i1: number, i2: number): T[] {
     xs[maxIndex],
     ...xs.slice(minIndex + 1, maxIndex),
     xs[minIndex],
-    ...xs.slice(maxIndex + 1)
+    ...xs.slice(maxIndex + 1),
   ];
 }
 
@@ -75,8 +75,8 @@ export function arrayCompareBy<T extends {}>(
   arr2: T[],
   id: keyof T
 ): ArrayDiffs<T> {
-  const arr1Ids = arr1.map(it => it[id]);
-  const arr2Ids = arr2.map(it => it[id]);
+  const arr1Ids = arr1.map((it) => it[id]);
+  const arr2Ids = arr2.map((it) => it[id]);
 
   const added = arr2.reduce(
     (acc: T[], el2: T) => (arr1Ids.includes(el2[id]) ? acc : [...acc, el2]),
@@ -88,7 +88,7 @@ export function arrayCompareBy<T extends {}>(
   );
   const reserved = arr1.reduce(
     (acc: T[], it1: T) =>
-      arr2.find(it2 => R.equals(it1, it2)) ? [...acc, it1] : acc,
+      arr2.find((it2) => R.equals(it1, it2)) ? [...acc, it1] : acc,
     [] as T[]
   );
 
@@ -98,7 +98,7 @@ export function arrayCompareBy<T extends {}>(
   const _updated = restArr2.reduce(
     (acc, arr2El) => {
       const arr2Id = arr2El[id];
-      const arr1El = restArr1.find(_el => _el[id] === arr2Id);
+      const arr1El = restArr1.find((_el) => _el[id] === arr2Id);
       if (!arr1El)
         throw new Error(
           "数组比较出错" +
@@ -112,13 +112,13 @@ export function arrayCompareBy<T extends {}>(
   );
 
   // 防止出现 [{id:1},{id:2}], 这样仅剩id的情形
-  const updated = _updated.filter(it => Object.keys(it).length > 1);
+  const updated = _updated.filter((it) => Object.keys(it).length > 1);
 
   return {
     added,
     removed,
     updated,
-    reserved
+    reserved,
   };
 }
 
@@ -136,7 +136,7 @@ export function patchByDiffs<T extends { id: any }>(
   diffs: ArrayDiffs<T>
 ): T[] {
   const arr1 = (diffs.updated || []).reduce((acc, itemPatch) => {
-    const idx = acc.findIndex(it => it.id === itemPatch.id!);
+    const idx = acc.findIndex((it) => it.id === itemPatch.id!);
     return idx >= 0
       ? R.update(idx, { ...acc[idx], ...itemPatch }, acc)
       : [...acc];
@@ -148,7 +148,7 @@ export function patchByDiffs<T extends { id: any }>(
   );
 
   const arr3 = (diffs.removed || []).reduce((acc, itemToRemoved) => {
-    return acc.filter(it => it.id !== itemToRemoved.id);
+    return acc.filter((it) => it.id !== itemToRemoved.id);
   }, arr2);
 
   return arr3;
@@ -172,7 +172,7 @@ export function insertArround<T>(
   const f = (i?: number) =>
     Rx.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
   const result = arr.reduce((acc, curr, idx) => [...acc, curr, f(idx + 1)], [
-    f(0)
+    f(0),
   ]);
 
   return result.length === 1 ? [] : result;
@@ -239,7 +239,7 @@ export function sliceBy(s: any, slicer: any) {
 // 笛卡尔积
 export function crossJoin<T1, T2>(xs: T1[], ys: T2[]): [T1, T2][] {
   return xs
-    .map(x => ys.map(y => [x, y]))
+    .map((x) => ys.map((y) => [x, y]))
     .reduce((acc, xy) => [...acc, ...xy] as any, []) as any;
 }
 
@@ -252,7 +252,7 @@ export function crossJoin<T1, T2>(xs: T1[], ys: T2[]): [T1, T2][] {
 export const is2dArray = (arr: any) => {
   if (!Array.isArray(arr)) return false;
   if (R.isEmpty(arr)) return true;
-  return arr.every(x => Array.isArray(x));
+  return arr.every((x) => Array.isArray(x));
 };
 
 // 以下四个是用于以下场景
@@ -266,7 +266,7 @@ export function getNextByIndex<T extends { id: any; index: number }>(
   id: any
 ): T | null {
   var sorted = R.sort((x1, x2) => x1.index - x2.index, xs);
-  var idx_in_array = sorted.findIndex(it => it.id === id);
+  var idx_in_array = sorted.findIndex((it) => it.id === id);
   if (idx_in_array >= xs.length - 1) return null;
 
   return sorted[idx_in_array + 1];
@@ -277,7 +277,7 @@ export function getPrevByIndex<T extends { id: any; index: number }>(
   id: any
 ): T | null {
   var sorted = R.sort((x1, x2) => x1.index - x2.index, xs);
-  var idx_in_array = sorted.findIndex(it => it.id === id);
+  var idx_in_array = sorted.findIndex((it) => it.id === id);
   if (idx_in_array <= 0) return null;
 
   return sorted[idx_in_array - 1];
@@ -298,7 +298,7 @@ export function updateBy<T>(
   updateFn: (sourceEl: T, patchEl: T) => T
 ): T[] {
   return source.reduce((acc: T[], sourceEl) => {
-    const currentPatchEl = patch.find(patchEl => findFn(sourceEl, patchEl));
+    const currentPatchEl = patch.find((patchEl) => findFn(sourceEl, patchEl));
     return currentPatchEl !== undefined
       ? [...acc, updateFn(sourceEl, currentPatchEl)]
       : [...acc, sourceEl];
@@ -310,5 +310,52 @@ export function replaceById<T extends { id: any }>(
   baseArray: T[]
 ): T[] {
   const baseArrayIdMap = idMap(baseArray);
-  return newArray.map(item => baseArrayIdMap[item.id] || item);
+  return newArray.map((item) => baseArrayIdMap[item.id] || item);
+}
+
+// 例: 将indexRange=[3,5](含3,4,5)的索引数据, 向左移动一次delta=1
+// 若无法移动, 则返回数组本身
+/**
+ * @param arr
+ * @param indexRange 如 [3,5], 表示要移动从3-5(含)的区块. 由于是区块移动, 所以看作一个整体
+ * @param delta 负值左移, 正值右移 ( 注意是区块移动, indexRange 当成整体 )
+ * @returns [变动后的数组, 是否变动]
+ */
+export function batchMove<T>(
+  arr: T[],
+  indexRange: number[],
+  delta: number
+): [T[], boolean] {
+  if (indexRange.length !== 2)
+    throw new Error("range是长度为2的数组, 表示起始和结束索引");
+
+  // 修正delta
+  const d =
+    delta < 0
+      ? indexRange[0] + delta < 0
+        ? -indexRange[0]
+        : delta
+      : indexRange[1] + delta > arr.length - 1
+      ? arr.length - 1 - indexRange[1]
+      : delta;
+  console.log("d", d);
+
+  if (d === 0) return [arr, false];
+
+  const newArr =
+    d > 0
+      ? [
+          ...arr.slice(0, indexRange[0]),
+          ...arr.slice(indexRange[1] + 1, indexRange[1] + 1 + d),
+          ...arr.slice(indexRange[0], indexRange[1] + 1),
+          ...arr.slice(indexRange[1] + 1 + d),
+        ]
+      : [
+          ...arr.slice(0, indexRange[0] + d),
+          ...arr.slice(indexRange[0], indexRange[1] + 1),
+          ...arr.slice(indexRange[0] + d, indexRange[0]),
+          ...arr.slice(indexRange[1] + 1),
+        ];
+
+  return [newArr, true];
 }

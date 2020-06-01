@@ -19,7 +19,8 @@ import {
   getPrevByIndex,
   getNextByIndex,
   updateBy,
-  replaceById
+  replaceById,
+  batchMove,
 } from "./array";
 import * as R from "rambda";
 
@@ -50,12 +51,12 @@ describe("reAppend", () => {
   it("existed, object", () =>
     expect(reAppend([{ a: 1 }, { a: 2 }], { a: 1 })).toEqual([
       { a: 2 },
-      { a: 1 }
+      { a: 1 },
     ]));
   it("existed, complex", () =>
     expect(reAppend([{ a: [1] }, { a: [2] }], { a: [1] })).toEqual([
       { a: [2] },
-      { a: [1] }
+      { a: [1] },
     ]));
 });
 
@@ -67,7 +68,7 @@ describe("swapByProp", () => {
     expect(swapByProp(arr, "id", 2, 3)).toEqual([
       { id: 1 },
       { id: 3 },
-      { id: 2 }
+      { id: 2 },
     ]));
 });
 
@@ -110,7 +111,7 @@ describe("array-compare", () => {
       added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
       removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [],
-      reserved: [{ id: 3, k: 3 }]
+      reserved: [{ id: 3, k: 3 }],
     }));
 
   const c1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
@@ -120,7 +121,7 @@ describe("array-compare", () => {
       added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
       removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [{ id: 3, k: 1 }],
-      reserved: []
+      reserved: [],
     }));
 
   const d1 = [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }];
@@ -130,7 +131,7 @@ describe("array-compare", () => {
       added: [],
       removed: [],
       updated: [],
-      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
+      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }],
     }));
 });
 
@@ -142,7 +143,7 @@ describe("array-compare-by", () => {
       added: [{ xid: 4, k: 4 }, { xid: 5, k: 5 }],
       removed: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }],
       updated: [],
-      reserved: [{ xid: 3, k: 3 }]
+      reserved: [{ xid: 3, k: 3 }],
     }));
 
   const c1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
@@ -152,7 +153,7 @@ describe("array-compare-by", () => {
       added: [{ xid: 4, k: 4 }, { xid: 5, k: 5 }],
       removed: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }],
       updated: [{ xid: 3, k: 1 }],
-      reserved: []
+      reserved: [],
     }));
 
   const d1 = [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }];
@@ -162,7 +163,7 @@ describe("array-compare-by", () => {
       added: [],
       removed: [],
       updated: [],
-      reserved: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }]
+      reserved: [{ xid: 1, k: 1 }, { xid: 2, k: 2 }, { xid: 3, k: 3 }],
     }));
 });
 
@@ -174,7 +175,7 @@ describe("patchByDiffs", () => {
       added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
       removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [],
-      reserved: [{ id: 3, k: 3 }]
+      reserved: [{ id: 3, k: 3 }],
     };
     expect(patchByDiffs(b1, diffs1)).toEqual(b2);
   });
@@ -186,7 +187,7 @@ describe("patchByDiffs", () => {
       added: [{ id: 4, k: 4 }, { id: 5, k: 5 }],
       removed: [{ id: 1, k: 1 }, { id: 2, k: 2 }],
       updated: [{ id: 3, k: 1 }],
-      reserved: []
+      reserved: [],
     };
     expect(patchByDiffs(c1, diffs2)).toEqual(c2);
   });
@@ -198,7 +199,7 @@ describe("patchByDiffs", () => {
       added: [],
       removed: [],
       updated: [],
-      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }]
+      reserved: [{ id: 1, k: 1 }, { id: 2, k: 2 }, { id: 3, k: 3 }],
     };
     expect(patchByDiffs(d1, diffs3)).toEqual(d2);
   });
@@ -211,15 +212,15 @@ describe("upsert", () => {
       { id: 1, a: 1 },
       { id: 2, a: 2 },
       { id: 3, a: 3 },
-      { id: 0, a: 22 }
+      { id: 0, a: 22 },
     ];
     // expect(upsert(arr, {id:0}, {id:0, a:22})).toEqual( result)
-    expect(upsert(arr, n => n.id === 0, { id: 0, a: 22 })).toEqual(result);
+    expect(upsert(arr, (n) => n.id === 0, { id: 0, a: 22 })).toEqual(result);
   });
   it("update", () => {
     const result = [{ id: 1, a: 22 }, { id: 2, a: 2 }, { id: 3, a: 3 }];
     // expect(upsert(arr, {id:1}, {id:0, a:22})).toEqual( result)
-    expect(upsert(arr, n => n.id === 1, { id: 1, a: 22 })).toEqual(result);
+    expect(upsert(arr, (n) => n.id === 1, { id: 1, a: 22 })).toEqual(result);
   });
 });
 
@@ -237,7 +238,7 @@ describe("insertArround", () => {
   });
 
   it("two, function", () => {
-    expect(insertArround([1, 2], i => i + 10)).toEqual([10, 1, 11, 2, 12]);
+    expect(insertArround([1, 2], (i) => i + 10)).toEqual([10, 1, 11, 2, 12]);
   });
 });
 
@@ -259,7 +260,7 @@ describe("insertBetween", () => {
   });
 
   it("three", () => {
-    expect(insertBetween([1, 2, 3], i => i + 10)).toEqual([1, 10, 2, 11, 3]);
+    expect(insertBetween([1, 2, 3], (i) => i + 10)).toEqual([1, 10, 2, 11, 3]);
   });
 });
 
@@ -289,7 +290,7 @@ describe("padding", () => {
   });
 
   it("函数参数", () => {
-    expect(padding([], 2, i => `${i}1`)).toEqual(["01", "11"]);
+    expect(padding([], 2, (i) => `${i}1`)).toEqual(["01", "11"]);
   });
 });
 
@@ -328,7 +329,7 @@ describe("crossjoin", () => {
       [1, "a"],
       [1, "b"],
       [2, "a"],
-      [2, "b"]
+      [2, "b"],
     ]);
   });
 });
@@ -338,7 +339,7 @@ describe("getNextByIndex", () => {
     { id: 1, index: 1 },
     { id: 0, index: -1 },
     { id: 2, index: 2 },
-    { id: 3, index: 3 }
+    { id: 3, index: 3 },
   ];
 
   it("case0: 没有下一个", () => {
@@ -359,7 +360,7 @@ describe("getPrevByIndex", () => {
     { id: 1, index: 1 },
     { id: 0, index: -1 },
     { id: 2, index: 2 },
-    { id: 3, index: 3 }
+    { id: 3, index: 3 },
   ];
 
   it("case0: 没有上一个", () => {
@@ -380,7 +381,7 @@ describe("updateBy", () => {
   const expected = [
     { id: 1, v: 1 },
     { id: 2, v: 2, k: 3 },
-    { id: 3, v: 3, kk: 4 }
+    { id: 3, v: 3, kk: 4 },
   ];
   const result = updateBy(
     arr,
@@ -406,5 +407,43 @@ describe("replaceById", () => {
     expect(result).toEqual(arr1);
     expect(result[0]).toBe(arr0[0]);
     expect(result[1]).toBe(arr0[2]);
+  });
+});
+
+describe("batchMove", () => {
+  const arr = [1, 2, 3, 4, 5];
+  it("case0: 不可移动", () => {
+    const result = batchMove(arr, [0, 0], -1);
+    expect(result).toEqual([arr, false]);
+
+    const result1 = batchMove(arr, [0, 2], -1);
+    expect(result1).toEqual([arr, false]);
+  });
+
+  it("case1: 可移动", () => {
+    const result0 = batchMove(arr, [3, 4], -1);
+    expect(result0).toEqual([[1, 2, 4, 5, 3], true]);
+
+    const result = batchMove(arr, [1, 2], -1);
+    expect(result).toEqual([[2, 3, 1, 4, 5], true]);
+
+    const result3 = batchMove(arr, [1, 2], -10);
+    expect(result3).toEqual([[2, 3, 1, 4, 5], true]);
+
+    const result1 = batchMove(arr, [1, 10], -1);
+    expect(result1).toEqual([[2, 3, 4, 5, 1], true]);
+  });
+
+  it("case2: 指定移动距离, 超过则只移动到顶部", () => {
+    const result = batchMove(arr, [1, 2], -10);
+    expect(result).toEqual([[2, 3, 1, 4, 5], true]);
+  });
+
+  it("case3: 向右移动", () => {
+    const result = batchMove(arr, [1, 2], 1);
+    expect(result).toEqual([[1, 4, 2, 3, 5], true]);
+
+    const result1 = batchMove(arr, [1, 2], 10);
+    expect(result1).toEqual([[1, 4, 5, 2, 3], true]);
   });
 });
