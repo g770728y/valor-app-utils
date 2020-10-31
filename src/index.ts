@@ -159,8 +159,16 @@ import {
   nextStringId,
   stringIdGenerator,
   nextStrArrayId,
+  ShortGuid,
 } from "./id";
-export { nextId, nextArrayId, nextStringId, stringIdGenerator, nextStrArrayId };
+export {
+  nextId,
+  nextArrayId,
+  nextStringId,
+  stringIdGenerator,
+  nextStrArrayId,
+  ShortGuid,
+};
 
 import {
   css,

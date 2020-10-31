@@ -14,7 +14,7 @@ export function getLastDecendantIndex<A extends TreeArrayItem>(
   if (i === -1) return arr.length - 1;
 
   const itemLevel = arr[i].level;
-  const index = arr.slice(i + 1).findIndex(it => {
+  const index = arr.slice(i + 1).findIndex((it) => {
     return it.level! <= itemLevel!;
   });
   return (index < 0 ? arr.length : index + i + 1) - 1;
@@ -25,8 +25,17 @@ export function getDecendantIndexes<A extends TreeArrayItem>(
   i: number
 ): number[] {
   const itemLevel = arr[i].level;
-  const j = arr.slice(i + 1).findIndex(it => {
+  const j = arr.slice(i + 1).findIndex((it) => {
     return it.level! <= itemLevel!;
   });
   return j < 0 ? R.range(i + 1, arr.length) : R.range(i + 1, i + j + 1);
+}
+
+/**
+ * 快速查询row是否有下级 (O(1))
+ */
+export function hasChildren(rows: TreeArrayItem[], row: TreeArrayItem) {
+  const rowIdx = rows.findIndex((it) => it.id === row.id);
+  const nextRow = rows[rowIdx + 1];
+  return !!(nextRow && nextRow.level === row.level! + 1);
 }

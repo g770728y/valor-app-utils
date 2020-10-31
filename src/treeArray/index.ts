@@ -13,8 +13,12 @@ export { moveUp, moveDown };
 import { pushItemLeft, pushItemRight } from "./pushItem";
 export { pushItemLeft, pushItemRight };
 
-import { getLastDecendantIndex, getDecendantIndexes } from "./query";
-export { getLastDecendantIndex, getDecendantIndexes };
+import {
+  getLastDecendantIndex,
+  getDecendantIndexes,
+  hasChildren,
+} from "./query";
+export { getLastDecendantIndex, getDecendantIndexes, hasChildren };
 
 import { zipByHalfSelect } from "./halfSelectUtil";
 export { zipByHalfSelect };
