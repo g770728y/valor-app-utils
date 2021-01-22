@@ -64,3 +64,22 @@ export function insertHtmlStr_to_editableCaretContainer(
     range.collapse();
   });
 }
+
+/**
+ * 获取 el 到 target的相对距离
+ * 比如 getOffsetTo(el, document.body) 获取 el在body内部的相对位置
+ */
+export function getOffsetTo(el: HTMLElement, target: HTMLElement) {
+  const offset = { left: 0, top: 0 };
+  let _el = el;
+  while (_el && _el !== target) {
+    const offsetLeft = _el.offsetLeft;
+    const offsetTop = _el.offsetTop;
+    offset.left += isNaN(offsetLeft) ? 0 : offsetLeft;
+    offset.top += isNaN(offsetTop) ? 0 : offsetTop;
+    if (el.offsetParent) {
+      _el = _el.offsetParent as HTMLElement;
+    }
+  }
+  return offset;
+}
