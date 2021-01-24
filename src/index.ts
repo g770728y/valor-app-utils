@@ -261,8 +261,8 @@ export { appCache, AppCache };
 import { isCopyFromWord, stripWordTag, renderCatalogNo } from "./office";
 export { isCopyFromWord, stripWordTag, renderCatalogNo };
 
-import { mockLocation } from "./mock";
-export { mockLocation };
+import { mockLocation, mockResizeObserver } from "./mock";
+export { mockLocation, mockResizeObserver };
 
 import { querystring } from "./querystring";
 export { querystring };
