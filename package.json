@@ -1,12 +1,12 @@
 {
   "name": "valor-app-utils",
   "version": "1.0.70",
-  "module": "dist/index.js",
+  "module": "dist_esm/index.js",
   "main": "dist/index.js",
   "author": "g770728y",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist_esm && tsc --module esnext --outDir ./dist_esm && rm -rf dist && tsc",
     "start": "tsc -w",
     "test": "jest --watch"
   },
@@ -21,7 +21,7 @@
     "typescript": "^3.5.2"
   },
   "files": [
-    "dist"
+    "dist", "dist_esm"
   ],
   "peerDependencies": {
     "rambda": "^4.4.0",

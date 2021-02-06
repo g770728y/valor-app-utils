@@ -15,5 +15,5 @@ class MockResizeObserver {
 }
 
 export function mockResizeObserver() {
-  window.ResizeObserver = MockResizeObserver;
+  (window as any).ResizeObserver = MockResizeObserver;
 }
