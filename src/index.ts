@@ -281,3 +281,6 @@ export { shallowEqualsArray };
 
 import { hash } from "./hash";
 export { hash };
+
+import { useEventBus } from "./eventBus";
+export { useEventBus };
