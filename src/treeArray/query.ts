@@ -28,7 +28,9 @@ export function getDecendantIndexes<A extends TreeArrayItem>(
   const j = arr.slice(i + 1).findIndex((it) => {
     return it.level! <= itemLevel!;
   });
-  return j < 0 ? R.range(i + 1, arr.length) : R.range(i + 1, i + j + 1);
+  return j < 0
+    ? R.range(i + 1, arr.length)
+    : (R.range(i + 1, i + j + 1) as any);
 }
 
 /**

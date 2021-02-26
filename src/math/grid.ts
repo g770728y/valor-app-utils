@@ -1,6 +1,6 @@
-import * as R from 'rambda';
-import * as Rx from 'rambdax';
-import { findIndexFrom } from '../array';
+import * as R from "rambda";
+import * as Rx from "rambdax";
+import { findIndexFrom } from "../array";
 
 export interface Cell {
   x: number;
@@ -27,15 +27,15 @@ export function inferBlankCells(grid: Grid, existedCells: Cell[]): Cell[] {
 
   // 准备数据 ( 将cell已填充的单元格, 全部置1 )
   const filledIndexes: number[] = R.flatten(
-    existedCells.map(it => _getGridIndexes(grid, it))
+    existedCells.map((it) => _getGridIndexes(grid, it))
   ) as any;
   const filledGridAsArray = filledIndexes.reduce(
-    (acc, idx) => R.update(idx, 1, acc),
+    (acc, idx) => R.update(idx, 1, acc) as any,
     emptyGrid
   );
 
   // 发起递归, 一次次查找空白单元格
-  return _getBlankCells(filledGridAsArray, grid.cols);
+  return _getBlankCells(filledGridAsArray as any, grid.cols);
 }
 
 /**
@@ -44,7 +44,7 @@ export function inferBlankCells(grid: Grid, existedCells: Cell[]): Cell[] {
  */
 export function _getGridIndexes(grid: Grid, cell: Cell): number[] {
   const startIndexInRow = (cell.y * grid.cols + cell.x) % grid.cols;
-  const indexes = R.range(cell.y, cell.y + cell.h).map(row =>
+  const indexes = R.range(cell.y, cell.y + cell.h).map((row) =>
     R.range(
       row * grid.cols + startIndexInRow,
       row * grid.cols + startIndexInRow + cell.w
@@ -66,12 +66,12 @@ export function _getBlankCells(
   cells?: Cell[]
 ): Cell[] {
   // 如果没有空白单元格, 则返回cells
-  const startIndexInArr = arr.findIndex(n => n === 0);
+  const startIndexInArr = arr.findIndex((n) => n === 0);
   if (startIndexInArr < 0) return cells || [];
 
   // 有空白单元格, 则找到cell.w, 然后从当前行向下递归找cell.h
   const rowIndex = (startIndexInArr / cols) | 0;
-  let toIndexInArr = findIndexFrom(arr, startIndexInArr, n => n === 1);
+  let toIndexInArr = findIndexFrom(arr, startIndexInArr, (n) => n === 1);
   toIndexInArr =
     toIndexInArr < 0 || toIndexInArr > (rowIndex + 1) * cols - 1
       ? (rowIndex + 1) * cols - 1
@@ -80,14 +80,14 @@ export function _getBlankCells(
     x: startIndexInArr % cols,
     y: rowIndex,
     w: toIndexInArr - startIndexInArr + 1,
-    h: 1
+    h: 1,
   });
 
   // 已经找到的cell填1
   const newArr = _getGridIndexes(
     { rows: arr.length / cols, cols },
     cell
-  ).reduce((acc, idx) => R.update(idx, 1, acc), arr);
+  ).reduce((acc, idx) => R.update(idx, 1, acc) as any, arr);
 
   return _getBlankCells(newArr, cols, [...(cells || []), cell]);
 }
@@ -114,12 +114,12 @@ function _getContinueCell(
   const toIndexInArr = fromRowIndex * cols + cell.x + cell.w;
   const matched =
     !R.isEmpty(arr) &&
-    arr.slice(startIndexInArr, toIndexInArr).every(it => it === 0);
+    arr.slice(startIndexInArr, toIndexInArr).every((it) => it === 0);
 
   return matched
     ? _getContinueCell(arr, fromRowIndex + 1, cols, {
         ...cell,
-        h: cell.h + 1
+        h: cell.h + 1,
       })
     : { ...cell };
 }

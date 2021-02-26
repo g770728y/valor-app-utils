@@ -95,21 +95,18 @@ export function arrayCompareBy<T extends {}>(
   // 因为diff操作耗性能, 所以这里先将范围缩小
   const restArr1 = R.without([...removed, ...reserved], arr1);
   const restArr2 = R.without([...added, ...reserved], arr2);
-  const _updated = restArr2.reduce(
-    (acc, arr2El) => {
-      const arr2Id = arr2El[id];
-      const arr1El = restArr1.find((_el) => _el[id] === arr2Id);
-      if (!arr1El)
-        throw new Error(
-          "数组比较出错" +
-            JSON.stringify(restArr1) +
-            "    " +
-            JSON.stringify(restArr2)
-        );
-      return [...acc, objSubtract(arr2El, arr1El, id + "")];
-    },
-    [] as any[]
-  );
+  const _updated = restArr2.reduce((acc, arr2El) => {
+    const arr2Id = arr2El[id];
+    const arr1El = restArr1.find((_el) => _el[id] === arr2Id);
+    if (!arr1El)
+      throw new Error(
+        "数组比较出错" +
+          JSON.stringify(restArr1) +
+          "    " +
+          JSON.stringify(restArr2)
+      );
+    return [...acc, objSubtract(arr2El, arr1El, id + "")];
+  }, [] as any[]);
 
   // 防止出现 [{id:1},{id:2}], 这样仅剩id的情形
   const updated = _updated.filter((it) => Object.keys(it).length > 1);
@@ -139,7 +136,7 @@ export function patchByDiffs<T extends { id: any }>(
     const idx = acc.findIndex((it) => it.id === itemPatch.id!);
     return idx >= 0
       ? R.update(idx, { ...acc[idx], ...itemPatch }, acc)
-      : [...acc];
+      : ([...acc] as any);
   }, arr);
 
   const arr2 = (diffs.added || []).reduce(
@@ -161,7 +158,7 @@ export function upsert<T extends {}>(
 ): T[] {
   const idx = arr.findIndex(query);
   return idx < 0
-    ? [...arr, patch as T]
+    ? ([...arr, patch as T] as any)
     : R.update(idx, { ...arr[idx], ...patch } as T, arr);
 }
 

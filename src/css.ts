@@ -95,7 +95,7 @@ export function getMarginFromStyle(
 
   const margins = R.map((i) => marginLRTB[i] || margin4[i], R.range(0, 4));
 
-  return singular ? margins[0] : margins;
+  return singular ? margins[0] : (margins as any);
 }
 
 export function reactStyle2style(reactStyle: Record<string, any>): string {

@@ -7,7 +7,9 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*", "**/*.test.ts", "**/*.test.js"]

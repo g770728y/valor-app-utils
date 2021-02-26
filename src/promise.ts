@@ -5,7 +5,7 @@ export function waitUntil(f: () => boolean): Promise<any> {
     timeHandler = setInterval(() => {
       if (f()) {
         clearInterval(timeHandler);
-        resolve();
+        resolve(void 0);
       }
     }, 100);
   });
