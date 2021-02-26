@@ -1,6 +1,6 @@
 {
   "name": "valor-app-utils",
-  "version": "1.0.72",
+  "version": "2.0.0",
   "module": "dist_esm/index.js",
   "main": "dist/index.js",
   "author": "g770728y",
@@ -15,17 +15,17 @@
     "csstype": "^2.6.6",
     "fast-deep-equal": "^3.1.1",
     "jest": "^24.8.0",
-    "rambda": "^4.4.0",
-    "rambdax": "^3.5.0",
+    "rambda": "^6.5.3",
+    "rambdax": "^7.2.0",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.2"
+    "typescript": "^4.1.0"
   },
   "files": [
     "dist", "dist_esm"
   ],
   "peerDependencies": {
-    "rambda": "^4.4.0",
-    "rambdax": "^3.5.0"
+    "rambda": "^6.5.3",
+    "rambdax": "^7.2.0"
   },
   "dependencies": {
     "dayjs": "^1.8.15"

@@ -2738,15 +2738,15 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-rambda@^4.4.0:
-  version "4.6.0"
-  resolved "https://registry.npm.taobao.org/rambda/download/rambda-4.6.0.tgz#79a47911329c91ad6094a0425a2980ec19e6ba72"
-  integrity sha1-eaR5ETKcka1glKBCWimA7BnmunI=
+rambda@^6.5.3:
+  version "6.5.3"
+  resolved "https://registry.npm.taobao.org/rambda/download/rambda-6.5.3.tgz#c83908b5c28ee39428ba049382ca040cbadf2f38"
+  integrity sha1-yDkItcKO45QougSTgsoEDLrfLzg=
 
-rambdax@^3.5.0:
-  version "3.7.0"
-  resolved "https://registry.npm.taobao.org/rambdax/download/rambdax-3.7.0.tgz#bc89ced092f95521555eb24fe0a29039807a4756"
-  integrity sha1-vInO0JL5VSFVXrJP4KKQOYB6R1Y=
+rambdax@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.npm.taobao.org/rambdax/download/rambdax-7.2.0.tgz#f2632cb96a89d330d05fa41b488c12185b46001a"
+  integrity sha1-8mMsuWqJ0zDQX6QbSIwSGFtGABo=
 
 rc@^1.2.7:
   version "1.2.8"
@@ -3383,10 +3383,10 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-typescript@^3.5.2:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
-  integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
+typescript@^4.1.0:
+  version "4.2.2"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.2.2.tgz?cache=0&sync_timestamp=1614323994898&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.2.2.tgz#1450f020618f872db0ea17317d16d8da8ddb8c4c"
+  integrity sha1-FFDwIGGPhy2w6hcxfRbY2o3bjEw=
 
 uglify-js@^3.1.4:
   version "3.6.0"
