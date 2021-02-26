@@ -1,6 +1,4 @@
-import { fromPairs } from "rambda";
-import * as R from "rambda";
-import { removeNils } from "./object";
+import * as R from "rambdax";
 
 // memory: 不要使用DomParser, 原因是: 校验更严格, 甚至 "<p>1</p><p>2</p>"也无法能通过(必须要有root)
 // withRoot: 是否保留div根结点 ? 对于prosemirror需要保留
@@ -44,7 +42,7 @@ export function getAllSrcsFromHtmlStr(rawHtml: string) {
   const r = new RegExp(`src[\\s]*?=[\\s]*?["']([\\s\\S]+?)["']`, "g");
   const v = rawHtml.match(r);
   if (v) {
-    return v.map(_match => getAttrFromHtmlStr(_match, "src"));
+    return v.map((_match) => getAttrFromHtmlStr(_match, "src"));
   } else {
     return null;
   }
@@ -52,12 +50,12 @@ export function getAllSrcsFromHtmlStr(rawHtml: string) {
 
 export function stripHtmlTag(s: string) {
   return s
-    .replace(/<style>[\s\S]*?<\/style>/g, _ => "")
-    .replace(/<script>[\s\S]*?<\/script>/g, _ => "")
-    .replace(/^[\s]*?</g, _ => "<")
-    .replace(/>[\s]*?$/g, _ => ">")
-    .replace(/>[\s]*?</g, _ => "><")
-    .replace(/<[^>]+?>/g, _ => "");
+    .replace(/<style>[\s\S]*?<\/style>/g, (_) => "")
+    .replace(/<script>[\s\S]*?<\/script>/g, (_) => "")
+    .replace(/^[\s]*?</g, (_) => "<")
+    .replace(/>[\s]*?$/g, (_) => ">")
+    .replace(/>[\s]*?</g, (_) => "><")
+    .replace(/<[^>]+?>/g, (_) => "");
 }
 
 // 这是一个可变方法!!!, 最终将修改doc
@@ -68,7 +66,7 @@ export function renameTag_danger(
 ) {
   const nodes = Array.from(doc.querySelectorAll(fromSelector));
   // 必须要倒序! 避免 <div 1> <div 11> <div 111></div></div></div> 这样的嵌套情况 ( 应先运算 div 111 )
-  R.reverse(nodes).forEach(node => {
+  R.reverse(nodes).forEach((node) => {
     const newNode = document.createElement(toTag);
     node.getAttributeNames().forEach((attrKey: string) => {
       newNode.setAttribute(attrKey, node.getAttribute(attrKey)!);

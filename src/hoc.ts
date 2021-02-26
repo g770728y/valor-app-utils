@@ -1,4 +1,4 @@
-import * as R from "rambda";
+import * as R from "rambdax";
 
 /**
  * Rambda.memoize的升级版

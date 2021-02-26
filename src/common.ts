@@ -1,5 +1,4 @@
 import { isPlainObject } from "./object";
-import * as R from "rambda";
 
 /**
  * 选定的keys, 如果数据存在, 才去判断是否相等
@@ -10,7 +9,7 @@ import * as R from "rambda";
  */
 export function partialEquals(data: any, patch: any, keys: string[]): boolean {
   if (!isPlainObject(data) || !isPlainObject(patch)) return false;
-  return keys.every(k => {
+  return keys.every((k) => {
     return patch[k] === undefined || patch[k] === data[k];
   });
 }

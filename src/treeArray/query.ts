@@ -1,5 +1,5 @@
 import { TreeArrayItem } from ".";
-import * as R from "rambda";
+import * as R from "rambdax";
 
 /**
  * i对应的节点, 可能有多个子孙节点, 返回最后一个子孙节点的index

@@ -1,8 +1,8 @@
-import { TreeNode, Identity } from './interface';
-import { getTreeContexts } from './context';
-import { findTreeNode } from './findNode';
-import { swapByProp, dropIndex } from '../array';
-import * as R from 'rambda';
+import { TreeNode, Identity } from "./interface";
+import { getTreeContexts } from "./context";
+import { findTreeNode } from "./findNode";
+import { swapByProp, dropIndex } from "../array";
+import * as R from "rambdax";
 
 // 为何有clone选项? 对于mobx管理的对象, 最好直接改原对象, 克隆代价太高
 export function pushTreeNodeLeft<T extends Identity>(
@@ -14,7 +14,7 @@ export function pushTreeNodeLeft<T extends Identity>(
   const contexts = getTreeContexts(tree);
 
   const nodeContext = contexts[id];
-  const parent = findTreeNode(tree, node => node.id === nodeContext.parentId);
+  const parent = findTreeNode(tree, (node) => node.id === nodeContext.parentId);
 
   if (nodeContext.level <= 1) {
     // 1. 根结点 + 一级节点 不可左移
@@ -49,12 +49,12 @@ export function pushTreeNodeLeft<T extends Identity>(
   const parentIndex = parentContext.index;
   const parentParent = findTreeNode(
     tree,
-    node => node.id === parentContext.parentId
+    (node) => node.id === parentContext.parentId
   )!;
   parentParent.children = [
     ...parentParent.children!.slice(0, parentIndex + 1),
     node,
-    ...parentParent.children!.slice(parentIndex + 1)
+    ...parentParent.children!.slice(parentIndex + 1),
   ];
 
   return tree;
@@ -70,7 +70,7 @@ export function pushTreeNodeRight<T extends Identity>(
   const contexts = getTreeContexts(tree);
 
   const nodeContext = contexts[id];
-  const parent = findTreeNode(tree, node => node.id === nodeContext.parentId);
+  const parent = findTreeNode(tree, (node) => node.id === nodeContext.parentId);
 
   if (nodeContext.level < 1) {
     // 1. 根结点 不可右移

@@ -1,5 +1,5 @@
 import { RootNodeId, TreeNode, Identity } from "./interface";
-import * as R from "rambda";
+import * as R from "rambdax";
 import { traverseTree } from "./traverse";
 import { SimpleNodeContext } from "./context";
 
@@ -25,7 +25,7 @@ export function array2tree_byLevel<A extends { id: any; level: number }>(
 
       const newNode = {
         ...node,
-        children: []
+        children: [],
       };
       if (!!pNode) pNode.children!.push(newNode);
       return [...acc, newNode];
@@ -34,8 +34,8 @@ export function array2tree_byLevel<A extends { id: any; level: number }>(
       {
         id: rootId,
         level: minLevel,
-        children: []
-      }
+        children: [],
+      },
     ]
   );
 
@@ -60,7 +60,7 @@ export function array2tree_byPid<A extends { id: any; pid: any }>(
 
       const newNode = {
         ...node,
-        children: []
+        children: [],
       };
       if (!!pNode) pNode.children!.push(newNode);
       return [...acc, newNode];
@@ -69,8 +69,8 @@ export function array2tree_byPid<A extends { id: any; pid: any }>(
       {
         id: rootId,
         [pidField]: undefined,
-        children: []
-      }
+        children: [],
+      },
     ]
   );
 

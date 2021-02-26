@@ -2,7 +2,7 @@ import { TreeNode } from "./interface";
 import { findTreeNode } from "./findNode";
 import { insertIndex, dropIndex } from "../array";
 import { getTreeContexts } from "./context";
-import * as R from "rambda";
+import * as R from "rambdax";
 
 export function createTreeNode<T extends { id: any }>(
   _tree: TreeNode<T>,
@@ -12,7 +12,7 @@ export function createTreeNode<T extends { id: any }>(
 ) {
   const tree = options && options.clone ? R.clone(_tree) : _tree;
 
-  const node = findTreeNode(tree, node => node.id === id)!;
+  const node = findTreeNode(tree, (node) => node.id === id)!;
   const contexts = getTreeContexts(tree);
   const nodeContext = contexts[node.id];
 
@@ -21,8 +21,11 @@ export function createTreeNode<T extends { id: any }>(
     node.children = [data, ...(node.children || [])];
   } else {
     // 非根, 叶,播入为平级下一节点
-    const parent = findTreeNode(tree, node => node.id === nodeContext.parentId);
-    const idx = parent!.children!.findIndex(it => it.id === id);
+    const parent = findTreeNode(
+      tree,
+      (node) => node.id === nodeContext.parentId
+    );
+    const idx = parent!.children!.findIndex((it) => it.id === id);
     parent &&
       (parent.children = insertIndex(parent!.children || [], idx + 1, data));
   }
@@ -38,7 +41,7 @@ export function createSiblingTreeNode<T extends { id: any }>(
 ) {
   const tree = options && options.clone ? R.clone(_tree) : _tree;
 
-  const node = findTreeNode(tree, node => node.id === id)!;
+  const node = findTreeNode(tree, (node) => node.id === id)!;
   const contexts = getTreeContexts(tree);
   const nodeContext = contexts[node.id];
 
@@ -47,8 +50,11 @@ export function createSiblingTreeNode<T extends { id: any }>(
     return tree;
   } else {
     // 非根结点
-    const parent = findTreeNode(tree, node => node.id === nodeContext.parentId);
-    const idx = parent!.children!.findIndex(it => it.id === id);
+    const parent = findTreeNode(
+      tree,
+      (node) => node.id === nodeContext.parentId
+    );
+    const idx = parent!.children!.findIndex((it) => it.id === id);
     parent &&
       (parent.children = insertIndex(parent!.children || [], idx + 1, data));
     return tree;
@@ -66,7 +72,7 @@ export function createChildTreeNode<T extends { id: any }>(
 ) {
   const tree = options && options.clone ? R.clone(_tree) : _tree;
 
-  const node = findTreeNode(tree, node => node.id === id)!;
+  const node = findTreeNode(tree, (node) => node.id === id)!;
   const _insertAt =
     options && options.insertAt !== undefined
       ? options.insertAt
@@ -83,7 +89,7 @@ export function deleteTreeNode<T extends { id: any }>(
 ) {
   const tree = options && options.clone ? R.clone(_tree) : _tree;
 
-  const node = findTreeNode(tree, node => node.id === id)!;
+  const node = findTreeNode(tree, (node) => node.id === id)!;
   const contexts = getTreeContexts(tree);
   const nodeContext = contexts[node.id];
 
@@ -91,7 +97,10 @@ export function deleteTreeNode<T extends { id: any }>(
     // 根结点 不可删除
   } else {
     // 非根, 叶,播入为平级下一节点
-    const parent = findTreeNode(tree, node => node.id === nodeContext.parentId);
+    const parent = findTreeNode(
+      tree,
+      (node) => node.id === nodeContext.parentId
+    );
     parent &&
       (parent.children = dropIndex(parent!.children || [], nodeContext.index));
   }

@@ -1,4 +1,4 @@
-import * as R from "rambda";
+import * as R from "rambdax";
 import { padding } from "./array";
 
 export function isPlainObject(obj: any): boolean {
@@ -12,10 +12,12 @@ export function isPlainObject(obj: any): boolean {
 
 export function reverseKV(obj: Record<string, any>): Record<string, string> {
   if (!obj) return {};
-  return R.fromPairs(R.toPairs(obj).reduce(
-    (acc: string[][], [k, v]) => [...acc, [v, k]],
-    []
-  ) as any);
+  return R.fromPairs(
+    R.toPairs(obj).reduce(
+      (acc: string[][], [k, v]) => [...acc, [v, k]],
+      []
+    ) as any
+  );
 }
 
 export function remove<T extends Record<string, any>>(
@@ -51,31 +53,28 @@ export function removeNils(
   } = {
     removeBlank: false,
     removeEmpty: false,
-    recursive: false
+    recursive: false,
   }
 ): Record<string, any> {
   const deep = !!(options && options.recursive);
   if (!isPlainObject(obj)) return obj;
 
-  return Object.keys(obj).reduce(
-    (acc, k) => {
-      const v = obj[k];
-      return R.isNil(v)
+  return Object.keys(obj).reduce((acc, k) => {
+    const v = obj[k];
+    return R.isNil(v)
+      ? acc
+      : options.removeBlank && v === ""
+      ? acc
+      : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
+      ? acc
+      : deep && Array.isArray(v)
+      ? { ...acc, [k]: v.map((it) => removeNils(it, options)) }
+      : deep && isPlainObject(v)
+      ? R.isEmpty(removeNils(v, options))
         ? acc
-        : options.removeBlank && v === ""
-        ? acc
-        : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
-        ? acc
-        : deep && Array.isArray(v)
-        ? { ...acc, [k]: v.map(it => removeNils(it, options)) }
-        : deep && isPlainObject(v)
-        ? R.isEmpty(removeNils(v, options))
-          ? acc
-          : { ...acc, [k]: removeNils(v, options) }
-        : { ...acc, [k]: v };
-    },
-    {} as Record<string, any>
-  );
+        : { ...acc, [k]: removeNils(v, options) }
+      : { ...acc, [k]: v };
+  }, {} as Record<string, any>);
 }
 
 export function removeProp(
@@ -86,19 +85,16 @@ export function removeProp(
   const deep = !!(options && options.recursive);
   if (!isPlainObject(obj)) return obj;
 
-  return Object.keys(obj).reduce(
-    (acc, k) => {
-      const v = obj[k];
-      return prop === k
-        ? { ...acc }
-        : ((deep && isPlainObject(v)
-            ? { ...acc, [k]: removeProp(v, prop, options) }
-            : deep && Array.isArray(v)
-            ? { ...acc, [k]: v.map(it => removeProp(it, prop, options)) }
-            : { ...acc, [k]: v }) as any);
-    },
-    {} as Record<string, any>
-  );
+  return Object.keys(obj).reduce((acc, k) => {
+    const v = obj[k];
+    return prop === k
+      ? { ...acc }
+      : ((deep && isPlainObject(v)
+          ? { ...acc, [k]: removeProp(v, prop, options) }
+          : deep && Array.isArray(v)
+          ? { ...acc, [k]: v.map((it) => removeProp(it, prop, options)) }
+          : { ...acc, [k]: v }) as any);
+  }, {} as Record<string, any>);
 }
 
 // 返回obj2有, 但obj1没有, 或obj2[k]!==obj1[k] 所对应的entries, 约等于 obj2-obj1
@@ -142,7 +138,7 @@ export function objSubtractDeep<T extends {}>(
   }, {});
 
   return R.filter(
-    v =>
+    (v) =>
       !(
         (options.removeNil && R.isNil(v)) ||
         (options.removeEmpty && (R.equals({}, v) || R.equals([], v))) ||

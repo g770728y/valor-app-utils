@@ -3,11 +3,11 @@
 // 但 main 里自己的picker 也需要cache ( 这里的picker 并非全部使用uform-ext的组件)
 // 其实这里完全可以扩展成一个 可缓存到localStorage的 cache
 
-import * as R from 'rambda';
+import * as R from "rambdax";
 
 export class AppCache {
   // 帮助调用者判断, 比如你可以用: appCache.get(id || AppCache.DreamerId) ,  以避免一堆判断:  appCache.get(id) ? appCache.get(id) || '' : ..
-  static DreamerId = '_not_exists_at_all_';
+  static DreamerId = "_not_exists_at_all_";
 
   cache: Record<string, any> = {};
 
@@ -15,7 +15,7 @@ export class AppCache {
     if (k === AppCache.DreamerId) return null;
 
     const strv0 = localStorage.getItem(k);
-    const str = R.isNil(strv0) ? 'null' : strv0;
+    const str = R.isNil(strv0) ? "null" : strv0;
     return this.cache[k] || JSON.parse(str) || defaultValue || null;
   };
 

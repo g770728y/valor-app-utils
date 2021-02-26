@@ -1,4 +1,4 @@
-import { add, is } from 'rambda';
+import { add, is } from "rambdax";
 
 export function min(xs: number[], defaultValue?: number) {
   return xs.length === 0 && is(Number, defaultValue)
@@ -16,7 +16,7 @@ export function sum(xs: any[]): number {
   return xs
     .filter(is(Number))
     .filter(Number.isFinite)
-    .filter(it => !Number.isNaN(it))
+    .filter((it) => !Number.isNaN(it))
     .reduce(add, 0);
 }
 

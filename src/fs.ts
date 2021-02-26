@@ -1,4 +1,4 @@
-import * as R from 'rambda';
+import * as R from "rambdax";
 
 export function humanReadableCapacity(b: number): string {
   return b < Math.pow(10, 3)
@@ -21,18 +21,18 @@ export function filename(path: string): string | null {
 // 以下方法来自: https://stackoverflow.com/questions/17527713/force-browser-to-download-image-files-on-click/49836565#49836565
 function toDataURL(url: string) {
   return fetch(url)
-    .then(response => {
+    .then((response) => {
       return response.blob();
     })
-    .then(blob => {
+    .then((blob) => {
       return URL.createObjectURL(blob);
     });
 }
 export function download(url: string, fileName?: string) {
-  toDataURL(url).then(hrefDataUrl => {
-    const a = document.createElement('a');
+  toDataURL(url).then((hrefDataUrl) => {
+    const a = document.createElement("a");
     a.href = hrefDataUrl;
-    a.download = fileName || filename(url) || 'file';
+    a.download = fileName || filename(url) || "file";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -40,10 +40,10 @@ export function download(url: string, fileName?: string) {
 }
 
 export function getFileExt(fileName: string): string | null {
-  const lastIndex = fileName.lastIndexOf('.');
+  const lastIndex = fileName.lastIndexOf(".");
   return lastIndex < 0
     ? null
     : lastIndex === fileName.length - 1
-    ? ''
+    ? ""
     : fileName.slice(lastIndex + 1);
 }

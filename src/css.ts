@@ -1,4 +1,4 @@
-import * as R from "rambda";
+import * as R from "rambdax";
 import { removeNils, getOrElse, getNumberOrElse, remove } from "./object";
 import { camel2snake, snake2camel, isNumberLike, ensureSuffix } from "./string";
 

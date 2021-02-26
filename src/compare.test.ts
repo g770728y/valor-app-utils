@@ -1,4 +1,4 @@
-import * as R from "rambda";
+import * as R from "rambdax";
 import { equals, shallowEqualsArray } from "./compare";
 const fastEqual = require("fast-deep-equal");
 

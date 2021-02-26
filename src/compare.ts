@@ -1,5 +1,5 @@
 import { isPlainObject } from "./object";
-import * as R from "rambda";
+import * as R from "rambdax";
 import fastEquals from "fast-deep-equal";
 
 /**

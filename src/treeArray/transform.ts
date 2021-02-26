@@ -2,7 +2,7 @@ import { Identity } from "../tree/interface";
 import { TreeNode, array2tree_byLevel, array2tree_byPid } from "../tree";
 import { tree2Array } from "../tree/transform";
 import { TreeArrayItem } from "./interface";
-import * as R from "rambda";
+import * as R from "rambdax";
 
 export function array2tree<A extends TreeArrayItem>(arr: A[]): TreeNode<A> {
   if (arr.length <= 0) {

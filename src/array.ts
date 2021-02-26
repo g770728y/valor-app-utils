@@ -1,6 +1,5 @@
-import * as R from "rambda";
 import { objSubtract, idMap } from "./object";
-import * as Rx from "rambdax";
+import * as R from "rambdax";
 
 /**
  * 从fromIndex查找符合condition的index
@@ -167,7 +166,7 @@ export function insertArround<T>(
   placeholder: T | ((i: number) => T)
 ): T[] {
   const f = (i?: number) =>
-    Rx.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
+    R.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
   const result = arr.reduce((acc, curr, idx) => [...acc, curr, f(idx + 1)], [
     f(0),
   ]);
@@ -180,7 +179,7 @@ export function insertBetween<T>(
   placeholder: T | ((i: number) => T)
 ): T[] {
   const f = (i?: number) =>
-    Rx.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
+    R.isFunction(placeholder) ? (placeholder as any)(i) : placeholder;
   const result = arr.reduce(
     (acc, curr, idx) => [...acc, f(idx - 1), curr],
     [] as T[]

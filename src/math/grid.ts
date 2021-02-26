@@ -1,4 +1,4 @@
-import * as R from "rambda";
+import * as R from "rambdax";
 import * as Rx from "rambdax";
 import { findIndexFrom } from "../array";
 

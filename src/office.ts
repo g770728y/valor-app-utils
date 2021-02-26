@@ -1,6 +1,6 @@
 import { stripHtmlTag } from ".";
 import { toHzNumber } from "./translate";
-import * as R from "rambda";
+import * as R from "rambdax";
 
 export function isCopyFromWord(s: string): boolean {
   return (
@@ -29,5 +29,5 @@ export function renderCatalogNo(template: string, paths: number[]) {
   let i = 0;
   return template
     .replace("{N}", toHzNumber(index) + "")
-    .replace(/({n})/g, _ => _paths[i++] + "");
+    .replace(/({n})/g, (_) => _paths[i++] + "");
 }

@@ -1,4 +1,4 @@
-import * as R from 'rambda';
+import * as R from "rambdax";
 
 /**
  * 有向无环图排序
@@ -10,13 +10,13 @@ export function dagSort<T>(nodes: [T, T[]][]): T[][] {
   const nodesClone = R.clone(nodes);
 
   function _sort(_nodes: [T, T[]][], acc: T[][]): T[][] {
-    const verts = _nodes.map(it => it[0]);
-    const adjVerts = new Set(R.flatten(_nodes.map(it => it[1])) as any);
+    const verts = _nodes.map((it) => it[0]);
+    const adjVerts = new Set(R.flatten(_nodes.map((it) => it[1])) as any);
     const diff = verts.reduce(
       (acc, x) => (adjVerts.has(x) ? acc : [...acc, x]),
       [] as T[]
     );
-    const rest = _nodes.filter(it => !diff.includes(it[0]));
+    const rest = _nodes.filter((it) => !diff.includes(it[0]));
     return R.isEmpty(rest) ? [...acc, diff] : _sort(rest, [...acc, diff]);
   }
 

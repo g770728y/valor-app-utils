@@ -1,5 +1,5 @@
 import { sliceBy } from "./array";
-import * as R from "rambda";
+import * as R from "rambdax";
 
 export function querystring(s: string): Record<string, string> {
   const ss = s.includes("http")
@@ -8,7 +8,7 @@ export function querystring(s: string): Record<string, string> {
   return R.fromPairs(
     decodeURIComponent(ss)
       .split("&")
-      .map(segment =>
+      .map((segment) =>
         segment && segment.includes("=") ? segment.split("=") : ([] as any)
       )
   );
