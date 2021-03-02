@@ -267,8 +267,8 @@ export { mockLocation, mockResizeObserver };
 import { querystring } from "./querystring";
 export { querystring };
 
-import { toHzNumber } from "./translate";
-export { toHzNumber };
+import { toHzNumber, parseInt36 } from "./translate";
+export { toHzNumber, parseInt36 };
 
 import * as treeArray from "./treeArray";
 export { treeArray };
@@ -276,8 +276,8 @@ export { treeArray };
 import { getDateRange } from "./time";
 export { getDateRange };
 
-import { shallowEqualsArray } from "./compare";
-export { shallowEqualsArray };
+import { shallowEqualsArray, compareDividedCode } from "./compare";
+export { shallowEqualsArray, compareDividedCode };
 
 import { hash } from "./hash";
 export { hash };

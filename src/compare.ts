@@ -1,6 +1,7 @@
 import { isPlainObject } from "./object";
 import * as R from "rambdax";
 import fastEquals from "fast-deep-equal";
+import { parseInt36 } from "./translate";
 
 /**
  * 聪明的比较: 先比较引用, 如果引用不等, 再进行深比较
@@ -55,4 +56,31 @@ export function shallowEqualsArray<T>(a: T[], b: T[]): boolean {
   }
 
   return true;
+}
+
+// 301-a-1 vs 301-b-1
+// 302 vs 301-a
+// S1 vs S3-1
+export function compareDividedCode(
+  s1: string,
+  s2: string,
+  divider = "-"
+): number {
+  const s1_segments = s1.split("-");
+  const s2_segments = s2.split("-");
+  const len = Math.max(s1_segments.length, s2_segments.length);
+
+  for (let i = 0; i < len; i++) {
+    const s1_segment = s1_segments[i];
+    const s2_segment = s2_segments[i];
+    // null < everything
+    if (!s1_segment) return -1;
+    if (!s2_segment) return 1;
+
+    const s1_int = parseInt36(s1_segment);
+    const s2_int = parseInt36(s2_segment);
+    const curr = s1_int - s2_int;
+    if (curr !== 0) return curr;
+  }
+  return 0;
 }

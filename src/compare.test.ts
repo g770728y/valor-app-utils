@@ -1,5 +1,5 @@
 import * as R from "rambdax";
-import { equals, shallowEqualsArray } from "./compare";
+import { compareDividedCode, equals, shallowEqualsArray } from "./compare";
 const fastEqual = require("fast-deep-equal");
 
 describe("equals", () => {
@@ -125,4 +125,68 @@ describe("shallowEqualsArray", () => {
     fastEqual(a, b);
   }
   console.timeEnd("用fast-deep-equal测试10万次");
+});
+
+// 分段编码大小比较
+describe("compareDivivedCode", () => {
+  ////////////// 原则: 类似: 图号, 工程量清单代码, 字母与字母比, 数字与数字比, 不存在其它意外
+  /////////////  比如, 1. 不会遇到a与1比
+  describe("单段比较", () => {
+    it("单字符", () => {
+      expect(compareDividedCode("1", "0")).toBeGreaterThan(0);
+      expect(compareDividedCode("0", "0")).toEqual(0);
+      expect(compareDividedCode("0", "1")).toBeLessThan(0);
+
+      expect(compareDividedCode("a", "b")).toBeLessThan(0);
+      expect(compareDividedCode("b", "a")).toBeGreaterThan(0);
+      expect(compareDividedCode("b", "b")).toEqual(0);
+
+      expect(compareDividedCode("1", "b")).toBeLessThan(0);
+      expect(compareDividedCode("b", "1")).toBeGreaterThan(0);
+    });
+
+    it("多字符, 长度相等", () => {
+      expect(compareDividedCode("111", "110")).toBeGreaterThan(0);
+      expect(compareDividedCode("111", "111")).toEqual(0);
+      expect(compareDividedCode("110", "111")).toBeLessThan(0);
+    });
+
+    it("", () => {
+      // 纯数字, 前补0
+      expect(compareDividedCode("111", "11" /*011*/)).toBeGreaterThan(0);
+
+      // 先字母, 再数字, 数字前补0
+      // S11 => S-11, 拆成两段
+      expect(compareDividedCode("S11", "S10")).toBeGreaterThan(0);
+      expect(compareDividedCode("S11", "S9" /*S09*/)).toBeGreaterThan(0);
+
+      // 先数字, 再字母
+      expect(compareDividedCode("5a", "3b")).toBeGreaterThan(0);
+
+      // 先数字, 再字母, 长度不等
+      // 工程量清单:
+      //  -1
+      //  -1a (增补)
+      //  -2
+      expect(compareDividedCode("1a", "1" /*1 */)).toBeGreaterThan(0);
+      // 暂未实现
+      // expect(compareDividedCode("2" /*2 */, "1a")).toBeGreaterThan(0);
+      // expect(compareDividedCode("302" /*302 */, "301a")).toBeGreaterThan(0);
+
+      // 先数字, 再字母, 缺失, 数字前补0, 字符补空格
+      expect(compareDividedCode("10a", "3" /*03 */)).toBeGreaterThan(0);
+    });
+  });
+
+  describe("多段", () => {
+    it("段数相等", () => {
+      expect(compareDividedCode("301-c-1", "301-b-1")).toBeGreaterThan(0);
+    });
+
+    it("段数不等", () => {
+      // 300 => 300-0-
+      expect(compareDividedCode("300", "201-1-a")).toBeGreaterThan(0);
+      expect(compareDividedCode("300-2-1", "201")).toBeGreaterThan(0);
+    });
+  });
 });
