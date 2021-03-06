@@ -20,8 +20,12 @@ export class EventBus {
     );
   };
 
-  removeAll = (type: string) => {
-    delete this.subscribes[type];
+  removeAll = (type?: string) => {
+    if (type) {
+      delete this.subscribes[type];
+    } else {
+      this.subscribes = {};
+    }
   };
 
   dispatchEvent = (type: string, params: any) => {
