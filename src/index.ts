@@ -117,6 +117,7 @@ import { formatNumber, formatPercent, formatPermillage } from "./format";
 export { formatNumber, formatPercent, formatPermillage };
 
 import {
+  getAncestors,
   TreeContext,
   TreeNode,
   NodeContext,
@@ -137,6 +138,7 @@ import {
   traverseTree,
 } from "./tree";
 export {
+  getAncestors,
   TreeContext,
   TreeNode,
   NodeContext,

@@ -30,3 +30,6 @@ export { array2tree_byLevel, array2tree_byPid, tree2Array };
 
 import { traverseTree } from "./traverse";
 export { traverseTree };
+
+import { getAncestors } from "./query";
+export { getAncestors };
