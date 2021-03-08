@@ -4,7 +4,7 @@ import { SimpleNodeContext, TreeContext } from "../tree/context";
 import {
   createSiblingTreeNode,
   createChildTreeNode,
-  deleteTreeNode
+  deleteTreeNode,
 } from "../tree/createNode";
 import { actionWrapper } from "./util";
 import { array2tree } from "./transform";
@@ -20,28 +20,30 @@ import { replaceById } from "../array";
 export function createSiblingItem<A extends TreeArrayItem>(
   arr: A[],
   data: A | A[],
-  baseI: number
+  baseI: number,
+  options?: { rootId: any }
 ): [A[], TreeContext] {
+  const { rootId = RootNodeId } = options || ({} as any);
   let _data = data as any;
   if (Array.isArray(data)) {
     // 子树数组, 见测试用例
     const baseLevel = baseI === -1 ? 0 : arr[baseI].level!;
     // 更新data的level
-    const dataWithLevel = data.map(it => ({
+    const dataWithLevel = data.map((it) => ({
       ...it,
-      level: baseLevel + (it.level! - data[0].level!)
+      level: baseLevel + (it.level! - data[0].level!),
     }));
     _data = array2tree(dataWithLevel).children![0];
   }
-  const result = actionWrapper(arr, baseI, tree =>
+  const result = actionWrapper(arr, baseI, (tree) =>
     arr.length === 0
-      ? createChildTreeNode(tree, _data, RootNodeId, { clone: true })
+      ? createChildTreeNode(tree, _data, rootId, { clone: true })
       : createSiblingTreeNode(
           tree,
           _data,
-          baseI === -1 ? RootNodeId : arr[baseI].id,
+          baseI === -1 ? rootId : arr[baseI].id,
           {
-            clone: true
+            clone: true,
           }
         )
   );
@@ -76,13 +78,13 @@ export function createChildItem<A extends TreeArrayItem>(
   if (Array.isArray(data)) {
     // 子树数组, 见测试用例
     const baseLevel = baseI === -1 ? 0 : arr[baseI].level!;
-    const dataWithLevel = data.map(it => ({
+    const dataWithLevel = data.map((it) => ({
       ...it,
-      level: baseLevel + (it.level! - data[0].level!) + 1
+      level: baseLevel + (it.level! - data[0].level!) + 1,
     }));
     _data = array2tree(dataWithLevel).children![0];
   }
-  const result = actionWrapper(arr, baseI, tree =>
+  const result = actionWrapper(arr, baseI, (tree) =>
     createChildTreeNode(
       tree,
       _data,
@@ -99,11 +101,11 @@ export function deleteItem<A extends TreeArrayItem>(
   arr: A[],
   index: number
 ): [A[], TreeContext] {
-  const result = actionWrapper(arr, index, tree =>
+  const result = actionWrapper(arr, index, (tree) =>
     index >= arr.length || arr.length <= 0
       ? tree
       : deleteTreeNode(tree, arr[index] && arr[index].id, {
-          clone: true
+          clone: true,
         })
   );
 
