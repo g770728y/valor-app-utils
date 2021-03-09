@@ -41,3 +41,18 @@ export function hasChildren(rows: TreeArrayItem[], row: TreeArrayItem) {
   const nextRow = rows[rowIdx + 1];
   return !!(nextRow && nextRow.level === row.level! + 1);
 }
+
+/**
+ * 要求: pid为null/undefined时, 表示根结点
+ * 注意查找是根据pid的, 所以必须有pid
+ */
+export function getAncestors(rows: TreeArrayItem[], id: any) {
+  const ancestors: TreeArrayItem[] = [];
+
+  while (!R.isNil(id)) {
+    const parent = rows.find((r) => r.id === id)!;
+    ancestors.push(parent);
+    id = parent.pid;
+  }
+  return ancestors.slice(1).reverse();
+}

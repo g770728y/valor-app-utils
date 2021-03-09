@@ -17,8 +17,14 @@ import {
   getLastDecendantIndex,
   getDecendantIndexes,
   hasChildren,
+  getAncestors,
 } from "./query";
-export { getLastDecendantIndex, getDecendantIndexes, hasChildren };
+export {
+  getLastDecendantIndex,
+  getDecendantIndexes,
+  hasChildren,
+  getAncestors,
+};
 
 import { zipByHalfSelect } from "./halfSelectUtil";
 export { zipByHalfSelect };
