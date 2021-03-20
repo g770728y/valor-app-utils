@@ -33,3 +33,6 @@ export { traverseTree };
 
 import { getAncestors } from "./query";
 export { getAncestors };
+
+import { collectSubTree } from "./collectSubTree";
+export { collectSubTree };

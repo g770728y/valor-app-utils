@@ -136,6 +136,7 @@ import {
   array2tree_byPid,
   tree2Array,
   traverseTree,
+  collectSubTree,
 } from "./tree";
 export {
   getAncestors,
@@ -157,6 +158,7 @@ export {
   array2tree_byPid,
   tree2Array,
   traverseTree,
+  collectSubTree,
 };
 
 import {

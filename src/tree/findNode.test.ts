@@ -1,6 +1,6 @@
-import { findTreeNode } from './findNode';
+import { findTreeNode } from "./findNode";
 
-describe('find-tree-node', () => {
+describe("find-tree-node", () => {
   const tree = {
     id: 1,
     v: 1,
@@ -10,29 +10,29 @@ describe('find-tree-node', () => {
         id: 2,
         v: 2,
         paths: [],
-        children: [{ id: 3, v: 3, paths: [], children: [] }]
+        children: [{ id: 3, v: 3, paths: [], children: [] }],
       },
       {
         id: 4,
         v: 4,
         paths: [],
-        children: []
-      }
-    ]
+        children: [],
+      },
+    ],
   };
 
-  it('', () =>
+  it("", () =>
     expect(findTreeNode(tree, ({ id }) => id === 3)).toEqual({
       id: 3,
       v: 3,
       paths: [],
-      children: []
+      children: [],
     }));
-  it('', () =>
+  it("", () =>
     expect(findTreeNode(tree, ({ id }) => id === 4)).toEqual({
       id: 4,
       v: 4,
       paths: [],
-      children: []
+      children: [],
     }));
 });
