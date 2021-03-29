@@ -44,10 +44,10 @@ export function array2tree_byLevel<A extends { id: any; level: number }>(
 
 export function array2tree_byPid<A extends { id: any; pid: any }>(
   arr: A[],
-  options?: { pidField?: string }
+  options?: { pidField?: string; rootId?: any }
 ): TreeNode<A> {
   const pidField = (options && options.pidField) || "pid";
-  const rootId = (arr[0] as any)[pidField];
+  const rootId = options?.rootId || (arr[0] as any)?.[pidField] || RootNodeId;
   if (arr.length === 0) return { id: rootId, level: 0, children: [] } as any;
   const nodes = arr.reduce(
     (acc: any, node: A, idx: number) => {
