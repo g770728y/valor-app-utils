@@ -20,6 +20,7 @@ import {
   getAllSrcsFromHtmlStr,
   stripHtmlTag,
   renameTag_danger,
+  extractArrayFromTable,
 } from "./html";
 export {
   string2domNode,
@@ -28,6 +29,7 @@ export {
   getAllSrcsFromHtmlStr,
   stripHtmlTag,
   renameTag_danger,
+  extractArrayFromTable,
 };
 
 import {

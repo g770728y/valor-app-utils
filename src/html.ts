@@ -76,3 +76,42 @@ export function renameTag_danger(
   });
   return doc;
 }
+
+export function extractArrayFromTable(html: string): string[][] | null {
+  if (!html) return null;
+  const lowercase = html.toLowerCase();
+
+  if (!/table/i.test(lowercase)) {
+    return null;
+  }
+  if (lowercase.indexOf("rowspan") >= 0 || lowercase.indexOf("colspan") >= 0) {
+    throw new Error("不支持合并单元格");
+  }
+
+  const result: string[][] = [];
+
+  // 仅保留 table 内容
+  const tableFrom = lowercase.indexOf("<table");
+  if (tableFrom < 0) return null;
+  const tableTo = lowercase.indexOf("/table>");
+  if (tableTo < 0) return null;
+  // table ="<table>...</table>"
+  const table = html.slice(tableFrom, tableTo + "/table>".length);
+
+  // trs = [ '<tr><td>1</td></tr>', '<tr><td>1</td></tr>' ]
+  const trs = table.match(/<tr[\s\S]+?<\/tr>/g);
+
+  for (let tr of trs || []) {
+    const trArray: string[] = [];
+    // tds = [ '<td>1</td>' ]
+    const tds = tr.match(/<td[\s\S]+?<\/td>/g);
+    for (let td of tds || []) {
+      const value = stripHtmlTag(td);
+      trArray.push(value);
+    }
+
+    result.push(trArray);
+  }
+
+  return result;
+}

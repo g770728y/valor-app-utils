@@ -3,7 +3,8 @@ import {
   getAttrFromHtmlStr,
   getAllSrcsFromHtmlStr,
   stripHtmlTag,
-  renameTag_danger
+  renameTag_danger,
+  extractArrayFromTable,
 } from "./html";
 
 describe("string2domNode", () => {
@@ -122,4 +123,102 @@ describe("renameTag", () => {
       renameTag_danger(string2domNode(html3, true), "div[data-a]", "span")
         .innerHTML
     ).toEqual(result3));
+});
+
+const html = `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title></title>
+<meta name="Generator" content="Cocoa HTML Writer">
+<meta name="CocoaVersion" content="1894.6">
+<style type="text/css">
+p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 10.0px Helvetica; color: #ff0000}
+p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 10.0px Helvetica}
+table.t1 {border-collapse: collapse}
+td.td1 {border-style: solid; border-width: 0.8px 0.8px 0.8px 0.8px; border-color: #000000 #000000 #000000 #000000; padding: 0.0px 5.0px 0.0px 5.0px}
+</style>
+</head>
+<body>
+<table cellspacing="0" cellpadding="0" class="t1">
+<tbody>
+<tr>
+<td valign="middle" class="td1">
+<p class="p1">开工至上年度产值</p>
+</td>
+<td valign="middle" class="td1">
+<p class="p1">本月</p>
+</td>
+</tr>
+<tr>
+<td valign="middle" class="td1">
+<p class="p2">1.1</p>
+</td>
+<td valign="middle" class="td1">
+<p class="p2">1.2</p>
+</td>
+</tr>
+<tr>
+<td valign="middle" class="td1">
+<p class="p2"><span class="Apple-converted-space">         </span>810,400.00<span class="Apple-converted-space"> </span></p>
+</td>
+<td valign="middle" class="td1">
+<p class="p2">18719762.13</p>
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>`;
+describe("extractArrayFromTable", () => {
+  it("case0", () => {
+    const result = null as any;
+    expect(extractArrayFromTable(null as any)).toEqual(result);
+    expect(extractArrayFromTable("")).toEqual(result);
+    expect(extractArrayFromTable("<html></html>")).toEqual(result);
+  });
+
+  it("case1: 返回空表", () => {
+    const result = [] as any;
+    expect(extractArrayFromTable("<html><Table></table></html>")).toEqual(
+      result
+    );
+  });
+
+  it("case2:不支持rowspan/colspan", () => {
+    expect(() =>
+      extractArrayFromTable(
+        "<html><table><tr><td rowspan=2></td></tr></table></html>"
+      )
+    ).toThrow();
+  });
+
+  it("case3:多行", () => {
+    const result = [["1"], ["1"]];
+    expect(
+      extractArrayFromTable(
+        "<html><table><tr><td>1</td></tr><tr><td>1</td></tr></table></html>"
+      )
+    ).toEqual(result);
+  });
+
+  it("case3:单行", () => {
+    const result = [["111", "111,111.11"]];
+    expect(
+      extractArrayFromTable(
+        "<html><table><tr><td>111</td><td>111,111.11</td></tr></table></html>"
+      )
+    ).toEqual(result);
+  });
+
+  it("case10:复杂, 真实", () => {
+    const result = [
+      ["开工至上年度产值", "本月"],
+      ["1.1", "1.2"],
+      ["810,400.00", "18719762.13"],
+    ];
+
+    expect(extractArrayFromTable(html)).toEqual(result);
+  });
 });
