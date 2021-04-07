@@ -290,3 +290,6 @@ export { hash };
 
 import { useEventBus } from "./eventBus";
 export { useEventBus };
+
+import { createSeqByTemplate } from "./batch";
+export { createSeqByTemplate };
