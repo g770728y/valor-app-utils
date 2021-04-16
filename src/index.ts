@@ -227,6 +227,7 @@ import {
   openFiles,
   dataURItoBlob,
   getFormDataWithDataURLField,
+  getFormDataWithBlobField,
   getFormDataWithDataURLFields,
 } from "./file";
 export {
@@ -235,6 +236,7 @@ export {
   openFiles,
   dataURItoBlob,
   getFormDataWithDataURLField,
+  getFormDataWithBlobField,
   getFormDataWithDataURLFields,
 };
 

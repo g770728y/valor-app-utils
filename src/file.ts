@@ -13,10 +13,7 @@ export function dataURItoBlob(dataURI: string): Blob {
     byteString = decodeURI(dataURI.split(",")[1]);
   }
 
-  mimestring = dataURI
-    .split(",")[0]
-    .split(":")[1]
-    .split(";")[0];
+  mimestring = dataURI.split(",")[0].split(":")[1].split(";")[0];
 
   var content = new Array();
   for (var i = 0; i < byteString.length; i++) {
@@ -35,7 +32,7 @@ export function dataURItoBlob(dataURI: string): Blob {
 
 const imageFileAccept = "image/jpeg,image/png,image/gif";
 export function openFile(accept: string = imageFileAccept): Promise<File> {
-  return _openFile(accept).then(files => files[0]);
+  return _openFile(accept).then((files) => files[0]);
 }
 export function openFiles(accept: string = imageFileAccept): Promise<File[]> {
   return _openFile(accept, { multiple: true }) as Promise<File[]>;
@@ -69,7 +66,7 @@ function _openFile(
 export function file2DataURL(f: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const fr = new FileReader();
-    fr.onloadend = e => resolve((e.target! as any).result);
+    fr.onloadend = (e) => resolve((e.target! as any).result);
     fr.readAsDataURL(f);
   });
 }
@@ -100,6 +97,18 @@ export function getFormDataWithDataURLField(
   const formData = new FormData(form);
   const blob = dataURItoBlob(fileDataURL);
   formData.append(fileFieldName, blob, fileName);
+  return formData;
+}
+
+export function getFormDataWithBlobField(
+  fileFieldName: string,
+  fileBlob: Blob,
+  fileName?: string
+) {
+  const s = `<form method="post" enctype="multipart/form-data"></form>`;
+  const form = string2domNode(s) as HTMLFormElement;
+  const formData = new FormData(form);
+  formData.append(fileFieldName, fileBlob, fileName);
   return formData;
 }
 
