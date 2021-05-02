@@ -295,3 +295,6 @@ export { useEventBus };
 
 import { createSeqByTemplate } from "./batch";
 export { createSeqByTemplate };
+
+import { getSpanSeq } from "./table";
+export { getSpanSeq };
