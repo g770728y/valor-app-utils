@@ -1,5 +1,15 @@
 import { string2domNode } from "./html";
 
+export function blob2DataURL(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    var a = new FileReader();
+    a.onload = function (e) {
+      resolve(e.target!.result as any);
+    };
+    a.readAsDataURL(blob);
+  });
+}
+
 // https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata/5100158
 // 将dataURI转成Blob, 然后就可通过formdata来上传
 // 另外, 可以由fetch...res.blob() 获取, 更方便, 问题是 ie 和 safari不支持

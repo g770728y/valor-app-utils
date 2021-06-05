@@ -46,6 +46,9 @@ export function array2tree_byPid<A extends { id: any; pid: any }>(
   arr: A[],
   options?: { pidField?: string; rootId?: any }
 ): TreeNode<A> {
+  console.warn(
+    "使用此方法前, 必须满足: [node1, node2] => node1.level <= node2.level的条件, 即应该sort(a,b=>a.leve-b.level)"
+  );
   const pidField = (options && options.pidField) || "pid";
   const rootId = options?.rootId || (arr[0] as any)?.[pidField] || RootNodeId;
   if (arr.length === 0) return { id: rootId, level: 0, children: [] } as any;

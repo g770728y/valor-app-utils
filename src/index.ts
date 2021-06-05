@@ -119,6 +119,7 @@ import { formatNumber, formatPercent, formatPermillage } from "./format";
 export { formatNumber, formatPercent, formatPermillage };
 
 import {
+  getDecendants,
   getAncestors,
   TreeContext,
   TreeNode,
@@ -141,6 +142,7 @@ import {
   collectSubTree,
 } from "./tree";
 export {
+  getDecendants,
   getAncestors,
   TreeContext,
   TreeNode,
@@ -225,6 +227,7 @@ import {
   file2DataURL,
   openFile,
   openFiles,
+  blob2DataURL,
   dataURItoBlob,
   getFormDataWithDataURLField,
   getFormDataWithBlobField,
@@ -234,6 +237,7 @@ export {
   file2DataURL,
   openFile,
   openFiles,
+  blob2DataURL,
   dataURItoBlob,
   getFormDataWithDataURLField,
   getFormDataWithBlobField,
@@ -298,3 +302,6 @@ export { createSeqByTemplate };
 
 import { getSpanSeq } from "./table";
 export { getSpanSeq };
+
+import { getRelativePath } from "./url";
+export { getRelativePath };
