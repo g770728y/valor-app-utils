@@ -13,7 +13,6 @@ export function memoizeByCount(n: number, f: Function, self: any = null) {
   const cache: { params: any; result: any }[] = [];
 
   return (...args: any[]) => {
-    console.log("args", args);
     if (args.length <= 0) throw new Error("memoizeByCount用于无参函数没有意义");
     const cached = cache.find(({ params, result }) => R.equals(args, params));
     if (!cached) {
