@@ -1,4 +1,5 @@
 import * as R from "rambdax";
+import { sliceBy } from "./array";
 
 export function humanReadableCapacity(b: number): string {
   return b < Math.pow(10, 3)
@@ -12,7 +13,11 @@ export function humanReadableCapacity(b: number): string {
 
 export function filename(path: string): string | null {
   const result = R.match(/\/([^\/]+)$/, path);
-  return result ? result[1] : null;
+  return result
+    ? result[1] && result[1].includes("?")
+      ? sliceBy(result[1], { to: "?" })
+      : result[1]
+    : null;
 }
 
 // 为什么要有本方法?

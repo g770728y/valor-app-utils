@@ -1,6 +1,6 @@
 {
   "name": "valor-app-utils",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "module": "dist_esm/index.js",
   "main": "dist/index.js",
   "author": "g770728y",
@@ -20,7 +20,8 @@
     "typescript": "^4.1.0"
   },
   "files": [
-    "dist", "dist_esm"
+    "dist",
+    "dist_esm"
   ],
   "peerDependencies": {
     "rambdax": "^7.2.0"
