@@ -254,6 +254,7 @@ import {
   isNumberLike,
   ensureSuffix,
   getIgnoreBlank,
+  sortNo,
 } from "./string";
 export {
   replaceAll,
@@ -262,6 +263,7 @@ export {
   isNumberLike,
   ensureSuffix,
   getIgnoreBlank,
+  sortNo,
 };
 
 import { waitUntil } from "./promise";
