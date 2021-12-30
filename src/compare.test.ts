@@ -1,5 +1,6 @@
 import * as R from "rambdax";
 import { compareDividedCode, equals, shallowEqualsArray } from "./compare";
+import { compareVersionNumber } from "./translate";
 const fastEqual = require("fast-deep-equal");
 
 describe("equals", () => {
@@ -188,5 +189,28 @@ describe("compareDivivedCode", () => {
       expect(compareDividedCode("300", "201-1-a")).toBeGreaterThan(0);
       expect(compareDividedCode("300-2-1", "201")).toBeGreaterThan(0);
     });
+  });
+});
+
+describe.only("compareVersionNumber", () => {
+  it("1", () => {
+    expect(compareVersionNumber("1", "2")).toBeLessThan(0);
+    expect(compareVersionNumber("11", "2")).toBeGreaterThan(0);
+    expect(compareVersionNumber("11", "11")).toEqual(0);
+  });
+  it("2", () => {
+    expect(compareVersionNumber("1.1", "2.1")).toBeLessThan(0);
+    expect(compareVersionNumber("11.1", "2.999")).toBeGreaterThan(0);
+    expect(compareVersionNumber("11.9999", "11.9999")).toEqual(0);
+  });
+  it("1 & 2", () => {
+    expect(compareVersionNumber("1", "1.1")).toBeLessThan(0);
+    expect(compareVersionNumber("2", "1.999")).toBeGreaterThan(0);
+  });
+  it("n & m", () => {
+    expect(compareVersionNumber("1", "1.1")).toBeLessThan(0);
+    expect(compareVersionNumber("2", "1.1.1.1.1")).toBeGreaterThan(0);
+    expect(compareVersionNumber("100", "99.1.1.1.1")).toBeGreaterThan(0);
+    expect(compareVersionNumber("100.1.1.1", "100.2.1.1")).toBeLessThan(0);
   });
 });

@@ -1,3 +1,5 @@
+import { sum } from ".";
+
 const alpha2Hz: { [k: number]: string } = {
   0: "0",
   1: "一",
@@ -49,4 +51,28 @@ export function parseInt36(s: string): number {
   }
 
   return result;
+}
+
+// 1 < 1.1
+// 1.1 < 1.1.1
+// 1.1.1 < 1.1.2
+// 1.1.2 < 2
+export function compareVersionNumber(v1: string, v2: string) {
+  // 最多比较5位,
+  const MAX_SEGMENGT_SIZE = 5;
+  // 每段最大长度4位即9999
+  const SEGMENT_LEN = 4;
+  console.log("36:", to36(v1.split(".")), to36(v2.split(".")));
+  return to36(v1.split(".")) - to36(v2.split("."));
+
+  function to36(xs1: string[]): number {
+    // 左移8位是65536即0x10000, 相当于每段最大数字为9999
+    return sum(
+      xs1.map(
+        (x, i) =>
+          parseInt(x) *
+          Math.pow(Math.pow(10, SEGMENT_LEN), MAX_SEGMENGT_SIZE - i)
+      )
+    );
+  }
 }
