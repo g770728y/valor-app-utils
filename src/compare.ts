@@ -1,7 +1,7 @@
 import { isPlainObject } from "./object";
 import * as R from "rambdax";
-import fastEquals from "fast-deep-equal";
 import { parseInt36 } from "./translate";
+import { sum } from "./math";
 
 /**
  * 聪明的比较: 先比较引用, 如果引用不等, 再进行深比较
@@ -11,7 +11,7 @@ export function equals(a: any, b: any): boolean {
   console.error("不要使用equals方法, 这比fast-deep-equals要慢几倍");
   if (a === b) return true;
 
-  if (Array.isArray(a) && Array.isArray) {
+  if (Array.isArray(a) && Array.isArray(b)) {
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
       // 很关键: 先进行引用比较, 如果不等, 再进行值比较
@@ -83,4 +83,27 @@ export function compareDividedCode(
     if (curr !== 0) return curr;
   }
   return 0;
+}
+
+// 1 < 1.1
+// 1.1 < 1.1.1
+// 1.1.1 < 1.1.2
+// 1.1.2 < 2
+export function compareVersionNumber(v1: string, v2: string) {
+  // 最多比较5位,
+  const MAX_SEGMENGT_SIZE = 5;
+  // 每段最大长度4位即9999
+  const SEGMENT_LEN = 4;
+  return to36(v1.split(".")) - to36(v2.split("."));
+
+  function to36(xs1: string[]): number {
+    // 左移8位是65536即0x10000, 相当于每段最大数字为9999
+    return sum(
+      xs1.map(
+        (x, i) =>
+          parseInt(x) *
+          Math.pow(Math.pow(10, SEGMENT_LEN), MAX_SEGMENGT_SIZE - i)
+      )
+    );
+  }
 }

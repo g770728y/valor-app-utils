@@ -1,7 +1,11 @@
 import * as R from "rambdax";
-import { compareDividedCode, equals, shallowEqualsArray } from "./compare";
-import { compareVersionNumber } from "./translate";
-const fastEqual = require("fast-deep-equal");
+import {
+  compareDividedCode,
+  compareVersionNumber,
+  equals,
+  shallowEqualsArray,
+} from "./compare";
+import fastEqual from "fast-deep-equal";
 
 describe("equals", () => {
   it("null相等", () => expect(equals(null, null)).toBe(true));
