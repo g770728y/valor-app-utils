@@ -3,9 +3,9 @@ export function isDescendant(
   maybeAncestorEl: HTMLElement | string
 ): boolean {
   const _el: HTMLElement =
-    typeof el === "string" ? document.getElementById(el)! : el;
+    typeof el === 'string' ? document.getElementById(el)! : el;
   const _maybeAncestorEl: HTMLElement =
-    typeof maybeAncestorEl === "string"
+    typeof maybeAncestorEl === 'string'
       ? document.getElementById(maybeAncestorEl)!
       : maybeAncestorEl;
   if (!_el || !_maybeAncestorEl) return false;
@@ -34,17 +34,17 @@ export function insertHtmlStr_to_editableCaretContainer(
     caretContainer instanceof HTMLTextAreaElement
   ) {
     console.error(
-      "caretContainer不能是input/textarea, 因这类容器无法接受html, 只能接受纯文本"
+      'caretContainer不能是input/textarea, 因这类容器无法接受html, 只能接受纯文本'
     );
     return;
   }
-  if (caretContainer.getAttribute("contenteditable") !== "true") {
-    console.error("caretContainer必须是<div contentEditable=true></div>的风格");
+  if (caretContainer.getAttribute('contenteditable') !== 'true') {
+    console.error('caretContainer必须是<div contentEditable=true></div>的风格');
     return;
   }
 
   // 将html转化为nodes
-  const _div = document.createElement("div");
+  const _div = document.createElement('div');
   _div.innerHTML = html;
 
   caretContainer.focus();
@@ -53,7 +53,7 @@ export function insertHtmlStr_to_editableCaretContainer(
   const range = selection.getRangeAt(0);
   if (!range.startContainer || !caretContainer.contains(range.startContainer)) {
     console.warn(
-      "意外: insertHtmlStr_to_editableCaretContainer方法中, 当focus到container时, range.startContainer不在container内"
+      '意外: insertHtmlStr_to_editableCaretContainer方法中, 当focus到container时, range.startContainer不在container内'
     );
     return;
   }
@@ -82,4 +82,14 @@ export function getOffsetTo(el: HTMLElement, target: HTMLElement) {
     }
   }
   return offset;
+}
+
+export function getAncestors(el: HTMLElement) {
+  const ancestors = [];
+  let current = el.parentNode!;
+  while (current !== document) {
+    ancestors.push(current);
+    current = current.parentNode!;
+  }
+  return ancestors;
 }
