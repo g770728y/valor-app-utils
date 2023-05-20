@@ -7,6 +7,7 @@ export interface Identity {
 export type TreeNode<T extends Identity> = T & {
   id: any;
   children?: TreeNode<T>[];
+  data?: T
 };
 
 export interface NodeContext<T extends Identity> {
