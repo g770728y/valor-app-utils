@@ -262,3 +262,27 @@ export function idMap<T>(
   });
   return result;
 }
+
+export function deepRenameProps(
+  obj: Record<string, any>,
+  keyMapping: { [k: string]: string }
+): object {
+  const result = {} as any;
+  for (const k in obj) {
+    const v = obj[k];
+    if (keyMapping[k]) {
+      if (typeof v === 'object') {
+        result[keyMapping[k]] = deepRenameProps(v, keyMapping);
+      } else {
+        result[keyMapping[k]] = v;
+      }
+    } else {
+      if (typeof v === 'object') {
+        result[k] = deepRenameProps(v, keyMapping);
+      } else {
+        result[k] = v;
+      }
+    }
+  }
+  return result;
+}

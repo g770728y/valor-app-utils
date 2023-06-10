@@ -196,7 +196,7 @@ describe("compareDivivedCode", () => {
   });
 });
 
-describe.only("compareVersionNumber", () => {
+describe("compareVersionNumber", () => {
   it("1", () => {
     expect(compareVersionNumber("1", "2")).toBeLessThan(0);
     expect(compareVersionNumber("11", "2")).toBeGreaterThan(0);

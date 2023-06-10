@@ -75,7 +75,7 @@ describe('array2Tree_byLevel', () => {
   it('complex', () => expect(result2).toEqual(tree2));
 });
 
-describe.only('array2Tree_byPid', () => {
+describe('array2Tree_byPid', () => {
   const arr1 = [
     { id: 1, pid: RootNodeId },
     { id: 2, pid: 1 },

@@ -1,6 +1,6 @@
 import { getRelativePath } from "./url";
 
-describe.only("getRelativePath", () => {
+describe("getRelativePath", () => {
   it("case0", () => {
     expect(getRelativePath("http:localhost:8000//x", "")).toEqual("/x");
     expect(getRelativePath("http://x", "/")).toEqual("/x");

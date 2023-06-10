@@ -108,6 +108,7 @@ import {
   str2object,
   object2str,
   idMap,
+  deepRenameProps
 } from "./object";
 export {
   reverseKV,
@@ -124,6 +125,7 @@ export {
   str2object,
   object2str,
   idMap,
+  deepRenameProps
 };
 import *  as objectUtils from './object';
 export {objectUtils};

@@ -104,7 +104,7 @@ export function arrayCompareBy<T extends {}>(
           "    " +
           JSON.stringify(restArr2)
       );
-    return [...acc, objSubtract(arr2El, arr1El, id + "")];
+    return [...acc, objSubtract(arr2El, arr1El, id.toString())];
   }, [] as any[]);
 
   // 防止出现 [{id:1},{id:2}], 这样仅剩id的情形
