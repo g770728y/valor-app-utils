@@ -438,4 +438,10 @@ describe.only('deepRenameProps', () => {
       deepRenameProps({ a: { a: 1, b: 2, c: { a: 3 } } }, { a: '_a' })
     ).toEqual({ _a: { _a: 1, b: 2, c: { _a: 3 } } });
   });
+
+  it('deep with array', () => {
+    expect(deepRenameProps({ a: [{ a: 1, b: 2 }, {a:2, b:3}] }, { a: '_a' })).toEqual({
+      _a: [{ _a: 1, b: 2 }, { _a: 2, b: 3 }],
+    });
+  });
 });

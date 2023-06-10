@@ -1,12 +1,12 @@
-import * as R from "rambdax";
-import { padding } from "./array";
+import * as R from 'rambdax';
+import { padding } from './array';
 
 export function isPlainObject(obj: any): boolean {
   return !!(
     obj &&
-    typeof obj === "object" &&
+    typeof obj === 'object' &&
     obj.constructor &&
-    obj.constructor.name === "Object"
+    obj.constructor.name === 'Object'
   );
 }
 
@@ -63,7 +63,7 @@ export function removeNils(
     const v = obj[k];
     return R.isNil(v)
       ? acc
-      : options.removeBlank && v === ""
+      : options.removeBlank && v === ''
       ? acc
       : options.removeEmpty && isPlainObject(v) && R.isEmpty(v)
       ? acc
@@ -101,7 +101,7 @@ export function removeProp(
 export function objSubtract<T extends object>(
   obj2: T,
   obj1: T,
-  reserveKey = "id"
+  reserveKey = 'id'
 ): Partial<T> {
   return Object.keys(obj2).reduce((acc: Partial<T>, k2: string) => {
     if ((obj2 as any)[k2] !== (obj1 as any)[k2]) {
@@ -142,7 +142,7 @@ export function objSubtractDeep<T extends {}>(
       !(
         (options.removeNil && R.isNil(v)) ||
         (options.removeEmpty && (R.equals({}, v) || R.equals([], v))) ||
-        (options.removeBlank && v === "")
+        (options.removeBlank && v === '')
       ),
     _result
   ) as any;
@@ -183,17 +183,17 @@ export function str2object(s: string): any {
  */
 export function object2str(obj: any): string {
   return isPlainObject(obj)
-    ? "{" +
+    ? '{' +
         Object.keys(obj).reduce((acc: string, k: string) => {
           const v = obj[k];
           const p = `${k}:${object2str(v)}`;
-          return acc ? acc + "," + p : p;
-        }, "") +
-        "}"
+          return acc ? acc + ',' + p : p;
+        }, '') +
+        '}'
     : R.is(Array, obj)
-    ? "[" + obj.map(object2str).join(",") + "]"
+    ? '[' + obj.map(object2str).join(',') + ']'
     : R.isNil(obj)
-    ? obj + ""
+    ? obj + ''
     : R.is(String, obj)
     ? `\"${obj}\"`
     : obj.toString();
@@ -242,7 +242,7 @@ export function mergeDeep(slave: any, master: any): any {
  */
 export function idMap<T>(
   idArray: T[],
-  idField: string = "id"
+  idField: string = 'id'
 ): { [id: string]: T } {
   /* 用于性能比较, 3300条记录需要2.7秒!!!
   console.log("测试记录条数:", idArray.length);
@@ -271,13 +271,19 @@ export function deepRenameProps(
   for (const k in obj) {
     const v = obj[k];
     if (keyMapping[k]) {
-      if (typeof v === 'object') {
+      if (Array.isArray(v)) {
+        result[keyMapping[k]] = v.map((it: any) =>
+          deepRenameProps(it, keyMapping)
+        );
+      } else if (typeof v === 'object') {
         result[keyMapping[k]] = deepRenameProps(v, keyMapping);
       } else {
         result[keyMapping[k]] = v;
       }
     } else {
-      if (typeof v === 'object') {
+      if (Array.isArray(v)) {
+        result[k] = v.map((it: any) => deepRenameProps(it, keyMapping));
+      } else if (typeof v === 'object') {
         result[k] = deepRenameProps(v, keyMapping);
       } else {
         result[k] = v;
